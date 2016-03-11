@@ -2,3 +2,11 @@ node_modules/
 
 client/public/css/*
 client/public/js/*
+
+# Sublime
+/sublime-project
+
+# Idea IntelliJ
+.idea
+*.iml
+overlays/
