@@ -1,0 +1,47 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    body {
+      overflow: hidden;
+    }
+
+    #editor {
+      margin: 0;
+      height: 50%;
+      width: 50%;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <pre id="editor">public class InfiniteLoop {
+
+    /*
+     * This will cause the program to hang...
+     *
+     * Taken from:
+     * http://www.exploringbinary.com/java-hangs-when-converting-2-2250738585072012e-308/
+     */
+    public static void main(String[] args) {
+        double d = Double.parseDouble("2.2250738585072012e-308");
+
+        // unreachable code
+        System.out.println("Value: " + d);
+    }
+}</pre>
+
+  <script src="lib/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/eclipse");
+      editor.session.setMode("ace/mode/java");
+  </script>
+
+</body>
+
+</html>
