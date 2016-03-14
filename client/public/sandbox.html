@@ -8,8 +8,7 @@
       overflow: hidden;
     }
 
-    #editor {
-      margin: 0;
+    pre {
       height: 50%;
       width: 50%;
     }
@@ -19,7 +18,7 @@
 
 <body>
 
-  <pre id="editor">public class InfiniteLoop {
+  <pre id="editor-java">public class InfiniteLoop {
 
     /*
      * This will cause the program to hang...
@@ -35,11 +34,37 @@
     }
 }</pre>
 
+
+   <pre id="editor-jsx">import React, {Component, PropTypes} from 'react'
+
+class App extends Component {
+
+    render = () =>
+        &lt;div style={s.root}&gt;
+            App
+        &lt;/div&gt;
+}
+
+
+const s = {
+    root: {}
+}
+
+export default App</pre>
+
   <script src="lib/ace-code-editor/ace.js" type="text/javascript" charset="utf-8"></script>
   <script>
-      var editor = ace.edit("editor");
+      var editor = ace.edit("editor-java");
       editor.setTheme("ace/theme/eclipse");
+      editor.renderer.setShowPrintMargin(false);
+//      editor.renderer.setShowGutter(false);
+      editor.renderer.setDisplayIndentGuides(false);
       editor.session.setMode("ace/mode/java");
+
+
+      editor = ace.edit("editor-jsx");
+      editor.setTheme("ace/theme/eclipse");
+      editor.session.setMode("ace/mode/jsx");
   </script>
 
 </body>

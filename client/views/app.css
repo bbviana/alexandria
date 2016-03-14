@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #fff;
+    color: #333;
+    font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.width-quarter {
+    width: 25%;
+}
+
+
+
+.input-contrast {
+    background-color: #FAFAFA;
+}
+
+.input-contrast:focus {
+    background-color: inherit;
+}
+
+/* CodeEditor */
+.ace_gutter {
+    background-color: #FFF !important;
+    border-right: 1px solid #eee;
+    color: #999 !important;
+}

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {styles} from '../helpers'
+import {m, styles} from '../helpers'
 
 class Button extends Component {
     state = {
@@ -15,40 +15,56 @@ class Button extends Component {
     handleMouseUp = () => this.setState({active: false})
 
     render = ({active, hover} = this.state,
-        {disabled, onClick, title} = this.props) =>
-        <button
-            style={styles(s, {active, hover, disabled})}
-            disabled={disabled}
-            onBlur={this.handleBlur}
-            onFocus={this.handleFocus}
-            onMouseDown={this.handleMouseDown}
-            onMouseOut={this.handleMouseOut}
-            onMouseOver={this.handleMouseOver}
-            onMouseUp={this.handleMouseUp}
-            onClick={onClick}
-            title={title}>
-            {this.props.children}
-        </button>
+        {style, disabled, onClick, title, type} = this.props) => {
+
+        let ownStyle = styles(s, {active, hover, disabled, small: type === 'small'})
+
+        return(
+            <button
+                style={m(ownStyle, style)}
+                disabled={disabled}
+                onBlur={this.handleBlur}
+                onFocus={this.handleFocus}
+                onMouseDown={this.handleMouseDown}
+                onMouseOut={this.handleMouseOut}
+                onMouseOver={this.handleMouseOver}
+                onMouseUp={this.handleMouseUp}
+                onClick={onClick}
+                title={title}>
+                {this.props.children}
+            </button>
+        )
+    }
 }
 
 const s = {
-    background: '#fff',
-    border: '1px solid transparent',
-    borderColor: '#cdd3d7',
-    color: '#616f77',
+    backgroundColor: '#eee',
+    backgroundImage: 'linear-gradient(#fcfcfc, #eee)',
+    border: '1px solid #d5d5d5',
+    borderRadius: 3,
+    color: '#333',
     cursor: 'pointer',
-    fontSize: 14,
-    outline: 0,
-    padding: '10px 12px',
+    display: 'inline-block',
+    fontSize: 13,
+    fontWeight: 'bold',
+    lineHeight: '20px',
+    outline: 'none',
+    padding: '6px 12px',
     verticalAlign: 'middle',
 
+    small: {
+        padding: '2px 10px'
+    },
+
     active: {
-        backgroundColor: '#eaeced',
-        boxShadow: 'inset 0 3px 5px rgba(0,0,0,.125)'
+        backgroundColor: '#dcdcdc',
+        backgroundImage: 'none',
+        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
     },
 
     hover: {
-        background: '#f2f3f4'
+        backgroundColor: '#ddd',
+        backgroundImage: 'linear-gradient(#eee, #ddd)'
     },
 
     disabled: {

@@ -1,0 +1,2 @@
+- nao esta funcionando o changeFile
+-- estamos em loop: quando alteramos o editor, redesenhamos de novo e sobe change
