@@ -3,25 +3,29 @@ import {Button, CodeEditor, Icon} from '../components'
 import {CreateStore} from '../stores'
 
 class Create extends Component {
-
-    componentDidMount = () => CreateStore.listen(this)
-    componentWillUnmount = () => CreateStore.unlisten(this)
-
     state = CreateStore.state
 
-    render = () =>
+    componentDidMount = () => CreateStore.listen(this)
+
+    componentWillUnmount = () => CreateStore.unlisten(this)
+
+    render = ({description, files, showDeleteBtn} = this.state) =>
         <div style={s.root}>
-            <Description />
-            <FileList
-                files={this.state.files}
-                showDeleteBtn={this.state.showDeleteBtn}/>
+            <Description value={description}/>
+
+            <FileList files={files} showDeleteBtn={showDeleteBtn}/>
+
             <Toolbar />
         </div>
 }
 
-const Description = () =>
-    <input className="form-control input-contrast" type="text"
-           placeholder="Descrição do snippet..."/>
+const Description = ({value}) =>
+    <input
+        className="form-control input-contrast"
+        type="text"
+        placeholder="Descrição do snippet..."
+        value={value}
+        onChange={e => CreateStore.changeDescription(e.target.value)}/>
 
 const FileList = ({files, showDeleteBtn}) =>
     <div>
@@ -31,19 +35,25 @@ const FileList = ({files, showDeleteBtn}) =>
     </div>
 
 
-const File = (props) =>
+const File = ({file, showDeleteBtn}) =>
     <div style={s.file}>
-        <FileHeader {...props} />
-        <CodeEditor value={props.file.value}
-                    onChange={(newValue) => CreateStore.changeFile(props.file, newValue)}/>
+        <FileHeader {...{file, showDeleteBtn}} />
+
+        <CodeEditor
+            mode={file.type}
+            value={file.value}
+            onChange={newValue => CreateStore.changeFileValue(file, newValue)}/>
     </div>
 
-
-const FileHeader = ({file, index, showDeleteBtn}) =>
+const FileHeader = ({file, showDeleteBtn}) =>
     <div style={s.fileHeader}>
         <div className="input-group width-quarter">
-            <input className="form-control" type="text"
-                   placeholder="Nome do arquivo incluindo a extensão..."/>
+            <input
+                className="form-control"
+                type="text"
+                placeholder="Nome do arquivo incluindo a extensão..."
+                value={file.name}
+                onChange={e => CreateStore.changeFileName(file, e.target.value)}/>
             {showDeleteBtn &&
             <span className="input-group-btn">
                 <DeleteFileBtn file={file}/>
@@ -61,7 +71,7 @@ const Toolbar = () =>
         <Button onClick={() => CreateStore.addFile()}>
             <Icon name="plus-square"/> Adicionar arquivo
         </Button>
-        <Button style={{float:'right'}}>
+        <Button style={{float:'right'}} onClick={() => CreateStore.save()}>
             <Icon name="floppy-o"/> Salvar snippet
         </Button>
     </div>
