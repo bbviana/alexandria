@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Button} from '../components'
+import {Link} from 'react-router'
 
 class App extends Component {
 
@@ -23,9 +24,7 @@ const Header = () =>
 
 
 const Logo = () =>
-    <div style={s.logo}>
-        Alexandria
-    </div>
+    <Link style={s.logo} to="/">Alexandria</Link>
 
 
 class SearchInput extends Component {
@@ -69,6 +68,7 @@ const s = {
         fontSize: 22,
         fontFamily: 'monospace',
         marginRight: 15,
+        textDecoration: 'none',
         verticalAlign: 'middle'
     },
 

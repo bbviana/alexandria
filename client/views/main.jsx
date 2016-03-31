@@ -1,12 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {App, Create, Search, View} from '.'
-import {IndexRoute, Link, Router, Route, browserHistory, hashHistory} from 'react-router'
-
-// FIXME usar browserHistory https://github.com/reactjs/react-router/blob/master/docs/guides/Histories.md#browserhistory
+import {IndexRoute, Router, Route, browserHistory} from 'react-router'
 
 const router = (
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={Create} />
             <Route path="create" component={Create}/>

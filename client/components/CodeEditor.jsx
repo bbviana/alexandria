@@ -16,15 +16,34 @@ const START_POSITION = -1
 class CodeEditor extends Component {
 
     static defaultProps = {
-        mode: ''
+        highlightActiveLine: true,
+        highlightGutterLine: true,
+        maxLines: null,
+        mode: '',
+        readOnly: false,
+        showFoldWidgets: true
     }
 
     componentDidMount = () => {
-        const {mode, value, onChange} = this.props
+        const {
+            highlightActiveLine,
+            highlightGutterLine,
+            maxLines,
+            mode,
+            readOnly,
+            showFoldWidgets,
+            value,
+            onChange
+            } = this.props
 
         this.editor = ace.edit(ReactDOM.findDOMNode(this))
         this.editor.$blockScrolling = Infinity
         this.editor.setTheme('ace/theme/chrome')
+
+        this.editor.setReadOnly(readOnly)
+        this.editor.setHighlightActiveLine(highlightActiveLine)
+        this.editor.setHighlightGutterLine(highlightGutterLine)
+        this.editor.setShowFoldWidgets(showFoldWidgets)
 
         this.editor.session.setUseWorker(false)
         this.editor.session.setMode(getMode(mode))
@@ -32,7 +51,11 @@ class CodeEditor extends Component {
         this.editor.renderer.setShowPrintMargin(false)
         this.editor.renderer.setDisplayIndentGuides(false)
 
-        this.editor.on('change', e => onChange(this.editor.getValue()))
+        this.editor.setOptions({
+            maxLines: maxLines
+        })
+
+        onChange && this.editor.on('change', e => onChange(this.editor.getValue()))
         this.editor.setValue(value || '', START_POSITION)
     }
 
@@ -62,12 +85,13 @@ const s = {
         borderRadius: 0,
         fontSize: 14,
         height: 250,
+        margin: 0,
         width: '100%'
     }
 }
 
-const getMode = function(string){
-    if(LANGUAGES[string]){
+const getMode = function (string) {
+    if (LANGUAGES[string]) {
         return `ace/mode/${LANGUAGES[string]}`
     }
 

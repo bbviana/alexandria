@@ -1,15 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {Button, CodeEditor, Icon} from '../components'
-import {CreateStore} from '../stores'
+import {AppStore} from '../stores'
+import {connect} from '../helpers'
 
 class Create extends Component {
-    state = CreateStore.state
 
-    componentDidMount = () => CreateStore.listen(this)
-
-    componentWillUnmount = () => CreateStore.unlisten(this)
-
-    render = ({description, files, showDeleteBtn} = this.state) =>
+    render = ({description, files, showDeleteBtn} = this.props) =>
         <div style={s.root}>
             <Description value={description}/>
 
@@ -27,7 +23,7 @@ const Description = ({value}) =>
         placeholder="Descrição do snippet..."
         type="text"
         value={value}
-        onChange={e => CreateStore.changeDescription(e.target.value)}
+        onChange={e => AppStore.changeDescription(e.target.value)}
     />
 
 
@@ -45,8 +41,8 @@ const File = ({file, showDeleteBtn}) =>
 
         <CodeEditor
             mode={file.type}
-            value={file.value}
-            onChange={newValue => CreateStore.changeFileValue(file, newValue)}/>
+            value={file.content}
+            onChange={newValue => AppStore.changeFileContent(file, newValue)}/>
     </div>
 
 
@@ -59,7 +55,7 @@ const FileHeader = ({file, showDeleteBtn}) =>
                 placeholder="Nome do arquivo incluindo a extensão..."
                 type="text"
                 value={file.name}
-                onChange={e => CreateStore.changeFileName(file, e.target.value)}/>
+                onChange={e => AppStore.changeFileName(file, e.target.value)}/>
 
             {showDeleteBtn &&
             <span className="input-group-btn">
@@ -70,17 +66,17 @@ const FileHeader = ({file, showDeleteBtn}) =>
 
 
 const DeleteFileBtn = ({file}) =>
-    <Button onClick={() => CreateStore.removeFile(file)}>
+    <Button onClick={() => AppStore.removeFile(file)}>
         <Icon name="trash"/>
     </Button>
 
 
 const Toolbar = () =>
     <div style={s.toolbar}>
-        <Button onClick={() => CreateStore.addFile()}>
+        <Button onClick={() => AppStore.addFile()}>
             <Icon name="plus-square"/> Adicionar arquivo
         </Button>
-        <Button style={s.saveButton} onClick={() => CreateStore.save()}>
+        <Button style={s.saveButton} onClick={() => AppStore.save()}>
             <Icon name="floppy-o"/> Salvar snippet
         </Button>
     </div>
@@ -112,4 +108,10 @@ const s = {
     }
 }
 
-export default Create
+const mapStateToProps = state => ({
+    description: state.description,
+    files: state.files,
+    showDeleteBtn: state.showDeleteBtn
+})
+
+export default connect(Create, AppStore, mapStateToProps)

@@ -1,7 +1,14 @@
 import mongoose, {Schema} from 'mongoose'
 
-const SnippetSchema  = new Schema({
-    description: String
+const fileSchema = new Schema({
+    name: String,
+    type: String,
+    content: String
 })
 
-export default mongoose.model('Snippet', SnippetSchema)
+const snippetSchema  = new Schema({
+    description: String,
+    files: [fileSchema]
+})
+
+export default mongoose.model('Snippet', snippetSchema)

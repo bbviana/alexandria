@@ -27,15 +27,19 @@ const router = new Router()
     })
 
     .post('/', (req, res) => { // create
-        const data = new Snippet()
-        data.description = req.body.description
+        const data = req.body
 
-        console.log(data)
+        const model = new Snippet({
+            description: data.description,
+            files: data.files
+        })
 
-        data.save(err => {
+        console.log(model)
+
+        model.save(err => {
             err && res.send(err)
 
-            res.json(data)
+            res.json(model)
         })
     })
 

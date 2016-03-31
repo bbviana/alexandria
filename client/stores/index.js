@@ -1,7 +1,5 @@
-import CreateStore from './CreateStore'
-import ViewStore from './ViewStore'
+import AppStore from './AppStore'
 
 export {
-    CreateStore,
-    ViewStore
+    AppStore
 }

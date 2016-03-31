@@ -1,17 +1,17 @@
-import {Request, Store} from '../helpers'
 import {List, Map, Record} from 'immutable'
-import {hashHistory} from 'react-router'
+import {browserHistory} from 'react-router'
+import {Request, Store} from '../helpers'
 
 // FIXME usar Immutable no state
 
 class State {
     description = ''
-    files = List.of({name: '', value: '', type: '', timestamp: new Date()})
+    files = List.of({name: '', content: '', type: '', timestamp: new Date()})
     showDeleteBtn = false
 }
 
 
-class CreateStore extends Store {
+class AppStore extends Store {
     state = new State()
 
     // actions
@@ -41,10 +41,19 @@ class CreateStore extends Store {
             .then(data => {
                 this.state = new State()
 
-                hashHistory.push({
+                browserHistory.push({
                     pathname: `view/${data._id}`
                 })
             })
+    }
+
+    load(id) {
+        Request
+            .get(`/api/snippets/${id}`)
+            .then(data => {
+                this.dispatch(data)
+            })
+
     }
 
     // change handlers
@@ -57,8 +66,8 @@ class CreateStore extends Store {
         })
     }
 
-    changeFileValue(file, newValue) {
-        file.value = newValue
+    changeFileContent(file, newContent) {
+        file.content = newContent
 
         this.dispatch({
             files: this.state.files
@@ -77,4 +86,4 @@ class CreateStore extends Store {
 
 }
 
-export default new CreateStore()
+export default new AppStore()

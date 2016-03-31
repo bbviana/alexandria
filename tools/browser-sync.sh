@@ -8,7 +8,7 @@
 
 # delay é importante para esperar o watchify terminar
 browser-sync start \
---reload-delay 2000 \
+--reload-delay 1500 \
 --no-open \
 --logLevel info \
 --proxy localhost:8000 \
