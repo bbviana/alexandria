@@ -1,5 +1,7 @@
 import CreateStore from './CreateStore'
+import ViewStore from './ViewStore'
 
 export {
-    CreateStore
+    CreateStore,
+    ViewStore
 }

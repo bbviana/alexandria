@@ -1,10 +1,19 @@
 import React, {Component, PropTypes} from 'react'
+import {ViewStore} from '../stores'
 
 class View extends Component {
+    state = ViewStore.state
 
-    render = () =>
+    componentDidMount = () => {
+        ViewStore.listen(this)
+        ViewStore.load(this.props.params.id)
+    }
+
+    componentWillUnmount = () => ViewStore.unlisten(this)
+
+    render = ({description} = this.state) =>
         <div style={s.root}>
-            View
+            {description}
         </div>
 }
 

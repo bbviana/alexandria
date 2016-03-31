@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 /**
  *  Infelizmente não conseguimos usar o ace seguindos princípios de imutabilidade do React.
  *  O ideal seria o editor ser readOnly e ser redesenhado através de um novo value e um onChange
- *  <CodeEditor value="novo value" onChange={this.changeValue}/>
+ *  <CodeEditor value="novo value" onChange={this.changeValue} />
  *  Para isso, deveríamos fazer editor.setReadOnly(true) e invocar o onChange no evento onKeyUp do editor.
  *  Mas isso nos faz perder o suporte a Ctrl C, Ctrl V. Por isso, preferimos adotar a solução mais simples, que é
  *  deixar o ace se renderizar sozinho (shouldComponentUpdate retorna false sempre).
@@ -20,7 +20,6 @@ class CodeEditor extends Component {
     }
 
     componentDidMount = () => {
-        console.log('componentDidMount')
         const {mode, value, onChange} = this.props
 
         this.editor = ace.edit(ReactDOM.findDOMNode(this))

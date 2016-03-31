@@ -1,5 +1,6 @@
-import Store from '../helpers/Store'
+import {Request, Store} from '../helpers'
 import {List, Map, Record} from 'immutable'
+import {hashHistory} from 'react-router'
 
 // FIXME usar Immutable no state
 
@@ -8,6 +9,7 @@ class State {
     files = List.of({name: '', value: '', type: '', timestamp: new Date()})
     showDeleteBtn = false
 }
+
 
 class CreateStore extends Store {
     state = new State()
@@ -33,8 +35,16 @@ class CreateStore extends Store {
         })
     }
 
-    save(){
-        this.dispatch(new State())
+    save() {
+        Request
+            .post('/api/snippets', this.state)
+            .then(data => {
+                this.state = new State()
+
+                hashHistory.push({
+                    pathname: `view/${data._id}`
+                })
+            })
     }
 
     // change handlers

@@ -1,37 +1,16 @@
 import React, {Component, PropTypes} from 'react'
 import {Button} from '../components'
-import {Create, Search, View} from '.'
 
 class App extends Component {
 
-    render = () => {
-        const mode = window.location.search
-        let body
-        switch (mode) {
-            case '':
-            case '?create':
-                body = <Create />
-                break
-            case  '?search':
-                body = <Search />
-                break;
-            case '?view':
-                body = <View />
-                break;
-        }
-
-        return (
-            <div style={s.root}>
-                <Header />
-                <div style={s.container} className="container">
-                    {body}
-                </div>
+    render = () =>
+        <div style={s.root}>
+            <Header />
+            <div style={s.container} className="container">
+                {this.props.children}
             </div>
-        )
-
-    }
+        </div>
 }
-
 
 const Header = () =>
     <div style={s.header}>
@@ -47,6 +26,7 @@ const Logo = () =>
     <div style={s.logo}>
         Alexandria
     </div>
+
 
 class SearchInput extends Component {
 

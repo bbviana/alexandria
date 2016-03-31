@@ -19,18 +19,22 @@ class Create extends Component {
         </div>
 }
 
+
 const Description = ({value}) =>
     <input
         className="form-control input-contrast"
-        type="text"
+        autoFocus
         placeholder="Descrição do snippet..."
+        type="text"
         value={value}
-        onChange={e => CreateStore.changeDescription(e.target.value)}/>
+        onChange={e => CreateStore.changeDescription(e.target.value)}
+    />
+
 
 const FileList = ({files, showDeleteBtn}) =>
     <div>
-        {files.map((file, i) =>
-            <File file={file} showDeleteBtn={showDeleteBtn} key={i}/>
+        {files.map(file =>
+            <File file={file} showDeleteBtn={showDeleteBtn} key={file.timestamp}/>
         )}
     </div>
 
@@ -45,15 +49,18 @@ const File = ({file, showDeleteBtn}) =>
             onChange={newValue => CreateStore.changeFileValue(file, newValue)}/>
     </div>
 
+
 const FileHeader = ({file, showDeleteBtn}) =>
     <div style={s.fileHeader}>
         <div className="input-group width-quarter">
+
             <input
                 className="form-control"
-                type="text"
                 placeholder="Nome do arquivo incluindo a extensão..."
+                type="text"
                 value={file.name}
                 onChange={e => CreateStore.changeFileName(file, e.target.value)}/>
+
             {showDeleteBtn &&
             <span className="input-group-btn">
                 <DeleteFileBtn file={file}/>
@@ -61,17 +68,19 @@ const FileHeader = ({file, showDeleteBtn}) =>
         </div>
     </div>
 
+
 const DeleteFileBtn = ({file}) =>
     <Button onClick={() => CreateStore.removeFile(file)}>
         <Icon name="trash"/>
     </Button>
+
 
 const Toolbar = () =>
     <div style={s.toolbar}>
         <Button onClick={() => CreateStore.addFile()}>
             <Icon name="plus-square"/> Adicionar arquivo
         </Button>
-        <Button style={{float:'right'}} onClick={() => CreateStore.save()}>
+        <Button style={s.saveButton} onClick={() => CreateStore.save()}>
             <Icon name="floppy-o"/> Salvar snippet
         </Button>
     </div>
@@ -92,6 +101,10 @@ const s = {
         backgroundColor: '#f7f7f7',
         borderBottom: '1px solid #d8d8d8',
         padding: '5px 10px'
+    },
+
+    saveButton: {
+        float: 'right'
     },
 
     toolbar: {

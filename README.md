@@ -19,8 +19,8 @@
 - Dependências: `npm install`
 - Watch, Start, Browser-sync, Build: `npm run dev`
 
-### client
+#### via browser sync (proxy)
 `http://localhost:3000`
 
-### server
+#### via node server
 `http://localhost:8000`

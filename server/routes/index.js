@@ -1,5 +1,5 @@
 import express, {Router} from 'express'
-import pessoas from './pessoas'
+import snippets from './snippets'
 
 const index = new Router()
     .get('/', (req, res) => {
@@ -8,5 +8,5 @@ const index = new Router()
 
 export {
     index,
-    pessoas
+    snippets
 }

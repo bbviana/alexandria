@@ -19,6 +19,7 @@
     "react": "^0.14.1",
     "react-addons-css-transition-group": "^0.14.1",
     "react-dom": "^0.14.1",
+    "react-router": "^2.0.1",
     "superagent": "~1.2.0"
   },
   "devDependencies": {
@@ -41,7 +42,8 @@
     "scripts_src": "client/views",
     "scripts_dest": "client/public/js",
     "styles_src": "client/views",
-    "styles_dest": "client/public/css"
+    "styles_dest": "client/public/css",
+    "server_dest": "server"
   },
   "scripts": {
     "browser-sync": "tools/browser-sync.sh",
