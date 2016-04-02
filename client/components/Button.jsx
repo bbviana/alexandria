@@ -15,13 +15,16 @@ class Button extends Component {
     handleMouseUp = () => this.setState({active: false})
 
     render = ({active, hover} = this.state,
-        {style, disabled, onClick, title, type} = this.props) => {
+        {style, className, disabled, onClick, size, title, type} = this.props) => {
 
-        let ownStyle = styles(s, {active, hover, disabled, small: type === 'small'})
+        let ownStyle = m({}, s.default, s[type])
 
-        return(
+        ownStyle = styles(ownStyle, {active, hover, disabled, small: size === 'small'})
+
+        return (
             <button
                 style={m(ownStyle, style)}
+                className={className}
                 disabled={disabled}
                 onBlur={this.handleBlur}
                 onFocus={this.handleFocus}
@@ -38,38 +41,66 @@ class Button extends Component {
 }
 
 const s = {
-    backgroundColor: '#eee',
-    backgroundImage: 'linear-gradient(#fcfcfc, #eee)',
-    border: '1px solid #d5d5d5',
-    borderRadius: 3,
-    color: '#333',
-    cursor: 'pointer',
-    display: 'inline-block',
-    fontSize: 13,
-    fontWeight: 'bold',
-    lineHeight: '20px',
-    outline: 'none',
-    padding: '6px 12px',
-    verticalAlign: 'middle',
+    default: {
+        backgroundColor: '#eee',
+        backgroundImage: 'linear-gradient(#fcfcfc, #eee)',
+        border: '1px solid #d5d5d5',
+        borderRadius: 3,
+        cursor: 'pointer',
+        display: 'inline-block',
+        fontSize: 14,
+        fontWeight: 'bold',
+        lineHeight: '20px',
+        outline: 'none',
+        padding: '6px 12px',
+        verticalAlign: 'middle',
 
-    small: {
-        padding: '2px 10px'
+        small: {
+            fontSize: 13,
+            padding: '2px 10px'
+        },
+
+        active: {
+            backgroundColor: '#dcdcdc',
+            backgroundImage: 'none',
+            boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
+        },
+
+        hover: {
+            backgroundColor: '#ddd',
+            backgroundImage: 'linear-gradient(#eee, #ddd)'
+        },
+
+        disabled: {
+            cursor: 'not-allowed',
+            opacity: .65
+        }
     },
 
-    active: {
-        backgroundColor: '#dcdcdc',
-        backgroundImage: 'none',
-        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.15)'
+    primary: {
+        backgroundColor: '#60b044',
+        backgroundImage: 'linear-gradient(#8add6d, #60b044)',
+        borderColor: '#5ca941',
+        color: '#fff',
+        textShadow: '0 -1px 0 rgba(0,0,0,0.15)',
+
+        hover: {
+            backgroundColor: '#569e3d',
+            backgroundImage: 'linear-gradient(#79d858, #569e3d)',
+            borderColor: '#4a993e',
+            color: '#fff'
+        }
     },
 
-    hover: {
-        backgroundColor: '#ddd',
-        backgroundImage: 'linear-gradient(#eee, #ddd)'
-    },
+    danger: {
+        color: '#900',
 
-    disabled: {
-        cursor: 'not-allowed',
-        opacity: .65
+        hover: {
+            backgroundColor: '#b33630',
+            backgroundImage: 'linear-gradient(#dc5f59, #b33630)',
+            borderColor: '#cd504a',
+            color: '#fff'
+        }
     }
 }
 

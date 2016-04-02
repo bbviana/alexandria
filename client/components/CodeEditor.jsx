@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
+import {m} from '../helpers'
 
 
 /**
@@ -16,6 +17,7 @@ const START_POSITION = -1
 class CodeEditor extends Component {
 
     static defaultProps = {
+        displayIndentGuides: true,
         highlightActiveLine: true,
         highlightGutterLine: true,
         maxLines: null,
@@ -24,8 +26,16 @@ class CodeEditor extends Component {
         showFoldWidgets: true
     }
 
+    onChange = () => {
+        if (this.props.onChange) {
+            const value = this.editor.getValue();
+            this.props.onChange(value);
+        }
+    }
+
     componentDidMount = () => {
         const {
+            displayIndentGuides,
             highlightActiveLine,
             highlightGutterLine,
             maxLines,
@@ -36,6 +46,7 @@ class CodeEditor extends Component {
             onChange
             } = this.props
 
+
         this.editor = ace.edit(ReactDOM.findDOMNode(this))
         this.editor.$blockScrolling = Infinity
         this.editor.setTheme('ace/theme/chrome')
@@ -44,19 +55,22 @@ class CodeEditor extends Component {
         this.editor.setHighlightActiveLine(highlightActiveLine)
         this.editor.setHighlightGutterLine(highlightGutterLine)
         this.editor.setShowFoldWidgets(showFoldWidgets)
+        //this.editor.container.style.lineHeight = 1.3
+        this.editor.setOptions({maxLines: maxLines})
 
-        this.editor.session.setUseWorker(false)
-        this.editor.session.setMode(getMode(mode))
-
-        this.editor.renderer.setShowPrintMargin(false)
-        this.editor.renderer.setDisplayIndentGuides(false)
-
-        this.editor.setOptions({
-            maxLines: maxLines
-        })
-
-        onChange && this.editor.on('change', e => onChange(this.editor.getValue()))
+        onChange && this.editor.on('change', this.onChange)
         this.editor.setValue(value || '', START_POSITION)
+
+        const {session, renderer} = this.editor
+
+        session.setUseWorker(false)
+        session.setMode(getMode(mode))
+
+        renderer.setShowPrintMargin(false)
+        renderer.setDisplayIndentGuides(displayIndentGuides)
+        renderer.setPadding(10)
+
+        window.editor = this.editor
     }
 
     componentWillReceiveProps = (nextProps) => {
@@ -74,16 +88,15 @@ class CodeEditor extends Component {
     // O próprio ace se encarrega de se redesenhar
     shouldComponentUpdate = (nextProps, nextState) => false
 
-    render = () =>
-        <pre style={s.editor}/>
+    render = ({style} = this.props) =>
+        <pre style={m(s.root, style)}/>
 }
 
 const s = {
-    root: {},
-    editor: {
+    root: {
         border: 'none',
         borderRadius: 0,
-        fontSize: 14,
+        fontSize: 16,
         height: 250,
         margin: 0,
         width: '100%'

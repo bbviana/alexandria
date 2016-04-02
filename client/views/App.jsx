@@ -7,9 +7,7 @@ class App extends Component {
     render = () =>
         <div style={s.root}>
             <Header />
-            <div style={s.container} className="container">
-                {this.props.children}
-            </div>
+            {this.props.children}
         </div>
 }
 
@@ -24,7 +22,7 @@ const Header = () =>
 
 
 const Logo = () =>
-    <Link style={s.logo} to="/">Alexandria</Link>
+    <a style={s.logo} href="/">Alexandria</a>
 
 
 class SearchInput extends Component {
@@ -41,7 +39,7 @@ class CreateBtn extends Component {
 
     render = () =>
         <div style={s.createBtn}>
-            <Button type="small">Novo snippet</Button>
+            <Button size="small">Novo snippet</Button>
         </div>
 }
 
@@ -57,15 +55,10 @@ const s = {
         paddingBottom: 10
     },
 
-    container: {
-        marginBottom: 20,
-        marginTop: 20
-    },
-
     logo: {
         display: 'inline-block',
         fontWeight: 'bold',
-        fontSize: 22,
+        fontSize: 24,
         fontFamily: 'monospace',
         marginRight: 15,
         textDecoration: 'none',
@@ -78,7 +71,7 @@ const s = {
     },
 
     searchInput: {
-        height: 28,
+        height: 30,
         width: 360
     },
 

@@ -1,11 +1,11 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
     background: #fff;
     color: #333;
-    font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font: 15px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.width-third {
+    width: 33.33%;
 }
 
 .width-quarter {
@@ -21,9 +21,15 @@ body {
     background-color: inherit;
 }
 
+
 /* CodeEditor */
+
 .ace_gutter {
     background-color: #FFF !important;
     border-right: 1px solid #eee;
-    color: #999 !important;
+    color: #CCC !important;
+}
+
+.ace_identifier {
+    color: #333;
 }

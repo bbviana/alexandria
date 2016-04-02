@@ -27,14 +27,12 @@ const router = new Router()
     })
 
     .post('/', (req, res) => { // create
-        const data = req.body
+        const newData = req.body
 
         const model = new Snippet({
-            description: data.description,
-            files: data.files
+            description: newData.description,
+            files: newData.files
         })
-
-        console.log(model)
 
         model.save(err => {
             err && res.send(err)
@@ -47,7 +45,9 @@ const router = new Router()
         Snippet.findById(req.params.id, (err, data) => {
             err && res.send(err)
 
-            data.description = req.body.description
+            const newData = req.body
+            data.description = newData.description
+            data.files = newData.files
 
             data.save(err => {
                 err && res.send(err)
@@ -58,6 +58,7 @@ const router = new Router()
     })
 
     .delete('/:id', (req, res) => { // delete
+        console.log('renove ' + req.params.id)
         Snippet.remove({_id: req.params.id}, err => {
             err && res.send(err)
             res.end()

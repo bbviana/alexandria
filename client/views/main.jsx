@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {App, Create, Search, View} from '.'
+import {App, Create, Edit, Search, View} from '.'
 import {IndexRoute, Router, Route, browserHistory} from 'react-router'
 
 const router = (
@@ -10,6 +10,7 @@ const router = (
             <Route path="create" component={Create}/>
             <Route path="view/:id" component={View}/>
             <Route path="search" component={Search}/>
+            <Route path="edit/:id" component={Edit}/>
         </Route>
     </Router>
 )

@@ -5,45 +5,23 @@ import {Request, Store} from '../helpers'
 // FIXME usar Immutable no state
 
 class State {
+    _id = null
     description = ''
-    files = List.of({name: '', content: '', type: '', timestamp: new Date()})
-    showDeleteBtn = false
+    files = [{name: '', content: '', type: ''}]
+    user = "bbviana"
 }
 
 
 class AppStore extends Store {
     state = new State()
 
-    // actions
+    // Snippet
 
-    addFile() {
-        let files = this.state.files.push({timestamp: new Date()})
-        this.dispatch({
-            files: files,
-            showDeleteBtn: files.count() > 1
-        })
-    }
-
-    removeFile(file) {
-        let files = this.state.files
-        let indexToRemove = files.indexOf(file)
-        files = files.delete(indexToRemove)
-
-        this.dispatch({
-            files: files,
-            showDeleteBtn: files.count() > 1
-        })
-    }
-
-    save() {
+    remove(id) {
         Request
-            .post('/api/snippets', this.state)
+            .del(`/api/snippets/${id}`)
             .then(data => {
-                this.state = new State()
-
-                browserHistory.push({
-                    pathname: `view/${data._id}`
-                })
+                window.location = '/'
             })
     }
 
@@ -54,6 +32,36 @@ class AppStore extends Store {
                 this.dispatch(data)
             })
 
+    }
+
+    save() {
+        Request
+            .post('/api/snippets', this.state)
+            .then(data => {
+                this.gotoView(data._id)
+            })
+    }
+
+
+    // File
+
+    addFile() {
+        let files = this.state.files
+        files.push({})
+
+        this.dispatch({
+            files: files
+        })
+    }
+
+    removeFile(file) {
+        let files = this.state.files
+        let indexToRemove = files.indexOf(file)
+        files.splice(indexToRemove, 1)
+
+        this.dispatch({
+            files: files
+        })
     }
 
     // change handlers
@@ -83,6 +91,20 @@ class AppStore extends Store {
         })
     }
 
+
+    // Navigation
+
+    gotoEdit(snippetId){
+        browserHistory.push({
+            pathname: `/edit/${snippetId}`
+        })
+    }
+
+    gotoView(snippetId){
+        browserHistory.push({
+            pathname: `/view/${snippetId}`
+        })
+    }
 
 }
 

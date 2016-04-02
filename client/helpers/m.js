@@ -4,7 +4,7 @@
  * var result = m(obj1, condition && obj2)
  *
  *
- * @returns objeto resultante de um merge entre os arguments recebidos que não forem false
+ * @return objeto resultante de um merge entre os arguments recebidos que não forem false
  */
 export default function(){
     var res = {}
