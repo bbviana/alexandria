@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-nodemon server/index.js \
---watch ${npm_package_config_server_dest}
+#--debug-brk=7000 \
+
+nodemon \
+--watch ${npm_package_config_server_dest} \
+server/index.js
 

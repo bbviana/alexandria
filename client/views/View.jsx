@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {AppStore} from '../stores'
 import {Button, CodeEditor, Icon} from '../components'
-import {Container, PageHeader, RemoveSnippetBtn} from './'
+import {App, Container, Info, PageHeader, RemoveSnippetBtn} from './'
 import {connect} from '../helpers'
 
 class View extends Component {
@@ -9,10 +9,16 @@ class View extends Component {
         AppStore.load(this.props.params.id)
     }
 
-    render = ({_id, description, files, user} = this.props) =>
-        <div style={s.root}>
+    render = ({_id, created, description, files, updated, user} = this.props) =>
+        <App>
             <PageHeader>
-                <Info user={user} file={files[0] && files[0].name}/>
+                <Info
+                    created={created}
+                    file={files[0] && files[0].name}
+                    snippetId={_id}
+                    updated={updated}
+                    user={user}
+                />
                 <Actions id={_id}/>
             </PageHeader>
 
@@ -25,35 +31,11 @@ class View extends Component {
                     </div>
                 )}
             </Container>
-        </div>
+        </App>
 }
 
 
 // Header
-
-const Info = ({user, file}) =>
-    <div style={s.info}>
-        <Avatar />
-        <Breadcrumb user={user} file={file}/>
-        <TimeStamp />
-    </div>
-
-
-const Avatar = () =>
-    <img style={s.avatar} src="https://avatars3.githubusercontent.com/u/1538307?v=3&s=52"/>
-
-
-const Breadcrumb = ({user, file}) =>
-    <div style={s.breadcrumb}>
-        <a href={"/" + user}>{user}</a> / <strong><a href="">{file}</a></strong>
-    </div>
-
-
-const TimeStamp = () =>
-    <div style={s.timestamp}>
-        Criado 5 horas atrás
-    </div>
-
 
 const Actions = ({id}) =>
     <div style={s.actions}>
@@ -104,24 +86,8 @@ const FileHeader = ({value}) =>
 
 const s = {}
 
-s.root = {}
-
 s.actions = {
     float: 'right'
-}
-
-s.avatar = {
-    borderRadius: 3,
-    display: 'inline-block',
-    height: 28,
-    width: 28
-}
-
-s.breadcrumb = {
-    display: 'inline-block',
-    fontSize: 20,
-    marginLeft: 10,
-    verticalAlign: 'middle'
 }
 
 s.description = {
@@ -155,24 +121,16 @@ s.fileName = {
     textDecoration: 'none'
 }
 
-s.info = {
-    display: 'inline-block'
-}
-
-s.timestamp = {
-    color: '#999',
-    fontSize: 13,
-    marginLeft: s.avatar.width + s.breadcrumb.marginLeft
-}
-
 
 // Connect Store
 
 
 const mapStateToProps = state => ({
     _id: state._id,
+    created: state.created,
     description: state.description,
     files: state.files,
+    updated: state.updated,
     user: state.user
 })
 

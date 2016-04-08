@@ -10,8 +10,9 @@ class RemoveSnippetBtn extends Component {
         }
     }
 
-    render = () =>
+    render = ({style} = this.props) =>
         <Button
+            style={style}
             size="small"
             type="danger"
             onClick={this.handleClick}>

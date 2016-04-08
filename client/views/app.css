@@ -33,3 +33,36 @@ body {
 .ace_identifier {
     color: #333;
 }
+
+/* Bootstrap */
+
+/* Button Dropdown */
+
+.dropdown-menu:before {
+    border: 8px solid transparent;
+    border-bottom-color: rgba(0,0,0,0.15);
+    top: -16px;
+    right: 9px;
+    left: auto;
+}
+
+.dropdown-menu:before,
+.dropdown-menu:after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+}
+
+.dropdown-menu:after {
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+    top: -14px;
+    right: 10px;
+    left: auto;
+}
+.dropdown-menu::before,
+.dropdown-menu:after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+}

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {AppStore} from '../stores'
 import {Button, Icon} from '../components'
-import {Container, Description, Files, PageHeader, RemoveSnippetBtn} from './'
+import {App, Container, Description, Files, PageHeader, RemoveSnippetBtn} from './'
 import {connect} from '../helpers'
 
 class Edit extends Component {
@@ -10,11 +10,13 @@ class Edit extends Component {
     }
 
     render = ({_id, description, files} = this.props) =>
-        <div style={s.root}>
+        <App>
             <PageHeader>
-                Editando {files[0].name}
-
-                <RemoveSnippetBtn id={_id}/>
+                <Icon style={s.codeIcon} name="file-code-o"/>
+                <span style={s.title}>
+                    Editando <a href={"/view/" + _id}>{files[0].name}</a>
+                </span>
+                <RemoveSnippetBtn style={s.removeSnippetBtn} id={_id}/>
             </PageHeader>
 
             <Container>
@@ -26,13 +28,13 @@ class Edit extends Component {
                 />
 
             </Container>
-        </div>
+        </App>
 }
 
 
 const Actions = ({id}) =>
     <div>
-        <Button type="danger" onClick={() => AppStore.gotoView(id)}>
+        <Button style={{marginRight: 10}} type="danger" onClick={() => AppStore.gotoView(id)}>
             Cancelar Edição
         </Button>
         <Button type="primary" onClick={() => AppStore.save()}>
@@ -44,7 +46,23 @@ const Actions = ({id}) =>
 // Styles
 
 const s = {
-    root: {}
+    codeIcon: {
+        color: '#bbb',
+        fontSize: 28,
+        marginRight: 10,
+        verticalAlign: 'middle'
+    },
+
+    title: {
+        color: '#666',
+        fontSize: 20,
+        fontWeight: 'bold',
+        verticalAlign: 'middle'
+    },
+
+    removeSnippetBtn: {
+        float: 'right'
+    }
 }
 
 const mapStateToProps = state => ({

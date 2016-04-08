@@ -96,7 +96,7 @@ const s = {
     root: {
         border: 'none',
         borderRadius: 0,
-        fontSize: 16,
+        fontSize: 14,
         height: 250,
         margin: 0,
         width: '100%'
