@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import {AppStore} from '../stores'
-import {Button, Icon} from '../components'
+import AppStore from '../app/AppStore'
+import {Button, Icon} from '../app/components'
 
 class RemoveSnippetBtn extends Component {
 

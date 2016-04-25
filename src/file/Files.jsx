@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import {AppStore} from '../stores'
-import {Button, CodeEditor, Icon} from '../components'
+import AppStore from '../app/AppStore'
+import {Button, CodeEditor, Icon} from '../app/components'
 
 class Files extends Component {
 

@@ -1,6 +1,6 @@
 import {List, Map, Record} from 'immutable'
 import {browserHistory} from 'react-router'
-import {Request, Store} from '../helpers'
+import {Request, Store} from './helpers'
 
 // FIXME usar Immutable no state
 

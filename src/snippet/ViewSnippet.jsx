@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import {AppStore} from '../stores'
-import {Button, CodeEditor, Icon} from '../components'
-import {App, Container, Info, PageHeader, RemoveSnippetBtn} from './'
-import {connect} from '../helpers'
+import {connect} from '../app/helpers'
+import AppStore from '../app/AppStore'
+import {App, Container, PageHeader} from '../app/layouts'
+import {Button, CodeEditor, Icon} from '../app/components'
+import {Info, RemoveSnippetBtn} from './'
 
 class View extends Component {
     componentDidMount = () => {

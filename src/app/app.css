@@ -1,0 +1,68 @@
+body {
+    background: #fff;
+    color: #333;
+    font: 15px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.width-third {
+    width: 33.33%;
+}
+
+.width-quarter {
+    width: 25%;
+}
+
+
+.input-contrast {
+    background-color: #FAFAFA;
+}
+
+.input-contrast:focus {
+    background-color: inherit;
+}
+
+
+/* CodeEditor */
+
+.ace_gutter {
+    background-color: #FFF !important;
+    border-right: 1px solid #eee;
+    color: #CCC !important;
+}
+
+.ace_identifier {
+    color: #333;
+}
+
+/* Bootstrap */
+
+/* Button Dropdown */
+
+.dropdown-menu:before {
+    border: 8px solid transparent;
+    border-bottom-color: rgba(0,0,0,0.15);
+    top: -16px;
+    right: 9px;
+    left: auto;
+}
+
+.dropdown-menu:before,
+.dropdown-menu:after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+}
+
+.dropdown-menu:after {
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+    top: -14px;
+    right: 10px;
+    left: auto;
+}
+.dropdown-menu::before,
+.dropdown-menu:after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+}

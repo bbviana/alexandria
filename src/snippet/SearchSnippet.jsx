@@ -1,11 +1,10 @@
 import React, {Component, PropTypes} from 'react'
-import s from '../styles/Search'
-import {AppStore} from '../stores'
-import {Button, CodeEditor, Icon} from '../components'
-import {App, Container, Info, PageHeader} from './'
-import {connect, m, styles} from '../helpers'
-import Arrays from '../helpers/Arrays'
-import Events from '../helpers/Events'
+import {Arrays, Events, connect, m, styles} from '../app/helpers'
+import AppStore from '../app/AppStore'
+import {App, Container, PageHeader} from '../app/layouts'
+import {Button, CodeEditor, Icon} from '../app/components'
+import {Info} from './'
+import s from './SearchSnippet-style'
 
 class Search extends Component {
 

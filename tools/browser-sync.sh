@@ -2,7 +2,7 @@
 
 #browser-sync start --reload-delay 200 --no-open \
 #--server ${npm_package_config_webapp_dest} \
-#--files "$npm_package_config_styles_dest/*.css, $npm_package_config_scripts_dest/*.js" \
+#--files "$npm_package_config_views_styles_dest/*.css, $npm_package_config_scripts_dest/*.js" \
 #--index index.html
 
 
@@ -12,4 +12,4 @@ browser-sync start \
 --no-open \
 --logLevel info \
 --proxy localhost:8000 \
---files "$npm_package_config_styles_dest/*.css, $npm_package_config_scripts_dest/*.js"
+--files "$npm_package_config_views_styles_dest/*.css, $npm_package_config_views_bundle_dest/*.js"

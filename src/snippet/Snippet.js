@@ -1,6 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
-import {fileSchema} from './File'
-import {userSchema} from './User'
+import {fileSchema} from '../file/File'
+import {userSchema} from '../user/User'
 
 const snippetSchema = new Schema({
     created: {type: Date, 'default': Date.now},

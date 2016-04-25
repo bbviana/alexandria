@@ -1,5 +1,6 @@
 import Arrays from './Arrays'
 import Dates from './Dates'
+import Events from './Events'
 import Request from './Request'
 import Store from './Store'
 
@@ -12,6 +13,7 @@ import styles from './styles'
 export {
     Arrays,
     Dates,
+    Events,
     Request,
     Store,
 

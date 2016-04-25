@@ -1,7 +1,7 @@
 import express, {Router} from 'express'
-import {Snippet} from '../models/Snippet'
-import {File} from '../models/File'
-import {User} from '../models/User'
+import {Snippet} from './Snippet'
+import {File} from '../file/File'
+import {User} from '../user/User'
 
 const router = new Router()
     .get('/search', (req, res) => { // search

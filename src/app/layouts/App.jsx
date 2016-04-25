@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
-import {AppStore} from '../stores'
-import {Button} from '../components'
 import {Link} from 'react-router'
-import Events from '../helpers/Events'
+import AppStore from '../AppStore'
+import {Button} from '../components'
+import {Events} from '../helpers'
 
 class App extends Component {
 

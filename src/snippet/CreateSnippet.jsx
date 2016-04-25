@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react'
-import {AppStore} from '../stores'
-import {Button, Icon} from '../components'
-import {App, Container, Description, Files, PageHeader} from './'
-import {connect} from '../helpers'
+import {connect} from '../app/helpers'
+import AppStore from '../app/AppStore'
+import {App, Container, PageHeader} from '../app/layouts'
+import {Button, Icon} from '../app/components'
+import {Description} from './'
+import Files from '../file/Files'
 
 class Create extends Component {
 

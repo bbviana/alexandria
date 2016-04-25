@@ -1,5 +1,5 @@
 import mongoose, {Schema} from 'mongoose'
-import Arrays from '../../client/helpers/Arrays'
+import Arrays from '../app/helpers/Arrays'
 
 const fileSchema = new Schema({
     name: String,
