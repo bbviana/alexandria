@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import AppStore from '../app/AppStore'
+import AppStore from '~/app/AppStore'
 
 class Description extends Component {
 

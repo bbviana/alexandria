@@ -1,6 +1,12 @@
+//region Imports
 import React, {Component, PropTypes} from 'react'
-import AppStore from '../app/AppStore'
-import {Button, CodeEditor, Icon} from '../app/components'
+
+import AppStore from '~/app/AppStore'
+
+import Button from '~/app/components/Button'
+import CodeEditor from '~/app/components/CodeEditor'
+import Icon from '~/app/components/Icon'
+//endregion
 
 class Files extends Component {
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-#npm run build:js && npm run build:css
-./tools/build-js.sh && ./tools/build-css.sh
+./tools/generate-exports.sh
+./tools/build-js.sh
+./tools/build-css.sh

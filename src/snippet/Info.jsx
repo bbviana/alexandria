@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Dates} from '../app/helpers'
+import Dates from '~/app/helpers/Dates'
 
 class Info extends Component {
 

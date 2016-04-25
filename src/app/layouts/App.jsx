@@ -1,8 +1,13 @@
+//region Imports
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
+
 import AppStore from '../AppStore'
-import {Button} from '../components'
-import {Events} from '../helpers'
+
+import Button from '~/app/components/Button'
+
+import Events from '~/app/helpers/Events'
+//endregion
 
 class App extends Component {
 

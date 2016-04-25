@@ -1,8 +1,16 @@
+//region Imports
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {IndexRoute, Router, Route, browserHistory} from 'react-router'
-import {App} from './layouts'
-import {CreateSnippet, EditSnippet, SearchSnippet, ViewSnippet} from '../snippet'
+import {IndexRoute, Route, Router, browserHistory} from 'react-router'
+
+import App from '~/app/layouts/App'
+
+import CreateSnippet from '~/snippet/CreateSnippet'
+import EditSnippet from '~/snippet/EditSnippet'
+import SearchSnippet from '~/snippet/SearchSnippet'
+import ViewSnippet from '~/snippet/ViewSnippet'
+
+//endregion
 
 const router = (
     <Router history={browserHistory}>

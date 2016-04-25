@@ -4,7 +4,4 @@ const userSchema = new Schema({
     login: String
 })
 
-export default {
-    User: mongoose.model('User', userSchema),
-    userSchema: userSchema
-}
+export default mongoose.model('User', userSchema)

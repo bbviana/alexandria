@@ -1,6 +1,10 @@
+//region Imports
 import {List, Map, Record} from 'immutable'
 import {browserHistory} from 'react-router'
-import {Request, Store} from './helpers'
+
+import Request from '~/app/helpers/Request'
+import Store from '~/app/helpers/Store'
+//endregion
 
 // FIXME usar Immutable no state
 
@@ -160,7 +164,4 @@ class AppStore extends Store {
 
 }
 
-// FIXME remover
-window.store = new AppStore()
-
-export default window.store
+export default new AppStore()

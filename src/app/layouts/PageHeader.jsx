@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Container} from './'
+import Container from './Container'
 
 class PageHeader extends Component {
 

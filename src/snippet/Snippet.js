@@ -1,16 +1,13 @@
 import mongoose, {Schema} from 'mongoose'
-import {fileSchema} from '../file/File'
-import {userSchema} from '../user/User'
+import File from '../file/File'
+import User from '../user/User'
 
 const snippetSchema = new Schema({
     created: {type: Date, 'default': Date.now},
     description: String,
-    files: [fileSchema],
+    files: [File.schema],
     updated: Date,
-    user: userSchema // TODO mudar para population
+    user: User.schema // TODO mudar para population
 })
 
-export default {
-    Snippet: mongoose.model('Snippet', snippetSchema),
-    snippetSchema: snippetSchema
-}
+export default mongoose.model('Snippet', snippetSchema)

@@ -1,10 +1,21 @@
+//region Imports
 import React, {Component, PropTypes} from 'react'
-import {connect} from '../app/helpers'
-import AppStore from '../app/AppStore'
-import {App, Container, PageHeader} from '../app/layouts'
-import {Button, Icon} from '../app/components'
-import {Description} from './'
-import Files from '../file/Files'
+
+import AppStore from '~/app/AppStore'
+
+import Button from '~/app/components/Button'
+import Icon from '~/app/components/Icon'
+
+import connect from '~/app/helpers/connect'
+
+import App from '~/app/layouts/App'
+import Container from '~/app/layouts/Container'
+import PageHeader from '~/app/layouts/PageHeader'
+
+import Files from '~/file/Files'
+
+import Description from './Description'
+//endregion
 
 class Create extends Component {
 

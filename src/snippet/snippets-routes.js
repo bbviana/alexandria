@@ -1,10 +1,12 @@
+//region Imports
 import express, {Router} from 'express'
-import {Snippet} from './Snippet'
-import {File} from '../file/File'
-import {User} from '../user/User'
+import User from '../user/User'
+import Snippet from './Snippet'
+//endregion
 
 const router = new Router()
     .get('/search', (req, res) => { // search
+
         const searchRegex = req.query.query && new RegExp(req.query.query, 'i')
         const page = parseInt(req.query.page) || 1
         const pageSize = 2

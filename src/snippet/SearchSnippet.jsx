@@ -1,10 +1,25 @@
+//region Imports
 import React, {Component, PropTypes} from 'react'
-import {Arrays, Events, connect, m, styles} from '../app/helpers'
-import AppStore from '../app/AppStore'
-import {App, Container, PageHeader} from '../app/layouts'
-import {Button, CodeEditor, Icon} from '../app/components'
-import {Info} from './'
+
+import AppStore from '~/app/AppStore'
+
+import Button from '~/app/components/Button'
+import CodeEditor from '~/app/components/CodeEditor'
+import Icon from '~/app/components/Icon'
+
+import Arrays from '~/app/helpers/Arrays'
+import Events from '~/app/helpers/Events'
+import connect from '~/app/helpers/connect'
+import m from '~/app/helpers/m'
+import styles from '~/app/helpers/styles'
+
+import App from '~/app/layouts/App'
+import Container from '~/app/layouts/Container'
+import PageHeader from '~/app/layouts/PageHeader'
+
+import Info from './Info'
 import s from './SearchSnippet-style'
+//endregion
 
 class Search extends Component {
 

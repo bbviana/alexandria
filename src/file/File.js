@@ -12,7 +12,4 @@ fileSchema.methods.truncate = function(){
     return this.content
 }
 
-export default {
-    File: mongoose.model('File', fileSchema),
-    fileSchema: fileSchema
-}
+export default mongoose.model('File', fileSchema)

@@ -1,9 +1,11 @@
+//region Imports
 import bodyParser from 'body-parser'
 import express from 'express'
-import path from 'path'
 import mongoose from 'mongoose'
-import indexRoute from './index-route'
+import path from 'path'
 import snippets from '../snippet/snippets-routes'
+import indexRoute from './index-route'
+//endregion
 
 mongoose.connect('mongodb://localhost/alexandria')
 

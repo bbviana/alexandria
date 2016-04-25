@@ -1,9 +1,21 @@
+//region Imports
 import React, {Component, PropTypes} from 'react'
-import {connect} from '../app/helpers'
-import AppStore from '../app/AppStore'
-import {App, Container, PageHeader} from '../app/layouts'
-import {Button, CodeEditor, Icon} from '../app/components'
-import {Info, RemoveSnippetBtn} from './'
+
+import AppStore from '~/app/AppStore'
+
+import Button from '~/app/components/Button'
+import CodeEditor from '~/app/components/CodeEditor'
+import Icon from '~/app/components/Icon'
+
+import connect from '~/app/helpers/connect'
+
+import App from '~/app/layouts/App'
+import Container from '~/app/layouts/Container'
+import PageHeader from '~/app/layouts/PageHeader'
+
+import Info from './Info'
+import RemoveSnippetBtn from './RemoveSnippetBtn'
+//endregion
 
 class View extends Component {
     componentDidMount = () => {

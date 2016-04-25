@@ -51,6 +51,7 @@
     "build:css": "tools/build-css.sh",
     "build:js": "tools/build-js.sh",
     "dev": "tools/dev.sh",
+    "generate:exports": "tools/generate-exports.sh",
     "start": "tools/start.sh",
     "test": "tools/test.sh",
     "watch": "tools/watch.sh",
@@ -62,6 +63,7 @@
       [
         "babelify",
         {
+          "plugins": ["./config/babel-plugin-project-relative-require.js"],
           "stage": 0
         }
       ]

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
-import {m} from '../helpers'
 
+import m from '~/app/helpers/m'
 
 /**
  *  Infelizmente não conseguimos usar o ace seguindos princípios de imutabilidade do React.
