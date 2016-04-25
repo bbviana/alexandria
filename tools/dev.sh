@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-parallelshell 'npm start' 'npm run watch' 'npm run browser-sync'
+parallelshell 'tools/start.sh' 'tools/watch.sh' 'tools/browser-sync.sh'
