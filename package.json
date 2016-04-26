@@ -14,7 +14,9 @@
     "array.prototype.find": "~1.0.0",
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
+    "highlight.js": "^9.3.0",
     "immutable": "^3.7.6",
+    "marked": "^0.3.5",
     "mongoose": "^4.4.2",
     "react": "^0.14.1",
     "react-addons-css-transition-group": "^0.14.1",
@@ -63,7 +65,9 @@
       [
         "babelify",
         {
-          "plugins": ["./config/babel-plugin-project-relative-require.js"],
+          "plugins": [
+            "./config/babel-plugin-project-relative-require.js"
+          ],
           "stage": 0
         }
       ]

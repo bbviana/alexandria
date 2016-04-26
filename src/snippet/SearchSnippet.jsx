@@ -9,7 +9,9 @@ import Icon from '~/app/components/Icon'
 
 import Arrays from '~/app/helpers/Arrays'
 import Events from '~/app/helpers/Events'
+import Strings from '~/app/helpers/Strings'
 import connect from '~/app/helpers/connect'
+import languages from '~/app/helpers/languages'
 import m from '~/app/helpers/m'
 import styles from '~/app/helpers/styles'
 
@@ -28,56 +30,92 @@ class Search extends Component {
         AppStore.search({query: query.query, language: query.language, page: query.page})
     }
 
-    render = () => {
-        const {
-            currentPage,
-            languages,
-            query,
-            results,
-            selectedLanguage,
-            totalPages,
-            totalResults
-            }= this.props
-
+    render = ({query, totalResults} = this.props) => {
         return (
             <App hideHeaderSearch={true}>
                 <PageHeader>
-                    <div className="row">
-                        <div className="col-md-2">
-                            Buscar
-                        </div>
-                        <div className="col-md-9">
-                            <input
-                                className="form-control"
-                                autoFocus
-                                value={query}
-                                type="text"
-                                onChange={e => AppStore.changeQuery(e.target.value)}
-                                onKeyUp={e => Events.handleEnterKey(e, () => AppStore.search({page: 1}))}
-                            />
-                        </div>
-                        <div className="col-md-1">
-                            <Button onClick={() => AppStore.search({page: 1})}>
-                                Buscar
-                            </Button>
-                        </div>
-                    </div>
+                    <SearchBar query={query}/>
                 </PageHeader>
 
                 <Container>
-                    <div className="row">
-                        <LanguagesPanel languages={languages} selectedLanguage={selectedLanguage}/>
-
-                        <ResultsPanel
-                            currentPage={currentPage}
-                            results={results}
-                            totalResults={totalResults}
-                            totalPages={totalPages}
-                        />
-                    </div>
+                    {totalResults == 0 ?
+                        <EmptySearch query={query}/> :
+                        <SearchResult {...this.props}/>
+                    }
                 </Container>
             </App>
         )
+    }
+}
+
+const SearchBar = ({query}) =>
+    <div className="row">
+        <div className="col-md-2">
+            Buscar
+        </div>
+        <div className="col-md-9">
+            <input
+                className="form-control"
+                autoFocus
+                value={query}
+                type="text"
+                onChange={e => AppStore.changeQuery(e.target.value)}
+                onKeyUp={e => Events.handleEnterKey(e, () => AppStore.search({page: 1}))}
+            />
+        </div>
+        <div className="col-md-1">
+            <Button onClick={() => AppStore.search({page: 1})}>
+                Buscar
+            </Button>
+        </div>
+    </div>
+
+
+const SearchResult = (props) =>
+    <div className="row">
+        <LanguagesPanel
+            languages={props.languages}
+            selectedLanguage={props.selectedLanguage}
+        />
+
+        <ResultsPanel
+            currentPage={props.currentPage}
+            results={props.results}
+            totalResults={props.totalResults}
+            totalPages={props.totalPages}
+        />
+    </div>
+
+
+const EmptySearch = ({query}) =>
+    <div style={s.emptySearch.root}>
+        <Icon style={s.emptySearch.icon} name="search"/>
+        <div style={s.emptySearch.text}>Não encontramos nenhum snippet com o termo '{query}'</div>
+        <div>Para uma busca avançada, use alguns dos <a href="">prefixos</a></div>
+    </div>
+
+s.emptySearch = {
+    root: {
+        backgroundColor: '#fafafa',
+        border: '1px solid #e5e5e5',
+        borderRadius: 3,
+        boxShadow: 'inset 0 0 10px rgba(0,0,0,0.05)',
+        padding: 30,
+        position: 'relative',
+        textAlign: 'center'
+    },
+
+    icon: {
+        color: '#aaa',
+        fontSize: 32,
+        marginBottom: 10,
+        marginLeft: 5,
+        marginRight: 5
+    },
+
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold'
     }
 }
 
@@ -95,7 +133,8 @@ const LanguagesPanel = ({languages, selectedLanguage}) =>
                 <Language
                     language={language}
                     selected={language.name == selectedLanguage}
-                    key={language.name}/>
+                    key={language.name}
+                />
             )}
         </div>
     </div>
@@ -114,7 +153,7 @@ class Language extends Component {
                 <span style={m(s.bar, {width: language.percent + "%"})}/>
 
                 <span>
-                    {language.name}
+                    {Strings.capitalize(languages[language.name])}
                 </span>
 
                 <span style={s.languageTotal}>
@@ -201,7 +240,8 @@ class CodeExample extends Component {
                 highlightGutterLine={false}
                 readOnly={true}
                 showFoldWidgets={false}
-                value={file.content}/>
+                value={file.content}
+            />
         </div>
 }
 

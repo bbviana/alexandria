@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
-
-const connect = function (ComposedComponent, store, mapStateToProps) {
+export default function connect(ComposedComponent, store, mapStateToProps) {
     class Connected extends Component {
         constructor() {
             super()
@@ -27,5 +26,3 @@ const connect = function (ComposedComponent, store, mapStateToProps) {
 
     return Connected
 }
-
-export default connect

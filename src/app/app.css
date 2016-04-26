@@ -66,3 +66,8 @@ body {
     display: inline-block;
     content: "";
 }
+
+/* Markdown */
+.markdown pre {
+    border: none;
+}

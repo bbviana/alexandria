@@ -6,6 +6,7 @@ import AppStore from '~/app/AppStore'
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
 import Icon from '~/app/components/Icon'
+import MarkdownViewer from '~/app/components/MarkdownViewer'
 //endregion
 
 class Files extends Component {

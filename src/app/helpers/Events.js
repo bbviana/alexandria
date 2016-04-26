@@ -3,5 +3,5 @@ const handleEnterKey = (event, callback) => {
 }
 
 export default {
-    handleEnterKey: handleEnterKey
+    handleEnterKey
 }
