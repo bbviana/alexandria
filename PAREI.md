@@ -1,7 +1,8 @@
 # Parei
 
 # Next
-- processar markdown (o gist faz)
+- markdown com estilos github
+- adicionar markdown viewer na criação/edição (um do lado do outro)
 - login com google
 - mudar Snippet -> User para population
 - meus snippets

@@ -3,16 +3,11 @@ import React, {Component, PropTypes} from 'react'
 import highlight from 'highlight.js'
 import marked from 'marked'
 
+marked.setOptions({
+    highlight: code => highlight.highlightAuto(code).value
+})
 
 class MarkdownViewer extends Component {
-
-    componentDidMount() {
-        marked.setOptions({
-            highlight: function (code) {
-                return highlight.highlightAuto(code).value;
-            }
-        })
-    }
 
     rawMarkup = () => {
         var rawMarkup = marked(this.props.code)
@@ -27,7 +22,9 @@ class MarkdownViewer extends Component {
 }
 
 const s = {
-    root: {}
+    root: {
+        padding: 45
+    }
 }
 
 export default MarkdownViewer

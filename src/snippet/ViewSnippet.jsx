@@ -6,6 +6,7 @@ import AppStore from '~/app/AppStore'
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
 import Icon from '~/app/components/Icon'
+import MarkdownViewer from '~/app/components/MarkdownViewer'
 
 import connect from '~/app/helpers/connect'
 
@@ -73,16 +74,20 @@ const File = ({file}) =>
     <div style={s.file} id={'ANCHOR'}>
         <FileHeader value={file.name}/>
 
-        <CodeEditor
-            displayIndentGuides={false}
-            maxLines={99999}
-            mode={file.type}
-            highlightActiveLine={false}
-            highlightGutterLine={false}
-            readOnly={true}
-            showFoldWidgets={false}
-            value={file.content}
-        />
+        {file.type === "md" ?
+            <MarkdownViewer code={file.content}/> :
+            <CodeEditor
+                displayIndentGuides={false}
+                maxLines={99999}
+                mode={file.type}
+                highlightActiveLine={false}
+                highlightGutterLine={false}
+                readOnly={true}
+                showFoldWidgets={false}
+                value={file.content}
+            />
+        }
+
     </div>
 
 
