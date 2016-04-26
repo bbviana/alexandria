@@ -16,6 +16,8 @@
  *
  */
 export default function (styles, conditions) {
+    if(!styles) return null
+
     const result = {}
 
     const simpleValuesFirst = (key1, key2)=> {

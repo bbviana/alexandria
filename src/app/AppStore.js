@@ -9,6 +9,8 @@ import Store from '~/app/helpers/Store'
 // FIXME usar Immutable no state
 
 class State {
+    flashMessage = null
+
     _id = null
     created = null
     description = ''
@@ -27,6 +29,14 @@ class State {
 
 class AppStore extends Store {
     state = new State()
+
+    // App
+
+    clearMessage() {
+        this.dispatch({
+            flashMessage: null
+        })
+    }
 
     // Snippet
 
@@ -48,9 +58,13 @@ class AppStore extends Store {
     remove(id) {
         Request
             .del(`/api/snippets/${id}`)
-            .then(data => {
-                window.location = '/'
-            })
+            .then(data => this.navigate({
+                    path: 'create',
+                    state: {
+                        flashMessage: 'Snippet removido com sucesso'
+                    }
+                })
+            )
     }
 
     load(id) {
@@ -136,28 +150,52 @@ class AppStore extends Store {
 
     // Navigation
 
-    gotoCreate() {
+    /**
+     * @param args: [string] | {query, path, state}
+     */
+    navigate(args) {
+        if (typeof args === 'string') {
+            args = {path: args}
+        }
+
+        let {query, path, state} = args
+
+        this.state = new State()
+        if(state) Object.assign(this.state, state)
+        this.dispatch(this.state)
+
         browserHistory.push({
-            pathname: `/create`
+            pathname: path,
+            query: query
         })
     }
 
-    gotoEdit(snippetId) {
-        browserHistory.push({
-            pathname: `/edit/${snippetId}`
+    gotoCreate(newState) {
+        this.navigate({
+            path: 'create',
+            state: newState
         })
     }
 
-    gotoView(snippetId) {
-        browserHistory.push({
-            pathname: `/view/${snippetId}`
+    gotoEdit(snippetId, newState) {
+        this.navigate({
+            path: `/edit/${snippetId}`,
+            state: newState
         })
     }
 
-    gotoSearch(query) {
-        browserHistory.push({
-            pathname: '/search',
-            query: {query: query, page: 1}
+    gotoView(snippetId, newState) {
+        this.navigate({
+            path: `/view/${snippetId}`,
+            state: newState
+        })
+    }
+
+    gotoSearch(query, newState) {
+        this.navigate({
+            path: `/search`,
+            query: {query: query, page: 1},
+            state: newState
         })
     }
 

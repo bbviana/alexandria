@@ -20,8 +20,9 @@ import Container from '~/app/layouts/Container'
 import PageHeader from '~/app/layouts/PageHeader'
 
 import Info from './Info'
-import s from './SearchSnippet-style'
 //endregion
+
+const s = {}
 
 class Search extends Component {
 
@@ -120,15 +121,13 @@ s.emptySearch = {
 }
 
 
-// Languages
-
 const LanguagesPanel = ({languages, selectedLanguage}) =>
-    <div style={s.languagesPanel} className="col-md-3">
-        <h4 style={s.languagesTitle}>
+    <div style={s.languagesPanel.root} className="col-md-3">
+        <h4 style={s.languagesPanel.title}>
             Linguagens
         </h4>
 
-        <div style={s.languages}>
+        <div style={s.languagesPanel.languages}>
             {languages.map(language =>
                 <Language
                     language={language}
@@ -139,9 +138,26 @@ const LanguagesPanel = ({languages, selectedLanguage}) =>
         </div>
     </div>
 
+s.languagesPanel = {
+    root: {},
+
+    languages: {
+        color: '#767676'
+    },
+
+    title: {
+        fontWeight: 'bold'
+    }
+}
+
 
 class Language extends Component {
-    render = ({language, selected} = this.props) => {
+    state = {hover: false}
+
+    handleMouseOut = () => this.setState({hover: false})
+    handleMouseOver = () => this.setState({hover: true})
+
+    render = ({hover} = this.state, {language, selected} = this.props) => {
         let href = `/search?&query=.`
 
         if (!selected) {
@@ -149,14 +165,19 @@ class Language extends Component {
         }
 
         return (
-            <a style={styles(s.language, {selected})} href={href}>
-                <span style={m(s.bar, {width: language.percent + "%"})}/>
+            <a
+                style={styles(s.language.root, {hover, selected})}
+                href={href}
+                onMouseOver={this.handleMouseOver}
+                onMouseOut={this.handleMouseOut}
+            >
+                <span style={m(s.language.bar, {width: language.percent + "%"})}/>
 
                 <span>
                     {Strings.capitalize(languages[language.name])}
                 </span>
 
-                <span style={s.languageTotal}>
+                <span style={s.language.total}>
                     {selected ?
                         <Icon name="times"/> :
                         language.count
@@ -167,11 +188,46 @@ class Language extends Component {
     }
 }
 
-// Results
+s.language = {
+    root: {
+        borderRadius: 3,
+        color: 'inherit',
+        display: 'block',
+        fontSize: 12,
+        marginBottom: 5,
+        padding: '4px 10px',
+        position: 'relative',
+        textDecoration: 'inherit',
+
+        hover: {
+            backgroundColor: '#f1f1f1'
+        },
+
+        selected: {
+            backgroundColor: '#4078c0',
+            color: '#fff'
+        }
+    },
+
+    bar: {
+        background: '#f1f1f1',
+        height: '100%',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        zIndex: -1
+    },
+
+    total: {
+        fontWeight: 'bold',
+        float: 'right'
+    }
+}
+
 
 const ResultsPanel = ({currentPage, results, totalPages, totalResults}) =>
-    <div style={s.resultsPanel} className="col-md-9">
-        <h4 style={s.resultsMessage}>
+    <div style={s.resultsPanel.root} className="col-md-9">
+        <h4 style={s.resultsPanel.message}>
             Encontramos {totalResults} snippet{totalResults > 1 && 's'}
         </h4>
 
@@ -182,9 +238,20 @@ const ResultsPanel = ({currentPage, results, totalPages, totalResults}) =>
         <Pagination currentPage={currentPage} totalPages={totalPages}/>
     </div>
 
+s.resultsPanel = {
+    root: {},
+
+    message: {
+        borderBottom: '1px solid #f1f1f1',
+        fontWeight: 'bold',
+        marginBottom: 20,
+        paddingBottom: 20
+    }
+
+}
 
 const Snippet = ({value}) =>
-    <div style={s.snippet}>
+    <div style={s.snippet.root}>
         <div>
             <Info
                 created={value.created}
@@ -195,20 +262,42 @@ const Snippet = ({value}) =>
             />
             <InfoCountLinks snippet={value}/>
         </div>
-        <div style={s.description}>{value.description}</div>
+        <div style={s.snippet.description}>
+            {value.description}
+        </div>
 
         {value.files[0] &&
         <CodeExample snippetId={value._id} file={value.files[0]}/>}
     </div>
 
+s.snippet = {
+    root: {},
+
+    description: {
+        color: '#767676',
+        marginLeft: 38
+    }
+}
 
 const InfoCountLinks = ({snippet}) =>
-    <div style={s.infoCountLinks}>
-        <a style={s.countLink} href={"/view/" + snippet._id}>
+    <div style={s.infoCountLinks.root}>
+        <a style={s.infoCountLinks.link} href={"/view/" + snippet._id}>
             <Icon name="file-code-o"/> {snippet.files.length} arquivo{snippet.files.length > 1 && 's'}
         </a>
     </div>
 
+
+s.infoCountLinks = {
+    root: {
+        float: 'right'
+    },
+
+    link: {
+        color: '#767676',
+        fontSize: 14,
+        fontWeight: 'bold'
+    }
+}
 
 class CodeExample extends Component {
     state = {
@@ -220,16 +309,15 @@ class CodeExample extends Component {
 
     render = ({file, snippetId} = this.props) =>
         <div
-            style={styles(s.codeExample, this.state)}
+            style={styles(s.codeExample.root, this.state)}
             onMouseOut={this.handleMouseOut}
-            onMouseOver={this.handleMouseOver}>
-
-            <a style={s.codeExampleLink} href={"/view/" + snippetId}>
+            onMouseOver={this.handleMouseOver}
+        >
+            <a style={s.codeExample.link} href={"/view/" + snippetId}>
                 {this.state.hover &&
-                <span style={s.codeExampleLinkMessage}>
+                <span style={s.codeExample.linkMessage}>
                     Ver <strong>{file.name}</strong>
-                </span>
-                }
+                </span>}
             </a>
 
             <CodeEditor
@@ -243,6 +331,41 @@ class CodeExample extends Component {
                 value={file.content}
             />
         </div>
+}
+
+s.codeExample = {
+    root: {
+        border: '1px solid',
+        borderColor: '#ddd',
+        borderRadius: 3,
+        marginBottom: 50,
+        marginTop: 15,
+        padding: 1, // para que a borda apareça
+        position: 'relative',
+
+        hover: {
+            borderColor: '#4078c0'
+        }
+    },
+
+    link: {
+        height: '100%',
+        left: 0,
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        zIndex: 2
+    },
+
+    linkMessage: {
+        backgroundColor: '#4078c0',
+        color: '#fff',
+        fontSize: 12,
+        padding: '2px 8px',
+        position: 'absolute',
+        right: 0,
+        top: 0
+    }
 }
 
 
@@ -271,6 +394,9 @@ const Pagination = ({currentPage, totalPages}) =>
         </ul>
     </nav>
 
+s.pagination = {
+    textAlign: 'center'
+}
 
 // Connect Store
 

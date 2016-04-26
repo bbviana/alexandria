@@ -3,7 +3,7 @@ import Arrays from '../app/helpers/Arrays'
 
 const fileSchema = new Schema({
     name: String,
-    type: String,
+    type: {type: String, default: 'txt'},
     content: String
 })
 

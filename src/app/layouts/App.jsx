@@ -2,21 +2,27 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 
-import AppStore from '../AppStore'
+import AppStore from '~/app/AppStore'
 
 import Button from '~/app/components/Button'
 
 import Events from '~/app/helpers/Events'
+import connect from '~/app/helpers/connect'
+
+import FlashMessage from './FlashMessage'
 //endregion
 
 class App extends Component {
 
-    render = () => {
+    render = ({flashMessage} = this.props) => {
         const {hideHeaderSearch} = this.props
 
         return (
             <div style={s.root}>
                 <Header hideSearch={hideHeaderSearch}/>
+                {flashMessage &&
+                <FlashMessage message={flashMessage}/>}
+
                 {this.props.children}
             </div>
         )
@@ -64,7 +70,7 @@ class UserProfile extends Component {
 
     componentDidMount = () =>
         document.addEventListener('click', ({target}) => {
-            if(!target.classList.contains('dropdown-toggle')){
+            if (!target.classList.contains('dropdown-toggle')) {
                 this.closeDropdown()
             }
         })
@@ -73,13 +79,14 @@ class UserProfile extends Component {
         this.setState({dropdownOpen: !this.state.dropdownOpen})
 
     closeDropdown = () =>
-        this.state.dropdownOpen && this.setState({dropdownOpen: false})
+    this.state.dropdownOpen && this.setState({dropdownOpen: false})
 
 
     render = ({dropdownOpen} = this.state) =>
         <div style={s.userProfile} className="btn-group">
             <button style={s.userProfileButton} className="dropdown-toggle" onClick={this.toggleDropdown}>
-                <img style={s.avatar} className="dropdown-toggle" src="https://avatars3.githubusercontent.com/u/1538307?v=3&s=52"/>
+                <img style={s.avatar} className="dropdown-toggle"
+                     src="https://avatars3.githubusercontent.com/u/1538307?v=3&s=52"/>
                 <span className="caret dropdown-toggle"/>
             </button>
             {dropdownOpen &&
@@ -158,4 +165,9 @@ const s = {
     }
 }
 
-export default App
+
+const mapStateToProps = state => ({
+    flashMessage: state.flashMessage
+})
+
+export default connect(App, AppStore, mapStateToProps)
