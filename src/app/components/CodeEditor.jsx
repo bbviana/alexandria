@@ -24,7 +24,8 @@ class CodeEditor extends Component {
         maxLines: null,
         mode: '',
         readOnly: false,
-        showFoldWidgets: true
+        showFoldWidgets: true,
+        value: ''
     }
 
     onChange = () => {

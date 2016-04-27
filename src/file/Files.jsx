@@ -5,14 +5,18 @@ import AppStore from '~/app/AppStore'
 
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
+import Columns from '~/app/components/Columns'
 import Icon from '~/app/components/Icon'
 import MarkdownViewer from '~/app/components/MarkdownViewer'
+
+const s = {}
 //endregion
+
 
 class Files extends Component {
 
     render = ({files, actions} = this.props) =>
-        <div style={s.root}>
+        <div>
             {files.map((file, i) =>
                 <File
                     file={file}
@@ -25,15 +29,40 @@ class Files extends Component {
 }
 
 
-const File = ({file, showDeleteFileBtn}) =>
-    <div style={s.file}>
-        <FileName file={file} showDeleteFileBtn={showDeleteFileBtn} />
+const File = ({file, showDeleteFileBtn}) => {
+    const markdownMode = file.type === 'md'
+    const sizes = markdownMode ? [6, 6] : [12]
 
-        <CodeEditor
-            mode={file.type}
-            value={file.content}
-            onChange={newValue => AppStore.changeFileContent(file, newValue)}/>
-    </div>
+    return (
+        <div style={s.file.root}>
+            <FileName file={file} showDeleteFileBtn={showDeleteFileBtn}/>
+
+            <Columns sizes={sizes}>
+                <CodeEditor
+                    mode={file.type}
+                    value={file.content}
+                    onChange={newValue => AppStore.changeFileContent(file, newValue)}/>
+
+                {markdownMode &&
+                <MarkdownViewer style={s.file.markdownViewer} code={file.content}/>}
+            </Columns>
+        </div>
+    )
+}
+
+s.file = {
+    root: {
+        border: '1px solid #ddd',
+        borderRadius: 3,
+        marginTop: 20
+    },
+
+    markdownViewer: {
+        height: 250,
+        overflow: 'auto',
+        padding: 10
+    }
+}
 
 
 const FileName = ({file, showDeleteFileBtn}) =>
@@ -54,6 +83,12 @@ const FileName = ({file, showDeleteFileBtn}) =>
         </div>
     </div>
 
+s.fileName = {
+    backgroundColor: '#f7f7f7',
+    borderBottom: '1px solid #d8d8d8',
+    padding: '5px 10px'
+}
+
 
 const DeleteFileBtn = ({file}) =>
     <Button
@@ -63,47 +98,29 @@ const DeleteFileBtn = ({file}) =>
         <Icon name="trash"/>
     </Button>
 
+s.deleteButton = {
+    borderLeft: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0
+}
+
 
 const Toolbar = ({actions}) =>
-    <div style={s.toolbar}>
+    <div style={s.toolbar.root}>
         <Button onClick={() => AppStore.addFile()}>
             <Icon name="plus-square"/> Adicionar arquivo
         </Button>
-        <div style={s.toolbarRight}>
+        <div style={s.toolbar.right}>
             {actions}
         </div>
     </div>
 
-// Styles
-
-const s = {
-    root: {},
-
-    deleteButton: {
-        borderLeft: 0,
-        borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 0
-    },
-
-    fileList: {},
-
-    file: {
-        border: '1px solid #ddd',
-        borderRadius: 3,
+s.toolbar = {
+    root: {
         marginTop: 20
     },
 
-    fileName: {
-        backgroundColor: '#f7f7f7',
-        borderBottom: '1px solid #d8d8d8',
-        padding: '5px 10px'
-    },
-
-    toolbar: {
-        marginTop: 20
-    },
-
-    toolbarRight: {
+    right: {
         float: 'right'
     }
 }

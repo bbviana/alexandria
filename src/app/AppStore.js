@@ -14,7 +14,7 @@ class State {
     _id = null
     created = null
     description = ''
-    files = [{name: '', content: '', type: ''}]
+    files = [{name: null, content: null, type: null}]
     user = "bbviana"
 
     currentPage = null
