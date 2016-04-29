@@ -1,15 +1,16 @@
 # Parei
 
 # Next
-- no resultado da busca, usar MarkdownViewer
-
 - login com google
+- recuperar avatar do google (nao precisa salvar no banco, bast exibir)
+
+- no resultado da busca, usar MarkdownViewer
 - mudar Snippet -> User para population
 - meus snippets
 - snippets favoritos
 
 - ordenar snippets por recentemente editados (hoje os criados vem antes)
-- usar um error handler no server, ele da crash
+- usar um error handler no server, ele da crash (acho que ja esta ok)
 - fuzzy search text com elastic search (mongo nao faz)
 - permanent link
 - se elemento nao existe => 404

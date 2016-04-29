@@ -1,7 +1,7 @@
 export default {
-    'googleAuth' : {
-        'clientID'      : 'your-secret-clientID-here',
-        'clientSecret'  : 'your-client-secret-here',
-        'callbackURL'   : 'http://localhost:8080/auth/google/callback'
+    googleAuth : {
+        'clientID'      : '1013117844-3thlraa59raounj84degjbb118vsl9qd.apps.googleusercontent.com',
+        'clientSecret'  : 'T4hvfwzBJSxNmvEQLUKLeCtI',
+        'callbackURL'   : 'http://localhost:8000/auth/google/callback'
     }
 }

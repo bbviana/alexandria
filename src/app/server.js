@@ -48,5 +48,10 @@ app.get('*', function (request, response) {
     response.sendFile(path.resolve(__dirname + '/../../', 'public', 'index.html'))
 })
 
+app.use(function(err, req, res, next) {
+    console.error(err.stack)
+    res.status(500).send('Erro 500')
+})
+
 app.listen(port)
 console.log(`Server runing at http://localhost:${port}`)
