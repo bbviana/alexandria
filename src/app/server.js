@@ -1,6 +1,5 @@
 //region Imports
-import settingsAuth from './settings/auth'
-import settingsDB from './settings/database'
+import settings from './settings'
 
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
@@ -15,11 +14,11 @@ import session from 'express-session'
 import securityPassport from './security/passport'
 import securityRoutes from './security/routes'
 
-import indexRoute from './index-route'
-import snippets from '../snippet/snippets-routes'
+import snippets from '../snippet/routes'
+import users from '../user/routes'
 //endregion
 
-mongoose.connect(settingsDB.url)
+mongoose.connect(settings.db.url)
 
 const app = express()
 const port = process.env.PORT || 8000;
@@ -32,7 +31,7 @@ app.use(morgan('dev')) // log every request to the console
 app.set('view engine', 'ejs') // set up ejs for templating
 
 // security
-app.use(session({ secret: 'teste10' })) // session secret
+app.use(session({ secret: 'teste10' })) // FIXME: pra que serve?
 app.use(passport.initialize())
 app.use(passport.session()) // persistent login sessions
 app.use(flash()) // use connect-flash for flash messages stored in session
@@ -40,14 +39,15 @@ securityRoutes(app, passport)
 securityPassport(passport)
 
 // Routes
-app.use('/api', indexRoute)
 app.use('/api/snippets', snippets)
+app.use('/api/users', users)
 
 // Deve estar aqui no fim
 app.get('*', function (request, response) {
     response.sendFile(path.resolve(__dirname + '/../../', 'public', 'index.html'))
 })
 
+// Error handling
 app.use(function(err, req, res, next) {
     console.error(err.stack)
     res.status(500).send('Erro 500')

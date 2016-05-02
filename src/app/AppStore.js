@@ -9,13 +9,17 @@ import Store from '~/app/helpers/Store'
 // FIXME usar Immutable no state
 
 class State {
+    user = {
+        login: null,
+        avatar: null
+    }
+
     flashMessage = null
 
     _id = null
     created = null
     description = ''
     files = [{name: null, content: null, type: null}]
-    user = "bbviana"
 
     currentPage = null
     languages = []
@@ -36,6 +40,15 @@ class AppStore extends Store {
         this.dispatch({
             flashMessage: null
         })
+    }
+
+    // User
+    loadUser(){
+        Request
+            .get('api/users/logged')
+            .then(data => {
+                this.dispatch(data)
+            })
     }
 
     // Snippet

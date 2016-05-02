@@ -1,33 +1,25 @@
 import {Strategy as LocalStrategy} from 'passport-local'
 import {OAuth2Strategy as GoogleStrategy} from 'passport-google-oauth'
 
-import settingsAuth from '../settings/auth'
+import {adminUsers, googleAuth} from '../settings'
 
 import User from '../../user/User'
 
-// expose this function to our app using module.exports
 export default function (passport) {
 
-    // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
         done(null, user._id)
     })
 
-    // used to deserialize the user
     passport.deserializeUser(function (id, done) {
         User.findById(id, function (err, user) {
             done(err, user)
         })
     })
 
-    // code for login (use('local-login', new LocalStategy))
-    // code for signup (use('local-signup', new LocalStategy))
-
     // =========================================================================
     // LOCAL SIGNUP ============================================================
     // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
 
     passport.use('local-signup', new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
@@ -55,15 +47,12 @@ export default function (passport) {
                         return done(null, false, req.flash('signupMessage', 'That login is already taken.'))
                     }
 
-                    // if there is no user with that email
-                    // create the user
+                    // if there is no user with that email, create the user
                     var newUser = new User()
 
-                    // set the user's local credentials
                     newUser.login = login
                     newUser.password = newUser.generateHash(password)
 
-                    // save the user
                     newUser.save(function (err) {
                         if (err) throw err
                         return done(null, newUser)
@@ -78,11 +67,8 @@ export default function (passport) {
     // =========================================================================
     // LOCAL LOGIN =============================================================
     // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
 
     passport.use('local-login', new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
             usernameField: 'login',
             passwordField: 'password',
             passReqToCallback: true // allows us to pass back the entire request to the callback
@@ -92,22 +78,18 @@ export default function (passport) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             User.findOne({login: login}, function (err, user) {
-                // if there are any errors, return the error before anything else
                 if (err) {
                     return done(err)
                 }
 
-                // if no user is found, return the message
                 if (!user) {
                     return done(null, false, req.flash('loginMessage', 'No user found.')) // req.flash is the way to set flashdata using connect-flash
                 }
 
-                // if the user is found but the password is wrong
                 if (!user.validPassword(password)) {
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')) // create the loginMessage and save it to session as flashdata
                 }
 
-                // all is well, return successful user
                 return done(null, user)
             })
 
@@ -117,49 +99,40 @@ export default function (passport) {
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
+
     passport.use(new GoogleStrategy({
-            clientID: settingsAuth.googleAuth.clientID,
-            clientSecret: settingsAuth.googleAuth.clientSecret,
-            callbackURL: settingsAuth.googleAuth.callbackURL
+            clientID: googleAuth.clientID,
+            clientSecret: googleAuth.clientSecret,
+            callbackURL: googleAuth.callbackURL
         },
 
         function (token, refreshToken, profile, done) {
 
-            //console.log(profile)
-
             if (profile._json.domain !== "touchtec.com.br") {
-                done(new Error("Invalid host domain"))
+                done(new Error("Só é permitido o login com uma conta touchtec.com.br"))
             }
 
             // make the code asynchronous
             // User.findOne won't fire until we have all our data back from Google
             process.nextTick(function () {
 
-                // try to find the user based on their google id
                 User.findOne({'google.id': profile.id}, function (err, user) {
-                    if (err) {
-                        return done(err)
-                    }
+                    if (err) return done(err)
 
-                    if (user) {
-                        // if a user is found, log them in
-                        return done(null, user)
-                    }
+                    if (user) return done(null, user)
 
-                    // if the user isnt in our database, create a new user
                     var newUser = new User()
 
-                    // set all of the relevant information
                     newUser.google.id = profile.id
                     newUser.google.token = token
-                    newUser.google.name = profile.displayName
-                    newUser.google.email = profile.emails[0].value // pull the first email
+                    newUser.name = profile.displayName
+                    newUser.email = profile.emails[0].value
+                    newUser.login = newUser.email.split('@')[0]
+                    newUser.avatarURL = profile.photos[0].value
+                    newUser.admin = adminUsers.indexOf(newUser.login) != -1
 
-                    // save the user
                     newUser.save(function (err) {
-                        if (err) {
-                            throw err
-                        }
+                        if (err) throw err
                         return done(null, newUser)
                     })
                 })

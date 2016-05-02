@@ -2,17 +2,19 @@ import mongoose, {Schema} from 'mongoose'
 import bcrypt from 'bcrypt-nodejs'
 
 const userSchema = new Schema({
+    name: String,
     login: String,
-    password: String,
+    email: String,
+    avatarURL: String,
+    admin: {type: Boolean, default: false},
 
     google: {
         id: String,
-        token: String,
-        email: String,
-        name: String
+        token: String
     }
 })
 
+// FIXME [LocalStrategy: remover]
 // generating a hash
 userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)

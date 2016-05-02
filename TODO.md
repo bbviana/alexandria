@@ -1,8 +1,8 @@
 # Parei
 
 # Next
-- login com google
-- recuperar avatar do google (nao precisa salvar no banco, bast exibir)
+- proteger telas se user nao logado
+- passar user ao criar snippet
 
 - no resultado da busca, usar MarkdownViewer
 - mudar Snippet -> User para population
@@ -10,7 +10,7 @@
 - snippets favoritos
 
 - ordenar snippets por recentemente editados (hoje os criados vem antes)
-- usar um error handler no server, ele da crash (acho que ja esta ok)
+- usar um error handler no server, ele da crash (simule com um undefined por ex)
 - fuzzy search text com elastic search (mongo nao faz)
 - permanent link
 - se elemento nao existe => 404

@@ -12,4 +12,5 @@ browser-sync start \
 --no-open \
 --logLevel info \
 --proxy localhost:8000 \
+--no-notify \
 --files "$npm_package_config_views_styles_dest/*.css, $npm_package_config_views_bundle_dest/*.js"

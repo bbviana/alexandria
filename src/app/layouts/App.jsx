@@ -5,6 +5,7 @@ import {Link} from 'react-router'
 import AppStore from '~/app/AppStore'
 
 import Button from '~/app/components/Button'
+import Icon from '~/app/components/Icon'
 
 import Events from '~/app/helpers/Events'
 import connect from '~/app/helpers/connect'
@@ -12,38 +13,66 @@ import connect from '~/app/helpers/connect'
 import FlashMessage from './FlashMessage'
 //endregion
 
+const s = {}
+
 class App extends Component {
 
-    render = ({flashMessage} = this.props) => {
-        const {hideHeaderSearch} = this.props
-
-        return (
-            <div style={s.root}>
-                <Header hideSearch={hideHeaderSearch}/>
-                {flashMessage &&
-                <FlashMessage message={flashMessage}/>}
-
-                {this.props.children}
-            </div>
-        )
+    componentDidMount = () => {
+        AppStore.loadUser()
     }
+
+    render = ({flashMessage, hideHeaderSearch, user} = this.props) =>
+        <div style={s.root}>
+            <Header hideSearch={hideHeaderSearch} user={user}/>
+
+            {flashMessage &&
+            <FlashMessage message={flashMessage}/>}
+
+            {this.props.children}
+        </div>
 }
 
-const Header = ({hideSearch}) =>
+
+const Header = ({hideSearch, user}) =>
     <div style={s.header}>
         <div className="container">
             <Logo />
+
             {!hideSearch && <SearchInput />}
+
             <div style={{float: 'right'}}>
-                <CreateBtn />
-                <UserProfile />
+                {user.login && <CreateButton />}
+
+                {user.login ?
+                    <UserProfile user={user}/> :
+                    <SignInButton />
+                }
             </div>
         </div>
     </div>
 
+s.header = {
+    backgroundColor: '#f5f5f5',
+    borderBottom: '1px solid #e5e5e5',
+    height: 50,
+    lineHeight: '30px',
+    paddingTop: 10,
+    paddingBottom: 10
+}
+
 
 const Logo = () =>
     <a style={s.logo} href="/">Alexandria</a>
+
+s.logo = {
+    display: 'inline-block',
+    fontWeight: 'bold',
+    fontSize: 24,
+    fontFamily: 'monospace',
+    marginRight: 15,
+    textDecoration: 'none',
+    verticalAlign: 'middle'
+}
 
 
 const SearchInput = () =>
@@ -55,12 +84,29 @@ const SearchInput = () =>
         onKeyUp={e => Events.handleEnterKey(e, () => AppStore.gotoSearch(e.target.value))}
     />
 
+s.searchInput = {
+    display: 'inline-block',
+    height: 30,
+    verticalAlign: 'middle',
+    width: 360
+}
 
-const CreateBtn = () =>
-    <div style={s.createBtn}>
-        <Button size="small" onClick={() => AppStore.gotoCreate()}>Novo snippet</Button>
-    </div>
 
+const CreateButton = () =>
+    <Button size="small" onClick={() => AppStore.gotoCreate()}>Novo snippet</Button>
+
+
+const SignInButton = () =>
+    <a className="btn btn-danger" href="/auth/google">
+        <Icon name="google-plus"/> Entrar
+    </a>
+
+s.signInButton = {
+    backgroundColor: '#b33630',
+    backgroundImage: 'linear-gradient(#dc5f59, #b33630)',
+    borderColor: '#cd504a',
+    color: '#fff'
+}
 
 class UserProfile extends Component {
 
@@ -75,37 +121,41 @@ class UserProfile extends Component {
             }
         })
 
-    toggleDropdown = () =>
-        this.setState({dropdownOpen: !this.state.dropdownOpen})
+    toggleDropdown = () => this.setState({dropdownOpen: !this.state.dropdownOpen})
 
-    closeDropdown = () =>
-    this.state.dropdownOpen && this.setState({dropdownOpen: false})
+    closeDropdown = () => this.state.dropdownOpen && this.setState({dropdownOpen: false})
 
 
-    render = ({dropdownOpen} = this.state) =>
-        <div style={s.userProfile} className="btn-group">
-            <button style={s.userProfileButton} className="dropdown-toggle" onClick={this.toggleDropdown}>
-                <img style={s.avatar} className="dropdown-toggle"
-                     src="https://avatars3.githubusercontent.com/u/1538307?v=3&s=52"/>
+    render = ({dropdownOpen} = this.state, {user} = this.props) =>
+        <div style={s.userProfile.root} className="btn-group">
+            <button
+                style={s.userProfile.button}
+                className="dropdown-toggle"
+                onClick={this.toggleDropdown}
+            >
+                <img style={s.userProfile.avatar} className="dropdown-toggle" src={user.avatarURL}/>
                 <span className="caret dropdown-toggle"/>
             </button>
             {dropdownOpen &&
-            <ul style={s.userProfileDropdown} className="dropdown-menu">
-                <li><a href="#">Logado como <b>bbviana</b></a></li>
+            <ul style={s.userProfile.dropdown} className="dropdown-menu">
+                <li style={s.userProfile.loggedAs}>
+                    Logado como <b>{user.login}</b>
+                </li>
                 <li className="divider"/>
                 <li><a href="#">Meus snippets</a></li>
                 <li><a href="#">Snippets favoritos</a></li>
                 <li className="divider"/>
-                <li><a href="#">Sair</a></li>
+                <li><a href="/logout">Sair</a></li>
             </ul>}
         </div>
 }
 
 
-// styles
-
-const s = {
-    root: {},
+s.userProfile = {
+    root: {
+        display: 'inline-block',
+        position: 'relative'
+    },
 
     avatar: {
         borderRadius: 3,
@@ -114,42 +164,7 @@ const s = {
         width: 20
     },
 
-    createBtn: {
-        display: 'inline-block'
-    },
-
-    header: {
-        backgroundColor: '#f5f5f5',
-        borderBottom: '1px solid #e5e5e5',
-        height: 50,
-        lineHeight: '30px',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-
-    logo: {
-        display: 'inline-block',
-        fontWeight: 'bold',
-        fontSize: 24,
-        fontFamily: 'monospace',
-        marginRight: 15,
-        textDecoration: 'none',
-        verticalAlign: 'middle'
-    },
-
-    searchInput: {
-        display: 'inline-block',
-        height: 30,
-        verticalAlign: 'middle',
-        width: 360
-    },
-
-    userProfile: {
-        display: 'inline-block',
-        position: 'relative'
-    },
-
-    userProfileButton: {
+    button: {
         background: 'transparent',
         border: 'none',
         lineHeight: '20px',
@@ -157,17 +172,23 @@ const s = {
         padding: '4px 8px'
     },
 
-    userProfileDropdown: {
+    dropdown: {
         display: 'block',
         left: 'initial',
         marginTop: 10,
         right: 0
+    },
+
+    loggedAs: {
+        padding: '3px 20px',
+        whiteSpace: 'nowrap'
     }
 }
 
 
 const mapStateToProps = state => ({
-    flashMessage: state.flashMessage
+    flashMessage: state.flashMessage,
+    user: state.user
 })
 
 export default connect(App, AppStore, mapStateToProps)

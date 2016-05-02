@@ -25,6 +25,7 @@
 
                 <p>
                     <strong>id</strong>: <%= user._id %><br>
+                    <strong>admin</strong>: <%= user.admin %><br>
                     <strong>login</strong>: <%= user.login %><br>
                     <strong>password</strong>: <%= user.password %>
                 </p>
@@ -38,10 +39,11 @@
                 <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
 
                 <p>
-                    <strong>id</strong>: <%= user.google.id %><br>
-                    <strong>token</strong>: <%= user.google.token %><br>
-                    <strong>email</strong>: <%= user.google.email %><br>
-                    <strong>name</strong>: <%= user.google.name %>
+                    <strong>id</strong>: <%= user.google.id %><br/  >
+                    <strong>token</strong>: <%= user.google.token %><br/>
+                    <strong>email</strong>: <%= user.email %><br/>
+                    <strong>name</strong>: <%= user.name %><br/>
+                    <strong>avatar</strong>: <img src="<%= user.avatarURL %>" />
                 </p>
 
             </div>
