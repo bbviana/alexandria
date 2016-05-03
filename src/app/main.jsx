@@ -8,6 +8,7 @@ import App from '~/app/layouts/App'
 import CreateSnippet from '~/snippet/CreateSnippet'
 import EditSnippet from '~/snippet/EditSnippet'
 import SearchSnippet from '~/snippet/SearchSnippet'
+import UserSnippets from '~/snippet/UserSnippets'
 import ViewSnippet from '~/snippet/ViewSnippet'
 
 //endregion
@@ -19,6 +20,7 @@ const router = (
         <Route path="view/:id" component={ViewSnippet}/>
         <Route path="search" component={SearchSnippet}/>
         <Route path="edit/:id" component={EditSnippet}/>
+        <Route path=":user" component={UserSnippets}/>
     </Router>
 )
 
