@@ -18,6 +18,9 @@ import Info from './Info'
 import RemoveSnippetBtn from './RemoveSnippetBtn'
 //endregion
 
+const s = {}
+
+
 class View extends Component {
     componentDidMount = () => {
         AppStore.load(this.props.params.id)
@@ -49,13 +52,15 @@ class View extends Component {
 }
 
 
-// Header
-
 const Actions = ({id}) =>
     <div style={s.actions}>
         <EditBtn id={id}/>
         <RemoveSnippetBtn id={id}/>
     </div>
+
+s.actions = {
+    float: 'right'
+}
 
 
 const EditBtn = ({id}) =>
@@ -64,14 +69,18 @@ const EditBtn = ({id}) =>
     </Button>
 
 
-// Content
-
 const Description = ({value}) =>
     <div style={s.description}>{value}</div>
 
+s.description = {
+    marginBottom: 20,
+    fontSize: 20,
+    color: '#666'
+}
+
 
 const File = ({file}) =>
-    <div style={s.file} id={'ANCHOR'}>
+    <div style={s.file.root} id={'ANCHOR'}>
         <FileHeader value={file.name}/>
 
         {file.type === "md" ?
@@ -92,51 +101,38 @@ const File = ({file}) =>
 
 
 const FileHeader = ({value}) =>
-    <div style={s.fileHeader}>
+    <div style={s.file.header}>
         <Icon name="file-code-o"/>
-        <a style={s.fileName} href="#ANCHOR" title="Link Permanente">
+        <a style={s.file.name} href="#ANCHOR" title="Link Permanente">
             {value}
         </a>
     </div>
 
-
-// Styles
-
-const s = {}
-
-s.actions = {
-    float: 'right'
-}
-
-s.description = {
-    marginBottom: 20,
-    fontSize: 20,
-    color: '#666'
-}
-
 s.file = {
-    marginTop: 20,
-    marginBottom: 15,
-    border: '1px solid #ddd',
-    borderRadius: 3
-}
+    root: {
+        marginTop: 20,
+        marginBottom: 15,
+        border: '1px solid #ddd',
+        borderRadius: 3
+    },
 
-s.fileHeader = {
-    backgroundColor: '#f7f7f7',
-    borderBottom: '1px solid #d8d8d8',
-    borderTopLeftRadius: 2,
-    borderTopRightRadius: 2,
-    fontSize: 14,
-    fontFamily: 'monospace',
-    height: 45,
-    lineHeight: '35px',
-    padding: '5px 10px'
-}
+    header: {
+        backgroundColor: '#f7f7f7',
+        borderBottom: '1px solid #d8d8d8',
+        borderTopLeftRadius: 2,
+        borderTopRightRadius: 2,
+        fontSize: 14,
+        fontFamily: 'monospace',
+        height: 45,
+        lineHeight: '35px',
+        padding: '5px 10px'
+    },
 
-s.fileName = {
-    fontWeight: 'bold',
-    marginLeft: 10,
-    textDecoration: 'none'
+    name: {
+        fontWeight: 'bold',
+        marginLeft: 10,
+        textDecoration: 'none'
+    }
 }
 
 

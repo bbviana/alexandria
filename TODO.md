@@ -2,10 +2,8 @@
 
 # Next
 - proteger telas se user nao logado
-- passar user ao criar snippet
 
 - no resultado da busca, usar MarkdownViewer
-- mudar Snippet -> User para population
 - meus snippets
 - snippets favoritos
 
@@ -15,10 +13,10 @@
 - permanent link
 - se elemento nao existe => 404
 - criação: so habilitar quando tiver mais de  1 file (validação)
-- ao salvar e voltar pra view, scrollar pro inicio
-- aumentar lineHeight sem efeito "pular"
 
 # Melhorias, nao imprescindíveis para release
+- aumentar lineHeight sem efeito "pular"
+- ao salvar e voltar pra view, scrollar pro inicio
 - botao Ctrl+C (clipboard) em cada File
 - middleware para logar rotas "removendo snippet 122..."
 - unificar navegação: link href e gotoXX

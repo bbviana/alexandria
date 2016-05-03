@@ -6,7 +6,6 @@ import Snippet from './Snippet'
 
 const router = new Router()
     .get('/search', (req, res) => { // search
-
         const searchRegex = req.query.query && new RegExp(req.query.query, 'i')
         const page = parseInt(req.query.page) || 1
         const pageSize = 2
@@ -64,6 +63,7 @@ const router = new Router()
                     description: searchRegex,
                     'files.type': language
                 })
+                .populate('user')
                 .sort({created: -1})
                 .skip(pageSize * (page - 1))
                 .limit(pageSize)
@@ -91,6 +91,7 @@ const router = new Router()
     .get('/:id', (req, res) => { // load
         Snippet
             .findById(req.params.id)
+            .populate('user')
             .exec((err, data) => {
                 err && res.send(err)
 
@@ -104,7 +105,7 @@ const router = new Router()
         const snippet = new Snippet({
             description: newData.description,
             files: newData.files,
-            user: new User({login: "bbviana"})
+            user: req.user.id
         })
 
         snippet.save(err => {

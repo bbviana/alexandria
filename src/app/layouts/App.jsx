@@ -188,7 +188,7 @@ s.userProfile = {
 
 const mapStateToProps = state => ({
     flashMessage: state.flashMessage,
-    user: state.user
+    user: state.loggedUser
 })
 
 export default connect(App, AppStore, mapStateToProps)

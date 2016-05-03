@@ -250,6 +250,7 @@ s.resultsPanel = {
 
 }
 
+
 const Snippet = ({value}) =>
     <div style={s.snippet.root}>
         <div>
@@ -275,7 +276,7 @@ s.snippet = {
 
     description: {
         color: '#767676',
-        marginLeft: 38
+        marginLeft: 42
     }
 }
 

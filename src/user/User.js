@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt-nodejs'
 
 const userSchema = new Schema({
     name: String,
-    login: String,
-    email: String,
+    login: {type: String, unique: true},
+    email: {type: String, unique: true},
     avatarURL: String,
     admin: {type: Boolean, default: false},
 

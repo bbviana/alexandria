@@ -9,7 +9,7 @@ import Store from '~/app/helpers/Store'
 // FIXME usar Immutable no state
 
 class State {
-    user = {
+    loggedUser = {
         login: null,
         avatar: null
     }
@@ -20,6 +20,7 @@ class State {
     created = null
     description = ''
     files = [{name: null, content: null, type: null}]
+    user = {}
 
     currentPage = null
     languages = []
@@ -43,11 +44,11 @@ class AppStore extends Store {
     }
 
     // User
-    loadUser(){
+    loadUser() {
         Request
-            .get('api/users/logged')
+            .get('/api/users/logged')
             .then(data => {
-                this.dispatch(data)
+                this.dispatch({loggedUser: data})
             })
     }
 
@@ -174,7 +175,7 @@ class AppStore extends Store {
         let {query, path, state} = args
 
         this.state = new State()
-        if(state) Object.assign(this.state, state)
+        if (state) Object.assign(this.state, state)
         this.dispatch(this.state)
 
         browserHistory.push({

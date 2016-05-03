@@ -1,26 +1,62 @@
 import React, {Component, PropTypes} from 'react'
 import Dates from '~/app/helpers/Dates'
 
+const s = {}
+
+// ---
+
 class Info extends Component {
 
     render = ({created, file, snippetId, updated, user} = this.props) =>
-        <div style={s.root}>
-            <Avatar />
-            <Breadcrumb file={file} snippetId={snippetId} user={user}/>
-            <TimeStamp created={created} updated={updated}/>
+        <div style={s.info.root}>
+            <Avatar avatarURL={user.avatarURL}/>
+            <div style={s.info.rightArea}>
+                <Breadcrumb file={file} snippetId={snippetId} user={user}/>
+                <TimeStamp created={created} updated={updated}/>
+            </div>
         </div>
 }
 
-const Avatar = () =>
-    <img style={s.avatar} src="https://avatars3.githubusercontent.com/u/1538307?v=3&s=52"/>
+s.info = {
+    root: {
+        display: 'inline-block'
+    },
 
+    rightArea: {
+        display: 'inline-block',
+        paddingLeft: 10
+    }
+}
+
+// ---
+
+const Avatar = ({avatarURL}) =>
+    <img style={s.avatar} src={avatarURL}/>
+
+s.avatar = {
+    borderRadius: 3,
+    display: 'inline-block',
+    height: 32,
+    verticalAlign: 'top',
+    width: 32
+}
+
+// ---
 
 const Breadcrumb = ({file, snippetId, user}) =>
     <div style={s.breadcrumb}>
-        <a href={"/" + user.login}>{user.login}</a> /
-        <strong><a href={"/view/" + snippetId}>{file}</a></strong>
+        <a href={"/" + user.login}>{user.login}</a>
+        &nbsp;/&nbsp;
+        <a href={"/view/" + snippetId}>{file}</a>
     </div>
 
+s.breadcrumb = {
+    display: 'inline-block',
+    fontSize: 14,
+    fontWeight: 'bold'
+}
+
+// ---
 
 const TimeStamp = ({created, updated}) => {
     let date = updated ? new Date(updated) : new Date(created)
@@ -33,33 +69,11 @@ const TimeStamp = ({created, updated}) => {
     )
 }
 
-
-// Styles
-
-const s = {}
-
-s.root = {
-    display: 'inline-block'
-}
-
-s.avatar = {
-    borderRadius: 3,
-    display: 'inline-block',
-    height: 28,
-    width: 28
-}
-
-s.breadcrumb = {
-    display: 'inline-block',
-    fontSize: 20,
-    marginLeft: 10,
-    verticalAlign: 'middle'
-}
-
 s.timestamp = {
     color: '#999',
-    fontSize: 13,
-    marginLeft: s.avatar.width + s.breadcrumb.marginLeft
+    fontSize: 11
 }
+
+// ---
 
 export default Info
