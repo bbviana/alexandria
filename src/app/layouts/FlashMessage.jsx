@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
-import AppStore from '~/app/AppStore'
+import appActions from '~/app/actions/appActions'
 import Icon from '~/app/components/Icon'
 
 class FlashMessage extends Component {
@@ -10,7 +10,7 @@ class FlashMessage extends Component {
             <div className="container">
                 {message}
 
-                <button style={s.closeButton} onClick={() => AppStore.clearMessage()}>
+                <button style={s.closeButton} onClick={() => appActions.clearMessage()}>
                     <Icon name="times" />
                 </button>
             </div>

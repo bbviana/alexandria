@@ -63,7 +63,7 @@ const SearchBar = ({query}) =>
                 value={query}
                 type="text"
                 onChange={e => searchActions.changeQuery(e.target.value)}
-                onKeyUp={e => Events.handleEnterKey(e, () => AppStore.search({page: 1}))}
+                onKeyUp={e => Events.handleEnterKey(e, () => searchActions.search({page: 1}))}
             />
         </div>
         <div className="col-md-1">

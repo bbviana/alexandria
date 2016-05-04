@@ -1,17 +1,36 @@
 class Store {
+    state = null
+
     listeners = new Set();
 
-    listen(listener){
+    getState() {
+        if (!this.state) {
+            this.state = {}
+
+            for (let propertyName in this) {
+                if (!this.hasOwnProperty(propertyName)) {
+                    continue
+                }
+                this.state[propertyName] = this[propertyName]
+            }
+        }
+
+        return this.state
+    }
+
+
+    listen(listener) {
         this.listeners.add(listener)
     }
 
-    unlisten(listener){
+    unlisten(listener) {
         this.listeners.delete(listener)
     }
 
-    dispatch(newState){
+
+    dispatch(newState) {
         // FIXME esse setState está forçando a renderização da tela inteira (teste em Create)
-        if(this.state){
+        if (this.state) {
             Object.assign(this.state, newState);
         }
         this.listeners.forEach(it => it.setState(newState))

@@ -1,6 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
+import navigationActions from '~/app/actions/navigationActions'
 import snippetActions from '~/app/actions/snippetActions'
 
 import Button from '~/app/components/Button'
@@ -66,7 +67,7 @@ s.actions = {
 
 
 const EditBtn = ({id}) =>
-    <Button size="small" onClick={() => AppStore.gotoEdit(id)}>
+    <Button size="small" onClick={() => navigationActions.gotoEdit(id)}>
         <Icon name="pencil"/> Editar
     </Button>
 

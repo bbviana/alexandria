@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import AppStore from '~/app/AppStore'
+import snippetActions from '~/app/actions/snippetActions'
 
 class Description extends Component {
 
@@ -11,7 +11,7 @@ class Description extends Component {
             placeholder="Descrição do snippet..."
             type="text"
             value={value}
-            onChange={e => AppStore.changeDescription(e.target.value)}
+            onChange={e => snippetActions.changeDescription(e.target.value)}
         />
 }
 

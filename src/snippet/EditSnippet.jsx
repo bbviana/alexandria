@@ -1,6 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
+import navigationActions from '~/app/actions/navigationActions'
 import snippetActions from '~/app/actions/snippetActions'
 
 import Button from '~/app/components/Button'
@@ -72,10 +73,10 @@ s.edit = {
 
 const Actions = ({id}) =>
     <div>
-        <Button style={{marginRight: 10}} type="danger" onClick={() => AppStore.gotoView(id)}>
+        <Button style={{marginRight: 10}} type="danger" onClick={() => navigationActions.gotoView(id)}>
             Cancelar Edição
         </Button>
-        <Button type="primary" onClick={() => AppStore.save()}>
+        <Button type="primary" onClick={() => snippetActions.save()}>
             Salvar alterações
         </Button>
     </div>

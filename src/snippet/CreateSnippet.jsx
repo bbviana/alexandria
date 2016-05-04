@@ -1,6 +1,8 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
+import snippetActions from '~/app/actions/snippetActions'
+
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
 
@@ -35,7 +37,7 @@ class Create extends Component {
 
 
 const saveButton = (
-    <Button onClick={() => AppStore.create()}>
+    <Button onClick={() => snippetActions.create()}>
         Criar snippet
     </Button>
 )

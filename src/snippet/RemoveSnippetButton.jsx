@@ -1,7 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
-import AppStore from '~/app/AppStore'
+import snippetActions from '~/app/actions/snippetActions'
 
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
@@ -11,7 +11,7 @@ class RemoveSnippetBtn extends Component {
 
     handleClick = ({id} = this.props) => {
         if (confirm("Tem certeza de que deseja remover este Snippet?")) {
-            AppStore.remove(id)
+            snippetActions.remove(id)
         }
     }
 

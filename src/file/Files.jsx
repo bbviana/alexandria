@@ -1,7 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
-import AppStore from '~/app/AppStore'
+import snippetActions from '~/app/actions/snippetActions'
 
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
@@ -41,7 +41,7 @@ const File = ({file, showDeleteFileBtn}) => {
                 <CodeEditor
                     mode={file.type}
                     value={file.content}
-                    onChange={newValue => AppStore.changeFileContent(file, newValue)}/>
+                    onChange={newValue => snippetActions.changeFileContent(file, newValue)}/>
 
                 {markdownMode &&
                 <MarkdownViewer style={s.file.markdownViewer} code={file.content}/>}
@@ -74,7 +74,7 @@ const FileName = ({file, showDeleteFileBtn}) =>
                 placeholder="Nome do arquivo incluindo a extensão..."
                 type="text"
                 value={file.name}
-                onChange={e => AppStore.changeFileName(file, e.target.value)}/>
+                onChange={e => snippetActions.changeFileName(file, e.target.value)}/>
 
             {showDeleteFileBtn &&
             <span className="input-group-btn">
@@ -94,7 +94,7 @@ const DeleteFileBtn = ({file}) =>
     <Button
         style={s.deleteButton}
         type="danger"
-        onClick={() => AppStore.removeFile(file)}>
+        onClick={() => snippetActions.removeFile(file)}>
         <Icon name="trash"/>
     </Button>
 
@@ -107,7 +107,7 @@ s.deleteButton = {
 
 const Toolbar = ({actions}) =>
     <div style={s.toolbar.root}>
-        <Button onClick={() => AppStore.addFile()}>
+        <Button onClick={() => snippetActions.addFile()}>
             <Icon name="plus-square"/> Adicionar arquivo
         </Button>
         <div style={s.toolbar.right}>
