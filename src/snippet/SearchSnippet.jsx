@@ -1,7 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
-import AppStore from '~/app/AppStore'
+import searchActions from '~/app/actions/searchActions'
 
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
@@ -19,6 +19,8 @@ import App from '~/app/layouts/App'
 import Container from '~/app/layouts/Container'
 import PageHeader from '~/app/layouts/PageHeader'
 
+import searchStore from '~/app/stores/searchStore'
+
 import Info from './Info'
 //endregion
 
@@ -28,7 +30,7 @@ class Search extends Component {
 
     componentDidMount = () => {
         const query = this.props.location.query
-        AppStore.search({query: query.query, language: query.language, page: query.page})
+        searchActions.search({query: query.query, language: query.language, page: query.page})
     }
 
     render = ({query, totalResults} = this.props) => {
@@ -60,12 +62,12 @@ const SearchBar = ({query}) =>
                 autoFocus
                 value={query}
                 type="text"
-                onChange={e => AppStore.changeQuery(e.target.value)}
+                onChange={e => searchActions.changeQuery(e.target.value)}
                 onKeyUp={e => Events.handleEnterKey(e, () => AppStore.search({page: 1}))}
             />
         </div>
         <div className="col-md-1">
-            <Button onClick={() => AppStore.search({page: 1})}>
+            <Button onClick={() => searchActions.search({page: 1})}>
                 Buscar
             </Button>
         </div>
@@ -374,21 +376,21 @@ const Pagination = ({currentPage, totalPages}) =>
     <nav style={s.pagination}>
         <ul className="pagination">
             <li className={currentPage == 1 && 'disabled'}>
-                <a href="javascript: void(0)" onClick={() => AppStore.search({page: currentPage - 1})}>
+                <a href="javascript: void(0)" onClick={() => searchActions.search({page: currentPage - 1})}>
                     <span>&laquo;</span>
                 </a>
             </li>
 
             {Arrays.range(1, totalPages).map((page) =>
                 <li className={page == currentPage && 'active'} key={page}>
-                    <a href="javascript: void(0)" onClick={() => AppStore.search({page: page})}>
+                    <a href="javascript: void(0)" onClick={() => searchActions.search({page: page})}>
                         {page}
                     </a>
                 </li>
             )}
 
             <li className={currentPage == totalPages && 'disabled'}>
-                <a href="javascript: void(0)" onClick={() => AppStore.search({page: currentPage + 1})}>
+                <a href="javascript: void(0)" onClick={() => searchActions.search({page: currentPage + 1})}>
                     <span>&raquo;</span>
                 </a>
             </li>
@@ -399,7 +401,6 @@ s.pagination = {
     textAlign: 'center'
 }
 
-// Connect Store
 
 const mapStateToProps = state => ({
     currentPage: state.currentPage,
@@ -411,4 +412,4 @@ const mapStateToProps = state => ({
     totalResults: state.totalResults
 })
 
-export default connect(Search, AppStore, mapStateToProps)
+export default connect(Search, searchStore, mapStateToProps)

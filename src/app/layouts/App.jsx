@@ -2,13 +2,16 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 
-import AppStore from '~/app/AppStore'
+import appActions from '~/app/actions/appActions'
+import navigationActions from '~/app/actions/navigationActions'
 
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
 
 import Events from '~/app/helpers/Events'
 import connect from '~/app/helpers/connect'
+
+import appStore from '~/app/stores/appStore'
 
 import FlashMessage from './FlashMessage'
 //endregion
@@ -18,7 +21,7 @@ const s = {}
 class App extends Component {
 
     componentDidMount = () => {
-        AppStore.loadUser()
+        appActions.loadUser()
     }
 
     render = ({flashMessage, hideHeaderSearch, user} = this.props) =>
@@ -81,7 +84,7 @@ const SearchInput = () =>
         className="form-control"
         placeholder="Busca..."
         type="text"
-        onKeyUp={e => Events.handleEnterKey(e, () => AppStore.gotoSearch(e.target.value))}
+        onKeyUp={e => Events.handleEnterKey(e, () => navigationActions.gotoSearch(e.target.value))}
     />
 
 s.searchInput = {
@@ -93,7 +96,9 @@ s.searchInput = {
 
 
 const CreateButton = () =>
-    <Button size="small" onClick={() => AppStore.gotoCreate()}>Novo snippet</Button>
+    <Button size="small" onClick={() => navigationActions.gotoCreate()}>
+        Novo snippet
+    </Button>
 
 
 const SignInButton = () =>
@@ -107,6 +112,7 @@ s.signInButton = {
     borderColor: '#cd504a',
     color: '#fff'
 }
+
 
 class UserProfile extends Component {
 
@@ -191,4 +197,4 @@ const mapStateToProps = state => ({
     user: state.loggedUser
 })
 
-export default connect(App, AppStore, mapStateToProps)
+export default connect(App, appStore, mapStateToProps)

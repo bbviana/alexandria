@@ -10,7 +10,7 @@ class Store {
     }
 
     dispatch(newState){
-        // FIXME esse setState esta forçando a renderização da tela inteira (teste em Create)
+        // FIXME esse setState está forçando a renderização da tela inteira (teste em Create)
         if(this.state){
             Object.assign(this.state, newState);
         }

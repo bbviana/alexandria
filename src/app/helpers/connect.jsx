@@ -4,7 +4,7 @@ export default function connect(ComposedComponent, store, mapStateToProps) {
     class Connected extends Component {
         constructor() {
             super()
-            this.state = store.state
+            this.state = store.getState()
         }
 
         componentDidMount = () => store.listen(this)

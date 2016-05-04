@@ -31,3 +31,4 @@
 - middleware para logar rotas "removendo snippet 122..."
 - unificar navegação: link href e gotoXX
 - busca avançada (ver cheat sheet do gist)
+- usar Immutable nas stores

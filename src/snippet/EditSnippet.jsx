@@ -1,7 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
-import AppStore from '~/app/AppStore'
+import snippetActions from '~/app/actions/snippetActions'
 
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
@@ -12,25 +12,29 @@ import App from '~/app/layouts/App'
 import Container from '~/app/layouts/Container'
 import PageHeader from '~/app/layouts/PageHeader'
 
+import snippetStore from '~/app/stores/snippetStore'
+
 import Files from '~/file/Files'
 
 import Description from './Description'
-import RemoveSnippetBtn from './RemoveSnippetBtn'
+import RemoveSnippetButtom from './RemoveSnippetButton'
 //endregion
+
+const s = {}
 
 class Edit extends Component {
     componentDidMount = () => {
-        AppStore.load(this.props.params.id)
+        snippetActions.load(this.props.params.id)
     }
 
     render = ({_id, description, files} = this.props) =>
         <App>
             <PageHeader>
-                <Icon style={s.codeIcon} name="file-code-o"/>
-                <span style={s.title}>
+                <Icon style={s.edit.codeIcon} name="file-code-o"/>
+                <span style={s.edit.title}>
                     Editando <a href={"/view/" + _id}>{files[0].name}</a>
                 </span>
-                <RemoveSnippetBtn style={s.removeSnippetBtn} id={_id}/>
+                <RemoveSnippetButtom style={s.edit.removeButton} id={_id}/>
             </PageHeader>
 
             <Container>
@@ -45,21 +49,7 @@ class Edit extends Component {
         </App>
 }
 
-
-const Actions = ({id}) =>
-    <div>
-        <Button style={{marginRight: 10}} type="danger" onClick={() => AppStore.gotoView(id)}>
-            Cancelar Edição
-        </Button>
-        <Button type="primary" onClick={() => AppStore.save()}>
-            Salvar alterações
-        </Button>
-    </div>
-
-
-// Styles
-
-const s = {
+s.edit = {
     codeIcon: {
         color: '#bbb',
         fontSize: 28,
@@ -74,10 +64,22 @@ const s = {
         verticalAlign: 'middle'
     },
 
-    removeSnippetBtn: {
+    removeButton: {
         float: 'right'
     }
 }
+
+
+const Actions = ({id}) =>
+    <div>
+        <Button style={{marginRight: 10}} type="danger" onClick={() => AppStore.gotoView(id)}>
+            Cancelar Edição
+        </Button>
+        <Button type="primary" onClick={() => AppStore.save()}>
+            Salvar alterações
+        </Button>
+    </div>
+
 
 const mapStateToProps = state => ({
     _id: state._id,
@@ -85,4 +87,4 @@ const mapStateToProps = state => ({
     files: state.files
 })
 
-export default connect(Edit, AppStore, mapStateToProps)
+export default connect(Edit, snippetStore, mapStateToProps)

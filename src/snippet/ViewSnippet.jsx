@@ -1,7 +1,7 @@
 //region Imports
 import React, {Component, PropTypes} from 'react'
 
-import AppStore from '~/app/AppStore'
+import snippetActions from '~/app/actions/snippetActions'
 
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
@@ -14,8 +14,10 @@ import App from '~/app/layouts/App'
 import Container from '~/app/layouts/Container'
 import PageHeader from '~/app/layouts/PageHeader'
 
+import snippetStore from '~/app/stores/snippetStore'
+
 import Info from './Info'
-import RemoveSnippetBtn from './RemoveSnippetBtn'
+import RemoveSnippetButton from './RemoveSnippetButton'
 //endregion
 
 const s = {}
@@ -23,7 +25,7 @@ const s = {}
 
 class View extends Component {
     componentDidMount = () => {
-        AppStore.load(this.props.params.id)
+        snippetActions.load(this.props.params.id)
     }
 
     render = ({_id, created, description, files, updated, user} = this.props) =>
@@ -55,7 +57,7 @@ class View extends Component {
 const Actions = ({id}) =>
     <div style={s.actions}>
         <EditBtn id={id}/>
-        <RemoveSnippetBtn id={id}/>
+        <RemoveSnippetButton id={id}/>
     </div>
 
 s.actions = {
@@ -148,4 +150,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(View, AppStore, mapStateToProps)
+export default connect(View, snippetStore, mapStateToProps)
