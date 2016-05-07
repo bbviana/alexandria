@@ -1,4 +1,5 @@
 # Parei
+reducers/files.js
 
 # Next
 - meus snippets

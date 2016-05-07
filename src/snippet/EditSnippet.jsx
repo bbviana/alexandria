@@ -1,53 +1,59 @@
 //region Imports
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import navigationActions from '~/app/actions/navigationActions'
-import snippetActions from '~/app/actions/snippetActions'
+import { gotoView, load, save, remove } from '~/app/actions'
 
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
-
-import connect from '~/app/helpers/connect'
 
 import App from '~/app/layouts/App'
 import Container from '~/app/layouts/Container'
 import PageHeader from '~/app/layouts/PageHeader'
 
-import snippetStore from '~/app/stores/snippetStore'
-
 import Files from '~/file/Files'
 
 import Description from './Description'
-import RemoveSnippetButtom from './RemoveSnippetButton'
+import RemoveSnippetButton from './RemoveSnippetButton'
 //endregion
 
 const s = {}
 
-class Edit extends Component {
+class EditSnippet extends Component {
     componentDidMount = () => {
-        snippetActions.load(this.props.params.id)
+        load(this.props.params.id)
     }
 
-    render = ({_id, description, files} = this.props) =>
-        <App>
-            <PageHeader>
-                <Icon style={s.edit.codeIcon} name="file-code-o"/>
-                <span style={s.edit.title}>
-                    Editando <a href={"/view/" + _id}>{files[0].name}</a>
-                </span>
-                <RemoveSnippetButtom style={s.edit.removeButton} id={_id}/>
-            </PageHeader>
+    render = () => {
+        const {id, description, files, onCancel, onRemove, onSave} = this.props
 
-            <Container>
-                <Description value={description}/>
+        return (
+            <App>
+                <PageHeader>
+                    <Icon style={s.edit.codeIcon} name="file-code-o"/>
 
-                <Files
-                    files={files}
-                    actions={<Actions id={_id}/>}
-                />
+                    <span style={s.edit.title}>
+                        Editando <a href={"/view/" + id}>{files[0].name}</a>
+                    </span>
 
-            </Container>
-        </App>
+                    <RemoveSnippetButton
+                        style={s.edit.removeButton}
+                        onClick={onRemove}
+                    />
+                </PageHeader>
+
+                <Container>
+                    <Description value={description}/>
+
+                    <Files
+                        files={files}
+                        actions={actions(onCancel, onSave)}
+                    />
+
+                </Container>
+            </App>
+        )
+    }
 }
 
 s.edit = {
@@ -71,21 +77,32 @@ s.edit = {
 }
 
 
-const Actions = ({id}) =>
+const actions = (onCancel, onSave) =>
     <div>
-        <Button style={{marginRight: 10}} type="danger" onClick={() => navigationActions.gotoView(id)}>
+        <Button style={{marginRight: 10}} type="danger" onClick={onCancel}>
             Cancelar Edição
         </Button>
-        <Button type="primary" onClick={() => snippetActions.save()}>
+        <Button type="primary" onClick={onSave}>
             Salvar alterações
         </Button>
     </div>
 
 
-const mapStateToProps = state => ({
-    _id: state._id,
-    description: state.description,
+// ---
+
+const mapStateToProps = (state) => ({
+    id: state.snippet._id,
+    description: state.snippet.description,
     files: state.files
 })
 
-export default connect(Edit, snippetStore, mapStateToProps)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onCancel: () => gotoView(ownProps.id),
+    onRemove: () => remove(ownProps.id),
+    onSave: save
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditSnippet)

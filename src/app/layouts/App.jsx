@@ -1,17 +1,14 @@
 //region Imports
-import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
-import appActions from '~/app/actions/appActions'
-import navigationActions from '~/app/actions/navigationActions'
+import * as actions from '~/app/actions'
 
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
 
-import Events from '~/app/helpers/Events'
-import connect from '~/app/helpers/connect'
-
-import appStore from '~/app/stores/appStore'
+import { handleEnterKey } from '~/app/helpers/events'
 
 import FlashMessage from './FlashMessage'
 //endregion
@@ -20,31 +17,44 @@ const s = {}
 
 class App extends Component {
 
-    componentDidMount = () => {
-        appActions.loadUser()
+    componentDidMount() {
+        this.props.loadUser()
     }
 
-    render = ({flashMessage, hideHeaderSearch, user} = this.props) =>
-        <div style={s.root}>
-            <Header hideSearch={hideHeaderSearch} user={user}/>
+    render() {
+        const { flashMessage, hideHeaderSearch, user } = this.props
+        const { gotoCreate, gotoSearch } = this.props
 
-            {flashMessage &&
-            <FlashMessage message={flashMessage}/>}
+        return (
+            <div style={s.root}>
+                <Header
+                    showSearch={!hideHeaderSearch}
+                    user={user}
+                    onCreate={gotoCreate}
+                    onSearch={gotoSearch}
+                />
 
-            {this.props.children}
-        </div>
+                {flashMessage &&
+                <FlashMessage message={flashMessage}/>}
+
+                {this.props.children}
+            </div>
+        )
+    }
 }
 
 
-const Header = ({hideSearch, user}) =>
+const Header = ({ showSearch, user, onCreate, onSearch }) =>
     <div style={s.header}>
         <div className="container">
             <Logo />
 
-            {!hideSearch && <SearchInput />}
+            {showSearch &&
+            <SearchInput onEnterKey={onSearch}/>}
 
             <div style={{float: 'right'}}>
-                {user.login && <CreateButton />}
+                {user.login &&
+                <CreateButton onClick={onCreate}/>}
 
                 {user.login ?
                     <UserProfile user={user}/> :
@@ -65,7 +75,9 @@ s.header = {
 
 
 const Logo = () =>
-    <a style={s.logo} href="/">Alexandria</a>
+    <a style={s.logo} href="/">
+        Alexandria
+    </a>
 
 s.logo = {
     display: 'inline-block',
@@ -78,13 +90,13 @@ s.logo = {
 }
 
 
-const SearchInput = () =>
+const SearchInput = ({ onEnterKey }) =>
     <input
         style={s.searchInput}
         className="form-control"
         placeholder="Busca..."
         type="text"
-        onKeyUp={e => Events.handleEnterKey(e, () => navigationActions.gotoSearch(e.target.value))}
+        onKeyUp={(e) => handleEnterKey(e, onEnterKey(e.target.value))}
     />
 
 s.searchInput = {
@@ -95,8 +107,8 @@ s.searchInput = {
 }
 
 
-const CreateButton = () =>
-    <Button size="small" onClick={() => navigationActions.gotoCreate()}>
+const CreateButton = ({ onClick }) =>
+    <Button size="small" onClick={onClick}>
         Novo snippet
     </Button>
 
@@ -115,47 +127,54 @@ s.signInButton = {
 
 
 class UserProfile extends Component {
-
     state = {
         dropdownOpen: false
     }
 
-    componentDidMount = () =>
-        document.addEventListener('click', ({target}) => {
-            if (!target.classList.contains('dropdown-toggle')) {
-                this.closeDropdown()
-            }
+    componentDidMount = () => {
+        document.addEventListener('click', ({ target }) => {
+            !target.classList.contains('dropdown-toggle') && this.closeDropdown()
         })
+    }
 
-    toggleDropdown = () => this.setState({dropdownOpen: !this.state.dropdownOpen})
+    toggleDropdown = () => {
+        this.setState({dropdownOpen: !this.state.dropdownOpen})
+    }
 
-    closeDropdown = () => this.state.dropdownOpen && this.setState({dropdownOpen: false})
+    closeDropdown = () => {
+        this.state.dropdownOpen && this.setState({dropdownOpen: false})
+    }
 
 
-    render = ({dropdownOpen} = this.state, {user} = this.props) =>
-        <div style={s.userProfile.root} className="btn-group">
-            <button
-                style={s.userProfile.button}
-                className="dropdown-toggle"
-                onClick={this.toggleDropdown}
-            >
-                <img style={s.userProfile.avatar} className="dropdown-toggle" src={user.avatarURL}/>
-                <span className="caret dropdown-toggle"/>
-            </button>
-            {dropdownOpen &&
-            <ul style={s.userProfile.dropdown} className="dropdown-menu">
-                <li style={s.userProfile.loggedAs}>
-                    Logado como <b>{user.login}</b>
-                </li>
-                <li className="divider"/>
-                <li><a href="#">Meus snippets</a></li>
-                <li><a href="#">Snippets favoritos</a></li>
-                <li className="divider"/>
-                <li><a href="/logout">Sair</a></li>
-            </ul>}
-        </div>
+    render = () => {
+        const { user } = this.props
+        const { dropdownOpen } = this.state
+
+        return (
+            <div style={s.userProfile.root} className="btn-group">
+                <button
+                    style={s.userProfile.button}
+                    className="dropdown-toggle"
+                    onClick={this.toggleDropdown}
+                >
+                    <img style={s.userProfile.avatar} className="dropdown-toggle" src={user.avatarURL}/>
+                    <span className="caret dropdown-toggle"/>
+                </button>
+                {dropdownOpen &&
+                <ul style={s.userProfile.dropdown} className="dropdown-menu">
+                    <li style={s.userProfile.loggedAs}>
+                        Logado como <b>{user.login}</b>
+                    </li>
+                    <li className="divider"/>
+                    <li><a href="#">Meus snippets</a></li>
+                    <li><a href="#">Snippets favoritos</a></li>
+                    <li className="divider"/>
+                    <li><a href="/logout">Sair</a></li>
+                </ul>}
+            </div>
+        )
+    }
 }
-
 
 s.userProfile = {
     root: {
@@ -192,9 +211,27 @@ s.userProfile = {
 }
 
 
-const mapStateToProps = state => ({
-    flashMessage: state.flashMessage,
+// ---
+
+const mapStateToProps = (state) => ({
+    flashMessage: state.app.flashMessage,
     user: state.loggedUser
 })
 
-export default connect(App, appStore, mapStateToProps)
+
+const mapDispatchToProps = (dispatch) => ({
+    loadUser: () => {
+        actions.loadUser(dispatch)
+    },
+
+    gotoCreate: actions.gotoCreate,
+
+    gotoSearch: (query) => {
+        actions.gotoSearch(query)
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)

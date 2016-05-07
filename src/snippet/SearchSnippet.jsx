@@ -1,5 +1,5 @@
 //region Imports
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import searchActions from '~/app/actions/searchActions'
 

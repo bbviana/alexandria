@@ -1,23 +1,21 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 import Container from './Container'
 
-class PageHeader extends Component {
+const s = {}
 
-    render = () =>
-        <div style={s.root}>
-            <Container>
-                {this.props.children}
-            </Container>
-        </div>
-}
+const PageHeader = ({ children }) =>
+    <div style={s.root}>
+        <Container>
+            {children}
+        </Container>
+    </div>
 
-const s = {
-    root: {
-        backgroundColor: '#fafafa',
-        borderBottom: '1px solid #eee',
-        marginBottom: 20,
-        paddingTop: 20
-    }
+
+s.root = {
+    backgroundColor: '#fafafa',
+    borderBottom: '1px solid #eee',
+    marginBottom: 20,
+    paddingTop: 20
 }
 
 export default PageHeader

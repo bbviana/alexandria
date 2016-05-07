@@ -1,21 +1,18 @@
-import React, {Component, PropTypes} from 'react'
-import Dates from '~/app/helpers/Dates'
+import React, { Component, PropTypes } from 'react'
+import { timeAgo } from '~/app/helpers/dates'
 
 const s = {}
 
-// ---
+const Info = ({ created, file, snippetId, updated, user }) =>
+    <div style={s.info.root}>
+        <Avatar avatarURL={user.avatarURL}/>
 
-class Info extends Component {
-
-    render = ({created, file, snippetId, updated, user} = this.props) =>
-        <div style={s.info.root}>
-            <Avatar avatarURL={user.avatarURL}/>
-            <div style={s.info.rightArea}>
-                <Breadcrumb file={file} snippetId={snippetId} user={user}/>
-                <TimeStamp created={created} updated={updated}/>
-            </div>
+        <div style={s.info.rightArea}>
+            <Breadcrumb file={file} snippetId={snippetId} user={user}/>
+            <TimeStamp created={created} updated={updated}/>
         </div>
-}
+    </div>
+
 
 s.info = {
     root: {
@@ -30,7 +27,7 @@ s.info = {
 
 // ---
 
-const Avatar = ({avatarURL}) =>
+const Avatar = ({ avatarURL }) =>
     <img style={s.avatar} src={avatarURL}/>
 
 s.avatar = {
@@ -43,7 +40,7 @@ s.avatar = {
 
 // ---
 
-const Breadcrumb = ({file, snippetId, user}) =>
+const Breadcrumb = ({ file, snippetId, user }) =>
     <div style={s.breadcrumb}>
         <a href={"/" + user.login}>{user.login}</a>
         &nbsp;/&nbsp;
@@ -58,13 +55,13 @@ s.breadcrumb = {
 
 // ---
 
-const TimeStamp = ({created, updated}) => {
+const TimeStamp = ({ created, updated }) => {
     let date = updated ? new Date(updated) : new Date(created)
     let message = updated ? 'Editado' : 'Criado'
 
     return (
         <div style={s.timestamp} title={date}>
-            {message} {Dates.timeAgo(date)}
+            {message} {timeAgo(date)}
         </div>
     )
 }

@@ -1,18 +1,15 @@
 //region Imports
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import snippetActions from '~/app/actions/snippetActions'
+import * as actions from '~/app/actions'
 
 import Button from '~/app/components/Button'
 import Icon from '~/app/components/Icon'
 
-import connect from '~/app/helpers/connect'
-
 import App from '~/app/layouts/App'
 import Container from '~/app/layouts/Container'
 import PageHeader from '~/app/layouts/PageHeader'
-
-import snippetStore from '~/app/stores/snippetStore'
 
 import Files from '~/file/Files'
 
@@ -21,32 +18,55 @@ import Description from './Description'
 
 const s = {}
 
-class Create extends Component {
+class CreateSnippet extends Component {
 
-    render = ({description, files} = this.props) =>
-        <App>
-            <PageHeader />
+    componentDidMount() {
+        this.props.addEmptyFile()
+    }
 
-            <Container>
-                <Description value={description}/>
+    render = () => {
+        const { description, files, onChangeDescription, onSave } = this.props
 
-                <Files files={files} actions={saveButton}/>
-            </Container>
-        </App>
+        return (
+            <App>
+                <PageHeader />
+
+                <Container>
+                    <Description value={description} onChange={onChangeDescription}/>
+
+                    <Files files={files} actions={saveButton(onSave)}/>
+                </Container>
+            </App>
+        )
+    }
 }
 
 
-const saveButton = (
-    <Button onClick={() => snippetActions.create()}>
+const saveButton = (onClick) =>
+    <Button onClick={onClick}>
         Criar snippet
     </Button>
-)
 
+// ---
 
-
-const mapStateToProps = state => ({
-    description: state.description,
+const mapStateToProps = (state) => ({
+    description: state.snippet.description,
     files: state.files
 })
 
-export default connect(Create, snippetStore, mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+    addEmptyFile: () => {
+        dispatch(actions.addFile())
+    },
+
+    onSave: actions.create,
+
+    onChangeDescription: (value) => {
+        dispatch(actions.changeSnippet('description', value))
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateSnippet)

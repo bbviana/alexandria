@@ -1,17 +1,15 @@
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
 
-class Container extends Component {
+const s = {}
 
-    render = () =>
-        <div style={s.root} className="container">
-            {this.props.children}
-        </div>
-}
+const Container = ({ children }) =>
+    <div style={s.root} className="container">
+        {children}
+    </div>
 
-const s = {
-    root: {
-        marginBottom: 20
-    }
+
+s.root = {
+    marginBottom: 20
 }
 
 export default Container

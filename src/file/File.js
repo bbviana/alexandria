@@ -1,5 +1,5 @@
-import mongoose, {Schema} from 'mongoose'
-import Arrays from '../app/helpers/Arrays'
+import mongoose, { Schema } from 'mongoose'
+import {truncateByLines} from '../app/helpers/arrays'
 
 const fileSchema = new Schema({
     name: String,
@@ -8,7 +8,7 @@ const fileSchema = new Schema({
 })
 
 fileSchema.methods.truncate = function(){
-    this.content = Arrays.truncateByLines(this.content, 10)
+    this.content = truncateByLines(this.content, 10)
     return this.content
 }
 

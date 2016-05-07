@@ -1,47 +1,63 @@
 //region Imports
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import snippetActions from '~/app/actions/snippetActions'
+import * as actions from '~/app/actions'
 
 import Button from '~/app/components/Button'
 import CodeEditor from '~/app/components/CodeEditor'
 import Columns from '~/app/components/Columns'
 import Icon from '~/app/components/Icon'
 import MarkdownViewer from '~/app/components/MarkdownViewer'
+//endregion
 
 const s = {}
-//endregion
 
 
 class Files extends Component {
 
-    render = ({files, actions} = this.props) =>
-        <div>
-            {files.map((file, i) =>
-                <File
-                    file={file}
-                    showDeleteFileBtn={files.length > 1}
-                    key={i}/>
-            )}
+    render = () => {
+        const { actions, files } = this.props
+        const { addFile, changeFileContent, changeFileName, removeFile } = this.props
 
-            <Toolbar actions={actions}/>
-        </div>
+        return (
+            <div>
+                {files.map((file, i) =>
+                    <File
+                        file={file}
+                        showDeleteButton={files.length > 1}
+                        changeFileContent={changeFileContent}
+                        changeFileName={changeFileName}
+                        removeFile={(file) => removeFile(file)}
+                        key={i}
+                    />
+                )}
+
+                <Toolbar addFile={addFile} actions={actions}/>
+            </div>
+        )
+    }
 }
 
 
-const File = ({file, showDeleteFileBtn}) => {
+const File = ({ file, showDeleteButton, changeFileContent, changeFileName, removeFile }) => {
     const markdownMode = file.type === 'md'
     const sizes = markdownMode ? [6, 6] : [12]
 
     return (
         <div style={s.file.root}>
-            <FileName file={file} showDeleteFileBtn={showDeleteFileBtn}/>
+            <FileName
+                file={file}
+                showDeleteButton={showDeleteButton}
+                onChange={(value) => changeFileName(file, value)}
+                onRemove={removeFile}
+            />
 
             <Columns sizes={sizes}>
                 <CodeEditor
                     mode={file.type}
                     value={file.content}
-                    onChange={newValue => snippetActions.changeFileContent(file, newValue)}/>
+                    onChange={(value) => changeFileContent(file, value)}/>
 
                 {markdownMode &&
                 <MarkdownViewer style={s.file.markdownViewer} code={file.content}/>}
@@ -65,7 +81,7 @@ s.file = {
 }
 
 
-const FileName = ({file, showDeleteFileBtn}) =>
+const FileName = ({ file, showDeleteButton, onChange, onRemove }) =>
     <div style={s.fileName}>
         <div className="input-group width-third">
 
@@ -74,11 +90,11 @@ const FileName = ({file, showDeleteFileBtn}) =>
                 placeholder="Nome do arquivo incluindo a extensão..."
                 type="text"
                 value={file.name}
-                onChange={e => snippetActions.changeFileName(file, e.target.value)}/>
+                onChange={({ target }) => onChange(target.value)}/>
 
-            {showDeleteFileBtn &&
+            {showDeleteButton &&
             <span className="input-group-btn">
-                <DeleteFileBtn file={file}/>
+                <DeleteFileButton onClick={onRemove}/>
             </span>}
         </div>
     </div>
@@ -90,11 +106,11 @@ s.fileName = {
 }
 
 
-const DeleteFileBtn = ({file}) =>
+const DeleteFileButton = ({ onClick }) =>
     <Button
         style={s.deleteButton}
         type="danger"
-        onClick={() => snippetActions.removeFile(file)}>
+        onClick={onClick}>
         <Icon name="trash"/>
     </Button>
 
@@ -105,9 +121,9 @@ s.deleteButton = {
 }
 
 
-const Toolbar = ({actions}) =>
+const Toolbar = ({ addFile, actions }) =>
     <div style={s.toolbar.root}>
-        <Button onClick={() => snippetActions.addFile()}>
+        <Button onClick={addFile}>
             <Icon name="plus-square"/> Adicionar arquivo
         </Button>
         <div style={s.toolbar.right}>
@@ -125,4 +141,32 @@ s.toolbar = {
     }
 }
 
-export default Files
+
+// ---
+
+const mapStateToProps = (state) => ({
+    files: state.files
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    addFile: () => {
+        dispatch(actions.addFile())
+    },
+
+    changeFileContent: (file, content) => {
+        dispatch(actions.changeFileContent(file, content))
+    },
+
+    changeFileName: (file, name) => {
+        dispatch(actions.changeFileName(file, name))
+    },
+
+    removeFile: (file) => {
+        dispatch(actions.removeFile(file))
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Files)
