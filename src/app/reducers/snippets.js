@@ -6,14 +6,14 @@ const initialState = {
     selectedLanguage: null,
     totalPages: null,
     totalResults: null
-}
+};
 
 const snippets = (state = initialState, action) => {
     switch (action.type) {
         case 'CHANGE_QUERY':
             return Object.assign({}, state, {
                 query: action.query
-            })
+            });
 
         case 'RECEIVE_SNIPPETS':
             return Object.assign({}, state, {
@@ -23,11 +23,11 @@ const snippets = (state = initialState, action) => {
                 selectedLanguage: action.selectedLanguage,
                 totalPages: action.totalPages,
                 totalResults: action.totalResults
-            })
+            });
         default:
             return state
     }
-}
+};
 
 
 export default snippets

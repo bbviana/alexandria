@@ -16,7 +16,7 @@ import Files from '~/file/Files'
 import Description from './Description'
 //endregion
 
-const s = {}
+const s = {};
 
 class CreateSnippet extends Component {
 
@@ -42,29 +42,35 @@ class CreateSnippet extends Component {
 }
 
 
-const saveButton = (onClick) =>
+const saveButton = (onClick) => (
     <Button onClick={onClick}>
         Criar snippet
     </Button>
+);
 
 // ---
 
 const mapStateToProps = (state) => ({
     description: state.snippet.description,
     files: state.files
-})
+});
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
     addEmptyFile: () => {
         dispatch(actions.addFile())
     },
 
-    onSave: actions.create,
+    onSave: () => {
+        actions.create({
+            description: ownProps.description,
+            files: ownProps.files
+        })
+    },
 
     onChangeDescription: (value) => {
         dispatch(actions.changeSnippet('description', value))
     }
-})
+});
 
 export default connect(
     mapStateToProps,

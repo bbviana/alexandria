@@ -7,6 +7,6 @@ const snippetSchema = new Schema({
     files: [File.schema],
     updated: Date,
     user: {type: Schema.Types.ObjectId, ref: 'User'}
-})
+});
 
 export default mongoose.model('Snippet', snippetSchema)

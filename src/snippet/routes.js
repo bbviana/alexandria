@@ -99,18 +99,19 @@ const router = new Router()
             })
     })
 
+    // PAREI: verificar se usuario está logado
     .post('/', (req, res) => { // create
-        const newData = req.body
+        const newData = req.body;
 
         const snippet = new Snippet({
             description: newData.description,
             files: newData.files,
             user: req.user.id
-        })
+        });
 
         snippet.save(err => {
-            err && res.send(err)
-            res.json(snippet)
+            err && res.send(err);
+            res.json(snippet);
         })
     })
 

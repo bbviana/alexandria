@@ -74,9 +74,9 @@ export function load(dispatch, id) {
 
 }
 
-export function create() {
+export function create(snippet) {
     Request
-        .post('/api/snippets', this.state)
+        .post('/api/snippets', snippet)
         .then(data => {
             gotoView(data._id)
         })

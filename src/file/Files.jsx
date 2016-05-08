@@ -28,7 +28,7 @@ class Files extends Component {
                         showDeleteButton={files.length > 1}
                         changeFileContent={changeFileContent}
                         changeFileName={changeFileName}
-                        removeFile={(file) => removeFile(file)}
+                        removeFile={() => removeFile(file)}
                         key={i}
                     />
                 )}
