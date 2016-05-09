@@ -1,4 +1,4 @@
-jest.autoMockOff();
+jest.autoMockOff()
 
-require('babel/polyfill');
-// require('jasmine-expect');
+require('babel/polyfill')
+// require('jasmine-expect')
