@@ -1,4 +1,4 @@
-import Request from '~/app/helpers/Request'
+import Request from '~/utils/Request'
 
 // APP
 

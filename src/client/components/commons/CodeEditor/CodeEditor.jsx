@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 
-import languages from '~/app/helpers/languages'
-import m from '~/app/helpers/m'
+import languages from '~/utils/languages'
+import m from '~/utils/m'
 
 /**
  *  Infelizmente não conseguimos usar o ace seguindos princípios de imutabilidade do React.

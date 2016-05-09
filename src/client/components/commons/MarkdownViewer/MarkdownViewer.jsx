@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react'
 import highlight from 'highlight.js'
 import marked from 'marked'
 
-import m from '~/app/helpers/m'
+import m from '~/utils/m'
 
 marked.setOptions({
     highlight: code => highlight.highlightAuto(code).value

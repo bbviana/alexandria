@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 
-import m from '~/helpers/m'
-import styles from '~/app/helpers/styles'
+import m from '~/utils/m'
+import styles from '~/utils/styles'
 
 class Button extends Component {
     state = {

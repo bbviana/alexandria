@@ -13,7 +13,7 @@ import session from 'express-session'
 import securityPassport from './security/passport'
 import securityRoutes from './security/routes'
 
-import routes from '../routes'
+import routes from './routes'
 
 
 mongoose.connect(settings.db.url)
@@ -42,7 +42,7 @@ app.use('/api/users', routes.users)
 
 // Deve estar aqui no fim
 app.get('*', function (request, response) {
-    response.sendFile(path.resolve(__dirname + '/../../', 'public', 'index.html'))
+    response.sendFile(path.resolve(__dirname + '/../', 'public', 'index.html'))
 })
 
 // Error handling
