@@ -18,51 +18,74 @@ export function clearFlashMessage() {
 // LOGGED USER
 
 // TODO adicionar cache
-export const loadUser = (dispatch) => {
-    Request
-        .get('/api/users/logged')
-        .then(data => {
-            dispatch({
-                type: 'USER_LOGIN_SUCCESS',
-                user: data
-            })
-        })
+export function loadUser() {
+    return {
+        type: 'FETCH_DATA',
+        url: '/api/users/logged',
+        method: 'GET',
+        onSuccess: 'USER_LOGIN_SUCCESS'
+    }
+
+    //Request
+    //    .get('/api/users/logged')
+    //    .then(data => {
+    //        dispatch({
+    //            type: 'USER_LOGIN_SUCCESS',
+    //            user: data
+    //        })
+    //    })
 }
 
 
 //  SEARCH
 
-export function changeQuery(newValue) {
+export function changeQuery(query) {
     return {
         type: 'CHANGE_QUERY',
-        query: newValue
+        query: query
     }
 }
 
-export function search(dispatch, state, args) {
+export function search(state, args) {
     args = args || {}
+
     const query = args.query || state.query
+    if (!query) return
+
     const language = args.language || state.selectedLanguage
     const page = args.page || state.currentPage
 
-    if (!query) return
+    return {
+        type: 'FETCH_DATA',
+        url: '/api/snippets/search',
+        method: 'GET',
+        data: {query, language, page},
+        onSuccess: 'RECEIVE_SNIPPETS'
+    }
 
-    Request
-        .get(`/api/snippets/search`, {query, language, page})
-        .then(data => {
-            dispatch(receiveSnippets(data))
-        })
+    //Request
+    //    .get(`/api/snippets/search`, {query, language, page})
+    //    .then(data => {
+    //        dispatch(receiveSnippets(data))
+    //    })
 }
 
 // SNIPPET
 
-export function remove(dispatch, id) {
-    Request
-        .del(`/api/snippets/${id}`)
-        .then(data => {
-            dispatch(flashMessage('Snippet removido com sucesso'))
-            gotoCreate()
-        })
+export function remove(id) {
+    return {
+        types: ['REMOVE_SNIPPET', 'REMOVE_SNIPPET_SUCCESS'],
+        url: `/api/snippets/${id}`,
+        method: 'DELETE',
+        redirect: '/create'
+    }
+
+    //Request
+    //    .del(`/api/snippets/${id}`)
+    //    .then(data => {
+    //        dispatch(flashMessage('Snippet removido com sucesso'))
+    //        gotoCreate()
+    //    })
 }
 
 export function load(dispatch, id) {
@@ -154,7 +177,7 @@ export function receiveSnippets(result) {
 
 // NAVIGATION
 
-import {browserHistory} from 'react-router'
+import { browserHistory } from 'react-router'
 
 /**
  * @param args: [string] | {query, path}

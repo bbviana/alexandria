@@ -1,21 +1,20 @@
-//region Imports
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { gotoView, load, save, remove } from '~/app/actions'
+import * as actions from '../../actions'
 
-import Button from '~/app/components/Button'
-import Icon from '~/app/components/Icon'
+import Button from '../commons/Button'
+import Icon from '../commons/Icon'
 
-import App from '~/app/layouts/App'
-import Container from '~/app/layouts/Container'
-import PageHeader from '~/app/layouts/PageHeader'
+import App from '../Layout/App'
+import Container from '../Layout/Container'
+import PageHeader from '../Layout/PageHeader'
 
-import Files from '~/file/Files'
+import Description from '../Description'
+import Files from '../Files'
+import RemoveSnippetButton from '../RemoveSnippetButton'
 
-import Description from './Description'
-import RemoveSnippetButton from './RemoveSnippetButton'
-//endregion
+// ---
 
 const s = {}
 
@@ -47,7 +46,7 @@ class EditSnippet extends Component {
 
                     <Files
                         files={files}
-                        actions={actions(onCancel, onSave)}
+                        actions={toolbar(onCancel, onSave)}
                     />
 
                 </Container>
@@ -77,7 +76,7 @@ s.edit = {
 }
 
 
-const actions = (onCancel, onSave) =>
+const toolbar = (onCancel, onSave) =>
     <div>
         <Button style={{marginRight: 10}} type="danger" onClick={onCancel}>
             Cancelar Edição
@@ -97,9 +96,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onCancel: () => gotoView(ownProps.id),
-    onRemove: () => remove(ownProps.id),
-    onSave: save
+    onCancel: () => actions.gotoView(ownProps.id),
+    onRemove: () => actions.remove(ownProps.id),
+    onSave: actions.save
 })
 
 export default connect(
