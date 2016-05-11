@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import * as actions from '~/client/actions'
+import actions from '../actions'
 
 import Button from './commons/Button'
 import CodeEditor from './commons/CodeEditor'
@@ -26,8 +26,8 @@ class Files extends Component {
                     <File
                         file={file}
                         showDeleteButton={files.length > 1}
-                        changeFileContent={changeFileContent}
-                        changeFileName={changeFileName}
+                        onChangeContent={changeFileContent}
+                        onChangeName={changeFileName}
                         removeFile={() => removeFile(file)}
                         key={i}
                     />
@@ -40,7 +40,7 @@ class Files extends Component {
 }
 
 
-const File = ({ file, showDeleteButton, changeFileContent, changeFileName, removeFile }) => {
+const File = ({ file, showDeleteButton, onChangeContent, onChangeName, removeFile }) => {
     const markdownMode = file.type === 'md'
     const sizes = markdownMode ? [6, 6] : [12]
 
@@ -49,7 +49,7 @@ const File = ({ file, showDeleteButton, changeFileContent, changeFileName, remov
             <FileName
                 file={file}
                 showDeleteButton={showDeleteButton}
-                onChange={(value) => changeFileName(file, value)}
+                onChange={(value) => onChangeName(file, value)}
                 onRemove={removeFile}
             />
 
@@ -57,7 +57,7 @@ const File = ({ file, showDeleteButton, changeFileContent, changeFileName, remov
                 <CodeEditor
                     mode={file.type}
                     value={file.content}
-                    onChange={(value) => changeFileContent(file, value)}/>
+                    onChange={(value) => onChangeContent(file, value)}/>
 
                 {markdownMode &&
                 <MarkdownViewer style={s.file.markdownViewer} code={file.content}/>}
@@ -150,19 +150,19 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     addFile: () => {
-        dispatch(actions.addFile())
+        dispatch(actions.app.addFile())
     },
 
     changeFileContent: (file, content) => {
-        dispatch(actions.changeFileContent(file, content))
+        dispatch(actions.app.changeFileContent(file, content))
     },
 
     changeFileName: (file, name) => {
-        dispatch(actions.changeFileName(file, name))
+        dispatch(actions.app.changeFileName(file, name))
     },
 
     removeFile: (file) => {
-        dispatch(actions.removeFile(file))
+        dispatch(actions.app.removeFile(file))
     }
 })
 

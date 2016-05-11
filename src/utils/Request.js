@@ -14,7 +14,13 @@ class Request {
 
 const promise = xhr =>
     new Promise((resolve, reject) => {
-        xhr.end((err, res) => err ? reject(err) : resolve(res.body) )
+        xhr.end((error, res) => {
+            if (error) {
+                reject(res.text, error)
+            } else {
+                resolve(res.body)
+            }
+        })
     })
 
 export default Request

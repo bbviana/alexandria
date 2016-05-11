@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-#browser-sync start --reload-delay 200 --no-open \
-#--server ${npm_package_config_webapp_dest} \
-#--files "$npm_package_config_views_styles_dest/*.css, $npm_package_config_scripts_dest/*.js" \
-#--index index.html
-
-
 # delay é importante para esperar o watchify terminar
 browser-sync start \
 --reload-delay 1500 \
@@ -13,4 +7,4 @@ browser-sync start \
 --logLevel info \
 --proxy localhost:8000 \
 --no-notify \
---files "$npm_package_config_views_styles_dest/*.css, $npm_package_config_views_bundle_dest/*.js"
+--files "$npm_package_config_client_styles_dest/*.css, $npm_package_config_client_bundle_dest/*.js"

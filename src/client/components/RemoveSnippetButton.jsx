@@ -18,8 +18,9 @@ const RemoveSnippetButton = ({ style, onClick }) =>
     </Button>
 
 
-const confirmBeforeExecute = (action) => {
+const confirmBeforeExecute = (action) => () => {
     confirm("Tem certeza de que deseja remover este Snippet?") && action()
 }
+
 
 export default RemoveSnippetButton

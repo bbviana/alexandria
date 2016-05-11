@@ -98,6 +98,10 @@ const load = function (req, res) {
 
 // PAREI: verificar se usuario está logado
 const create = function (req, res) {
+    if(!req.user){
+        throw "usuário não está logado"
+    }
+
     const newData = req.body;
 
     const snippet = new Snippet({
@@ -107,8 +111,8 @@ const create = function (req, res) {
     });
 
     snippet.save(err => {
-        err && res.send(err);
-        res.json(snippet);
+        err && res.send(err)
+        res.json(snippet)
     })
 }
 

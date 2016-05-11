@@ -5,17 +5,23 @@ const initialFileState = {
 }
 
 const file = (state = initialFileState, action) => {
+    const file = action.payload
+
     switch (action.type) {
-        case 'CHANGE_FILE_NAME':
-            const { name } = action;
-            return Object.assign({}, state, {
-                name,
-                type: name.split('.')[1]
-            })
+        case 'ADD_FILE':
+        case 'GOTO_CREATE':
+            return Object.assign({}, initialFileState)
 
         case 'CHANGE_FILE_CONTENT':
             return Object.assign({}, state, {
-                content: action.content
+                content: file.content
+            })
+
+        case 'CHANGE_FILE_NAME':
+            const { name } = file;
+            return Object.assign({}, state, {
+                name,
+                type: name.split('.')[1]
             })
 
         default:
@@ -23,34 +29,40 @@ const file = (state = initialFileState, action) => {
     }
 }
 
-const initialState = []
+const initialState = [initialFileState]
 
 const files = (state = initialState, action) => {
-    switch (action.type) {
-        case 'RECEIVE_SNIPPET':
-            return actions.snippet.files
+    const {payload} = action
 
+    switch (action.type) {
         case 'ADD_FILE':
-            return [...state, initialFileState];
+            return [...state, file(null, action)]
+
+        case 'CHANGE_FILE_CONTENT':
+        case 'CHANGE_FILE_NAME':
+        {
+            const index = state.indexOf(payload.file)
+            return [
+                ...state.slice(0, index),
+                file(payload.file, action),
+                ...state.slice(index + 1)
+            ]
+        }
 
         case 'REMOVE_FILE':
         {
-            const index = state.indexOf(action.file)
+            const index = state.indexOf(payload.file)
             return [
                 ...state.slice(0, index),
                 ...state.slice(index + 1)
             ]
         }
-        case 'CHANGE_FILE_NAME':
-        case 'CHANGE_FILE_CONTENT':
-        {
-            const index = state.indexOf(action.file)
-            return [
-                ...state.slice(0, index),
-                file(action.file, action),
-                ...state.slice(index + 1)
-            ]
-        }
+
+        case 'GOTO_CREATE':
+            return [file(null, action)]
+
+        case 'LOAD_SNIPPET_SUCCESS':
+            return payload.files
 
         default:
             return state

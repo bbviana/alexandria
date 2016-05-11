@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux'
 
 import files from './files'
+import loading from './loading'
 import loggedUser from './loggedUser'
 import message from './message'
 import snippet from './snippet'
 import snippets from './snippets'
 
-import isFetching from './isFetching'
 
 /**
  * {
- *      isFetching: Boolean,
+ *      loading: Boolean,
  *
  *      loggedUser: {
  *          login: String,
@@ -44,13 +44,12 @@ import isFetching from './isFetching'
  * }
  */
 const rootApp = combineReducers({
-    fetchData,
     files,
+    loading,
     loggedUser,
     message,
     snippet,
     snippets
-
 })
 
 export default rootApp

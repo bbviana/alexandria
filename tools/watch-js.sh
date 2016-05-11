@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 #cria diretorio de output caso não exista
-#mkdir -p ${npm_package_config_views_main_src}
+#mkdir -p ${npm_package_config_client_main_src}
 
-watchify ${npm_package_config_views_main_src} \
---outfile ${npm_package_config_views_bundle_dest}/bundle.js \
+watchify ${npm_package_config_client_main_src} \
+--outfile ${npm_package_config_client_bundle_dest}/bundle.js \
 --verbose \
 --debug \
 --extension=jsx \

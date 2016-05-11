@@ -1,64 +1,69 @@
-//region Imports
-import React, {Component, PropTypes} from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import navigationActions from '~/app/actions/navigationActions'
-import snippetActions from '~/app/actions/snippetActions'
+import actions from '../../actions'
 
-import Button from '~/app/components/Button'
-import CodeEditor from '~/app/components/CodeEditor'
-import Icon from '~/app/components/Icon'
-import MarkdownViewer from '~/app/components/MarkdownViewer'
+import Button from '../commons/Button'
+import CodeEditor from '../commons/CodeEditor'
+import Icon from '../commons/Icon'
+import MarkdownViewer from '../commons/MarkdownViewer'
 
-import connect from '~/app/helpers/connect'
+import App from '../Layout/App'
+import Container from '../Layout/Container'
+import PageHeader from '../Layout/PageHeader'
 
-import App from '~/app/layouts/App'
-import Container from '~/app/layouts/Container'
-import PageHeader from '~/app/layouts/PageHeader'
+import Info from '../Info'
+import RemoveSnippetButton from '../RemoveSnippetButton'
 
-import snippetStore from '~/app/stores/snippetStore'
-
-import Info from './Info'
-import RemoveSnippetButton from './RemoveSnippetButton'
-//endregion
+//---
 
 const s = {}
 
 
-class View extends Component {
+class ViewSnippet extends Component {
     componentDidMount = () => {
-        snippetActions.load(this.props.params.id)
+        this.props.loadSnippet(this.props.params.id)
     }
 
-    render = ({_id, created, description, files, updated, user} = this.props) =>
-        <App>
-            <PageHeader>
-                <Info
-                    created={created}
-                    file={files[0] && files[0].name}
-                    snippetId={_id}
-                    updated={updated}
-                    user={user}
-                />
-                <Actions id={_id}/>
-            </PageHeader>
+    render = () => {
+        const {_id, created, description, files, updated, user} = this.props
+        const {onRemove, gotoEdit} = this.props
 
-            <Container>
-                <Description value={description}/>
+        return (
+            <App>
+                <PageHeader>
+                    <Info
+                        created={created}
+                        file={files[0] && files[0].name}
+                        snippetId={_id}
+                        updated={updated}
+                        user={user}
+                    />
+                    <Actions
+                        onRemove={() => onRemove(_id)}
+                        gotoEdit={() => gotoEdit(_id)}
+                    />
+                </PageHeader>
 
-                {files.map((file, i) =>
-                    <div key={i}>
-                        <File file={file}/>
-                    </div>
-                )}
-            </Container>
-        </App>
+                <Container>
+                    <Description value={description}/>
+
+                    {files.map((file, i) =>
+                        <div key={i}>
+                            <File file={file}/>
+                        </div>
+                    )}
+                </Container>
+            </App>
+        )
+    }
 }
 
 
-const Actions = ({id}) =>
+const Actions = ({onRemove, gotoEdit}) =>
     <div style={s.actions}>
-        <EditBtn id={id}/>
-        <RemoveSnippetButton id={id}/>
+        <EditButton onCLick={gotoEdit}/>
+        <RemoveSnippetButton onClick={onRemove}/>
     </div>
 
 s.actions = {
@@ -66,8 +71,8 @@ s.actions = {
 }
 
 
-const EditBtn = ({id}) =>
-    <Button size="small" onClick={() => navigationActions.gotoEdit(id)}>
+const EditButton = ({onCLick}) =>
+    <Button size="small" onClick={onCLick}>
         <Icon name="pencil"/> Editar
     </Button>
 
@@ -139,16 +144,37 @@ s.file = {
 }
 
 
-// Connect Store
+// ---
 
+const mapStateToProps = (state) => {
+    const {snippet} = state
+    return {
+        _id: snippet._id,
+        created: snippet.created,
+        description: snippet.description,
+        updated: snippet.updated,
+        user: snippet.user,
+        files: state.files
+    }
+}
 
-const mapStateToProps = state => ({
-    _id: state._id,
-    created: state.created,
-    description: state.description,
-    files: state.files,
-    updated: state.updated,
-    user: state.user
-})
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        loadSnippet: (id) => {
+            dispatch(actions.api.load(id))
+        },
 
-export default connect(View, snippetStore, mapStateToProps)
+        onRemove: (snippetId) => {
+            dispatch(actions.api.remove(snippetId))
+        },
+
+        gotoEdit: (snippetId) => {
+            dispatch(actions.navigation.gotoEdit(snippetId))
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ViewSnippet)

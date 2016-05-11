@@ -1,11 +1,32 @@
 import { browserHistory } from 'react-router'
 
-export default function navigation({ dispatch, getState }) {
+
+/**
+ * dispatch({
+ *      type: 'GOTO_HOME',
+ *      meta: {
+ *          path: '/home',
+ *          query: {
+ *              showUser: true
+ *          }
+ *      }
+ * })
+ */
+export default function navigation({dispatch}) {
     return next => action => {
+        const {path, query} = action.meta || {}
+
+        if (path === undefined) {
+            return next(action)
+        }
+
+        dispatch({
+            type: action.type
+        })
 
         browserHistory.push({
-            pathname: action.pathname,
-            query: action.query
+            pathname: path,
+            query: query
         })
     }
 }

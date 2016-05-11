@@ -6,17 +6,19 @@ const initialState = {
 }
 
 const snippet = (state = initialState, action) => {
+    const {payload} = action
+
     switch (action.type) {
         case 'CHANGE_SNIPPET':
             return Object.assign({}, state, {
-                [action.property]: action.value
+                [payload.property]: payload.value
             })
 
-        case 'CLEAR_SNIPPET':
-            return initialState
+        case 'GOTO_CREATE':
+            return Object.assign({}, initialState)
 
-        case 'RECEIVE_SNIPPET':
-            return {...action.snippet}
+        case 'LOAD_SNIPPET_SUCCESS':
+            return {...payload}
 
         default:
             return state

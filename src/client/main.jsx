@@ -10,7 +10,7 @@ import CreateSnippet from './components/CreateSnippet'
 //import EditSnippet from '~/snippet/EditSnippet'
 //import SearchSnippet from '~/snippet/SearchSnippet'
 //import UserSnippets from '~/snippet/UserSnippets'
-//import ViewSnippet from '~/snippet/ViewSnippet'
+import ViewSnippet from './components/ViewSnippet'
 
 
 const store = configureStore()
@@ -18,15 +18,15 @@ const store = configureStore()
 const router = (
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="/" component={CreateSnippet} />
-            <Route path="create" component={CreateSnippet} />
+            <Route path="/" component={CreateSnippet}/>
+            <Route path="create" component={CreateSnippet}/>
+            <Route path="view/:id" component={ViewSnippet}/>
 
 
         </Router>
     </Provider>
 )
 
-//<Route path="view/:id" component={ViewSnippet} />
 //<Route path="search" component={SearchSnippet} />
 //<Route path="edit/:id" component={EditSnippet} />
 //<Route path=":user" component={UserSnippets} />

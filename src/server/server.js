@@ -46,9 +46,9 @@ app.get('*', function (request, response) {
 })
 
 // Error handling
-app.use(function(err, req, res, next) {
-    console.error(err.stack)
-    res.status(500).send('Erro 500')
+app.use(function(error, req, res, next) {
+    console.error(error)
+    res.status(500).send(error)
 })
 
 app.listen(port)

@@ -24,7 +24,8 @@ class EditSnippet extends Component {
     }
 
     render = () => {
-        const {id, description, files, onCancel, onRemove, onSave} = this.props
+        const {id, description, files} = this.props
+        const {onCancel, onRemove, onSave} = this.props
 
         return (
             <App>

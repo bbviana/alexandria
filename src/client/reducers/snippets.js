@@ -9,20 +9,22 @@ const initialState = {
 };
 
 const snippets = (state = initialState, action) => {
+    const {payload} = action
+
     switch (action.type) {
         case 'CHANGE_QUERY':
             return Object.assign({}, state, {
-                query: action.query
+                query: payload.query
             });
 
         case 'RECEIVE_SNIPPETS':
             return Object.assign({}, state, {
-                currentPage: action.currentPage,
-                languages: action.languages,
-                results: action.results,
-                selectedLanguage: action.selectedLanguage,
-                totalPages: action.totalPages,
-                totalResults: action.totalResults
+                currentPage: payload.currentPage,
+                languages: payload.languages,
+                results: payload.results,
+                selectedLanguage: payload.selectedLanguage,
+                totalPages: payload.totalPages,
+                totalResults: payload.totalResults
             });
         default:
             return state

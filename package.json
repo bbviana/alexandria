@@ -52,12 +52,12 @@
     "watchify": "^3.6.0"
   },
   "config": {
-    "views_main_src": "src/client/main.jsx",
-    "views_bundle_dest": "src/public/js",
-    "views_styles_src": "src/client",
-    "views_styles_dest": "src/public/css",
-    "webapp_dest": "src/public",
-    "server": "src/server/babel-register.js"
+    "client_main_src": "src/client/main.jsx",
+    "client_bundle_dest": "src/public/js",
+    "client_styles_src": "src/client",
+    "client_styles_dest": "src/public/css",
+    "server": "src/server/babel-register.js",
+    "server_dir": "src/server"
   },
   "scripts": {
     "browser-sync": "tools/browser-sync.sh",

@@ -2,5 +2,4 @@
 
 #--debug-brk=7000 \
 
-nodemon --watch src ${npm_package_config_server}
-
+nodemon --watch ${npm_package_config_server_dir} ${npm_package_config_server}

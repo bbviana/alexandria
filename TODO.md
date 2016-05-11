@@ -1,5 +1,13 @@
 # Parei
-reducers/files.js
+- criar: ok
+- remover: ok
+- consultar: ok
+- login: ok
+- changes: ok
+- addFile: ok
+- removeFile: ok
+- editar
+- buscar
 
 # Next
 - meus snippets

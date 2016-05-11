@@ -1,15 +1,15 @@
 const initialState = {
     login: null,
-    avatar: null
+    avatarURL: null
 }
 
 const loggedUser = (state = initialState, action) => {
     switch (action.type) {
-        case 'USER_LOGIN_SUCCESS':
-            const {user} = action
+        case 'LOAD_USER_SUCCESS':
+            const user = action.payload || {}
             return {
                 login: user.login,
-                avatar: user.avatar
+                avatarURL: user.avatarURL
             }
         default:
             return state

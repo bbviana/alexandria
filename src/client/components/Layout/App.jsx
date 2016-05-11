@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
-import * as actions from '~/client/actions'
+import actions from '../../actions'
 
 import { handleEnterKey } from '~/utils/events'
 
 import Button from '../commons/Button'
 import Icon from '../commons/Icon'
 
-import FlashMessage from './FlashMessage'
+import Message from './Message'
 
 // ---
 
@@ -18,11 +18,13 @@ const s = {}
 class App extends Component {
 
     componentDidMount() {
-        this.props.loadUser()
+        // carrega usuário se ainda não o fez
+        !this.props.user.login &&
+        this.props.loadLoggedUser()
     }
 
     render() {
-        const { flashMessage, hideHeaderSearch, user } = this.props
+        const { message, hideHeaderSearch, user } = this.props
         const { gotoCreate, gotoSearch } = this.props
 
         return (
@@ -34,8 +36,8 @@ class App extends Component {
                     onSearch={gotoSearch}
                 />
 
-                {flashMessage &&
-                <FlashMessage message={flashMessage}/>}
+                {message &&
+                <Message message={message}/>}
 
                 {this.props.children}
             </div>
@@ -96,7 +98,7 @@ const SearchInput = ({ onEnterKey }) =>
         className="form-control"
         placeholder="Busca..."
         type="text"
-        onKeyUp={(e) => handleEnterKey(e, onEnterKey(e.target.value))}
+        onKeyUp={handleEnterKey(e => onEnterKey(e.target.value))}
     />
 
 s.searchInput = {
@@ -214,20 +216,22 @@ s.userProfile = {
 // ---
 
 const mapStateToProps = (state) => ({
-    flashMessage: state.app.flashMessage,
+    message: state.message,
     user: state.loggedUser
 })
 
 
 const mapDispatchToProps = (dispatch) => ({
-    loadUser: () => {
-        actions.loadUser(dispatch)
+    loadLoggedUser: (currentUser) => {
+        dispatch(actions.api.loadLoggedUser(currentUser))
     },
 
-    gotoCreate: actions.gotoCreate,
+    gotoCreate: () => {
+        dispatch(actions.nav.gotoCreate())
+    },
 
     gotoSearch: (query) => {
-        actions.gotoSearch(query)
+        dispatch(actions.nav.gotoSearch(query))
     }
 })
 

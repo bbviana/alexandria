@@ -1,4 +1,12 @@
+/**
+ * Executa callbackFunction se ENTER foi pressionado
+ *
+ * handleEnterKey(e => callbackFunction(e.target.value))
+ */
+export const handleEnterKey = callback => event => {
+    if (typeof callback !== 'function') {
+        throw new Error('handleEnterKey() deve receber uma function de callback')
+    }
 
-export function handleEnterKey(event, callback) {
-    return event.key === 'Enter' && callback.call()
+    return event.key === 'Enter' && callback(event)
 }
