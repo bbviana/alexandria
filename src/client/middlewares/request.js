@@ -40,9 +40,8 @@ import Request from '~/utils/Request'
  *
  * dispatch({
  *      type: 'LOAD_USER_FAILURE',
- *      payload: {
- *          message: error
- *      }
+ *      payload: new Error(msg),
+ *      error: true
  * })
  *
  */
@@ -90,11 +89,9 @@ export default function request({ dispatch }) {
                 errorMessage => {
                     dispatch({
                         type: `${type}_FAILURE`,
-                        payload: {
-                            message: errorMessage
-                        },
+                        payload: new Error(errorMessage),
+                        error: true,
                         meta: {
-                            error: true,
                             pending: false
                         }
                     })

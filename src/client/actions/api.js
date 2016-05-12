@@ -1,14 +1,12 @@
 import * as nav from './nav'
 
-export const loadLoggedUser = () => {
-    return {
-        type: 'LOAD_USER',
-        meta: {
-            method: 'GET',
-            url: '/api/users/logged'
-        }
+export const loadLoggedUser = () => ({
+    type: 'LOAD_USER',
+    meta: {
+        method: 'GET',
+        url: '/api/users/logged'
     }
-}
+})
 
 export const create = (snippet) => ({
     type: 'CREATE_SNIPPET',
@@ -37,13 +35,6 @@ export const remove = (id) => ({
         url: `/api/snippets/${id}`,
         success: nav.gotoCreate
     }
-
-    //Request
-    //    .del(`/api/snippets/${id}`)
-    //    .then(data => {
-    //        dispatch(flashMessage('Snippet removido com sucesso'))
-    //        gotoCreate()
-    //    })
 })
 
 export const load = (id) => ({
@@ -52,27 +43,15 @@ export const load = (id) => ({
         method: 'GET',
         url: `/api/snippets/${id}`
     }
-
-    //Request
-    //    .get(`/api/snippets/${id}`)
-    //    .then(data => {
-    //        dispatch(receiveSnippet(data))
-    //    })
-
 })
 
-export const search = (state, args) => {
-    args = args || {}
-
-    const query = args.query || state.query
+export const search = (args) => {
+    const {query, language, page} = args
 
     if (!query) return
 
-    const language = args.language || state.selectedLanguage
-    const page = args.page || state.currentPage
-
     return {
-        type: 'SEARCH',
+        type: 'SEARCH_SNIPPETS',
         payload: {
             query,
             language,
@@ -83,13 +62,4 @@ export const search = (state, args) => {
             url: '/api/snippets/search'
         }
     }
-
-    //Request
-    //    .get(`/api/snippets/search`, {query, language, page})
-    //    .then(data => {
-    //        dispatch(receiveSnippets(data))
-    //    })
 }
-
-
-

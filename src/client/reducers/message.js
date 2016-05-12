@@ -22,8 +22,8 @@ const reduceMessageActions = (action) => {
 }
 
 const reduceErrorActions = (action) => {
-    const {error} = action.meta || {}
-    if (error) {
+    if (action.error) {
+        // payload: Error
         return action.payload.message
     }
 

@@ -36,7 +36,7 @@ class CreateSnippet extends Component {
 
                     <Files
                         files={files}
-                        actions={saveButton(() => onSave( {description, files} ))}
+                        actions={saveButton(() => onSave({description, files}))}
                     />
                 </Container>
             </App>

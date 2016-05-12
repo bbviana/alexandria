@@ -18,7 +18,7 @@ const file = (state = initialFileState, action) => {
             })
 
         case 'CHANGE_FILE_NAME':
-            const { name } = file;
+            const { name } = file
             return Object.assign({}, state, {
                 name,
                 type: name.split('.')[1]

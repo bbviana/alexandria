@@ -1,43 +1,62 @@
-//region Imports
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import searchActions from '~/app/actions/searchActions'
+import * as actions  from '../../actions'
 
-import Button from '~/app/components/Button'
-import CodeEditor from '~/app/components/CodeEditor'
-import Icon from '~/app/components/Icon'
+import Button from '../commons/Button'
+import CodeEditor from '../commons/CodeEditor'
+import Icon from '../commons/Icon'
 
-import Arrays from '~/app/helpers/Arrays'
-import Events from '~/app/helpers/Events'
-import Strings from '~/app/helpers/Strings'
-import connect from '~/app/helpers/connect'
-import languages from '~/app/helpers/languages'
-import m from '~/app/helpers/m'
-import styles from '~/app/helpers/styles'
+import * as arrays from '~/utils/arrays'
+import { handleEnterKey } from '~/utils/events'
+import m from '~/utils/m'
+import languages from '~/utils/languages'
+import * as strings from '~/utils/strings'
+import styles from '~/utils/styles'
 
-import App from '~/app/layouts/App'
-import Container from '~/app/layouts/Container'
-import PageHeader from '~/app/layouts/PageHeader'
+import App from '../Layout/App'
+import Container from '../Layout/Container'
+import PageHeader from '../Layout/PageHeader'
 
-import searchStore from '~/app/stores/searchStore'
-
-import Info from './Info'
-//endregion
+import Info from '../Info'
 
 const s = {}
 
-class Search extends Component {
+class SearchSnippets extends Component {
 
     componentDidMount = () => {
         const query = this.props.location.query
-        searchActions.search({query: query.query, language: query.language, page: query.page})
+        this.props.search({
+            query: query.query,
+            language: query.language,
+            page: query.page
+        })
     }
 
-    render = ({query, totalResults} = this.props) => {
+    render = () => {
+        const {
+            currentPage,
+            languages,
+            query,
+            results,
+            selectedLanguage,
+            totalPages,
+            totalResults
+            } = this.props
+
+        const {
+            search,
+            changeQuery
+            } = this.props
+
         return (
-            <App hideHeaderSearch={true}>
+            <App hideHeaderSearch>
                 <PageHeader>
-                    <SearchBar query={query}/>
+                    <SearchBar
+                        query={query}
+                        onChange={changeQuery}
+                        onSearch={search}
+                    />
                 </PageHeader>
 
                 <Container>
@@ -51,7 +70,7 @@ class Search extends Component {
     }
 }
 
-const SearchBar = ({query}) =>
+const SearchBar = ({query, onChange, onSearch}) =>
     <div className="row">
         <div className="col-md-2">
             Buscar
@@ -62,12 +81,12 @@ const SearchBar = ({query}) =>
                 autoFocus
                 value={query}
                 type="text"
-                onChange={e => searchActions.changeQuery(e.target.value)}
-                onKeyUp={e => Events.handleEnterKey(e, () => searchActions.search({page: 1}))}
+                onChange={e => onChange(e.target.value)}
+                onKeyUp={handleEnterKey(() => onSearch({page: 1}))}
             />
         </div>
         <div className="col-md-1">
-            <Button onClick={() => searchActions.search({page: 1})}>
+            <Button onClick={() => onSearch.search({page: 1})}>
                 Buscar
             </Button>
         </div>
@@ -86,6 +105,7 @@ const SearchResult = (props) =>
             results={props.results}
             totalResults={props.totalResults}
             totalPages={props.totalPages}
+            onSearch={props.search}
         />
     </div>
 
@@ -93,7 +113,9 @@ const SearchResult = (props) =>
 const EmptySearch = ({query}) =>
     <div style={s.emptySearch.root}>
         <Icon style={s.emptySearch.icon} name="search"/>
-        <div style={s.emptySearch.text}>Não encontramos nenhum snippet com o termo '{query}'</div>
+        <div style={s.emptySearch.text}>
+            Não encontramos nenhum snippet com o termo '{query}'
+        </div>
         <div>Para uma busca avançada, use alguns dos <a href="">prefixos</a></div>
     </div>
 
@@ -159,7 +181,10 @@ class Language extends Component {
     handleMouseOut = () => this.setState({hover: false})
     handleMouseOver = () => this.setState({hover: true})
 
-    render = ({hover} = this.state, {language, selected} = this.props) => {
+    render = () => {
+        const {language, selected} = this.props
+        const {hover} = this.state
+
         let href = `/search?&query=.`
 
         if (!selected) {
@@ -176,7 +201,7 @@ class Language extends Component {
                 <span style={m(s.language.bar, {width: language.percent + "%"})}/>
 
                 <span>
-                    {Strings.capitalize(languages[language.name])}
+                    {strings.capitalize(languages[language.name])}
                 </span>
 
                 <span style={s.language.total}>
@@ -227,7 +252,7 @@ s.language = {
 }
 
 
-const ResultsPanel = ({currentPage, results, totalPages, totalResults}) =>
+const ResultsPanel = ({currentPage, results, totalPages, totalResults, onSearch}) =>
     <div style={s.resultsPanel.root} className="col-md-9">
         <h4 style={s.resultsPanel.message}>
             Encontramos {totalResults} snippet{totalResults > 1 && 's'}
@@ -237,7 +262,11 @@ const ResultsPanel = ({currentPage, results, totalPages, totalResults}) =>
             <Snippet value={result} key={result._id}/>
         )}
 
-        <Pagination currentPage={currentPage} totalPages={totalPages}/>
+        <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onSearch={onSearch}
+        />
     </div>
 
 s.resultsPanel = {
@@ -310,30 +339,35 @@ class CodeExample extends Component {
     handleMouseOut = () => this.setState({hover: false})
     handleMouseOver = () => this.setState({hover: true})
 
-    render = ({file, snippetId} = this.props) =>
-        <div
-            style={styles(s.codeExample.root, this.state)}
-            onMouseOut={this.handleMouseOut}
-            onMouseOver={this.handleMouseOver}
-        >
-            <a style={s.codeExample.link} href={"/view/" + snippetId}>
-                {this.state.hover &&
-                <span style={s.codeExample.linkMessage}>
-                    Ver <strong>{file.name}</strong>
-                </span>}
-            </a>
+    render = () => {
+        const {file, snippetId} = this.props
 
-            <CodeEditor
-                displayIndentGuides={false}
-                maxLines={10}
-                mode={file.type}
-                highlightActiveLine={false}
-                highlightGutterLine={false}
-                readOnly={true}
-                showFoldWidgets={false}
-                value={file.content}
-            />
-        </div>
+        return (
+            <div
+                style={styles(s.codeExample.root, this.state)}
+                onMouseOut={this.handleMouseOut}
+                onMouseOver={this.handleMouseOver}
+            >
+                <a style={s.codeExample.link} href={"/view/" + snippetId}>
+                    {this.state.hover &&
+                    <span style={s.codeExample.linkMessage}>
+                        Ver <strong>{file.name}</strong>
+                    </span>}
+                </a>
+
+                <CodeEditor
+                    displayIndentGuides={false}
+                    maxLines={10}
+                    mode={file.type}
+                    highlightActiveLine={false}
+                    highlightGutterLine={false}
+                    readOnly={true}
+                    showFoldWidgets={false}
+                    value={file.content}
+                />
+            </div>
+        )
+    }
 }
 
 s.codeExample = {
@@ -372,25 +406,25 @@ s.codeExample = {
 }
 
 
-const Pagination = ({currentPage, totalPages}) =>
+const Pagination = ({currentPage, totalPages, onSearch}) =>
     <nav style={s.pagination}>
         <ul className="pagination">
             <li className={currentPage == 1 && 'disabled'}>
-                <a href="javascript: void(0)" onClick={() => searchActions.search({page: currentPage - 1})}>
+                <a href="javascript: void(0)" onClick={() => onSearch({page: currentPage - 1})}>
                     <span>&laquo;</span>
                 </a>
             </li>
 
-            {Arrays.range(1, totalPages).map((page) =>
+            {arrays.range(1, totalPages).map((page) =>
                 <li className={page == currentPage && 'active'} key={page}>
-                    <a href="javascript: void(0)" onClick={() => searchActions.search({page: page})}>
+                    <a href="javascript: void(0)" onClick={() => onSearch({page: page})}>
                         {page}
                     </a>
                 </li>
             )}
 
             <li className={currentPage == totalPages && 'disabled'}>
-                <a href="javascript: void(0)" onClick={() => searchActions.search({page: currentPage + 1})}>
+                <a href="javascript: void(0)" onClick={() => onSearch({page: currentPage + 1})}>
                     <span>&raquo;</span>
                 </a>
             </li>
@@ -402,14 +436,40 @@ s.pagination = {
 }
 
 
-const mapStateToProps = state => ({
-    currentPage: state.currentPage,
-    languages: state.languages,
-    query: state.query,
-    results: state.results,
-    selectedLanguage: state.selectedLanguage,
-    totalPages: state.totalPages,
-    totalResults: state.totalResults
-})
+// ---
 
-export default connect(Search, searchStore, mapStateToProps)
+const mapStateToProps = (state) => {
+    const {snippets} = state
+    return {
+        currentPage: snippets.currentPage,
+        languages: snippets.languages,
+        query: snippets.query,
+        results: snippets.results,
+        selectedLanguage: snippets.selectedLanguage,
+        totalPages: snippets.totalPages,
+        totalResults: snippets.totalResults
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        search: (args) => {
+            const query = ownProps.location.query
+
+            dispatch(actions.api.search({
+                query: args.query || query.query,
+                language: args.language || query.language,
+                page: args.page || query.page
+            }))
+        },
+
+        changeQuery: (value) => {
+            dispatch(actions.app.changeQuery(value))
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SearchSnippets)

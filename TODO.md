@@ -6,8 +6,8 @@
 - changes: ok
 - addFile: ok
 - removeFile: ok
-- editar
-- buscar
+- editar: ok
+- buscar: testar melhor
 
 # Next
 - meus snippets

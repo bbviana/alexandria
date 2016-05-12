@@ -20,11 +20,11 @@ const s = {}
 
 class EditSnippet extends Component {
     componentDidMount = () => {
-        load(this.props.params.id)
+        this.props.loadSnippet(this.props.params.id)
     }
 
     render = () => {
-        const {id, description, files} = this.props
+        const {_id, description, files} = this.props
         const {onCancel, onRemove, onSave} = this.props
 
         return (
@@ -33,12 +33,12 @@ class EditSnippet extends Component {
                     <Icon style={s.edit.codeIcon} name="file-code-o"/>
 
                     <span style={s.edit.title}>
-                        Editando <a href={"/view/" + id}>{files[0].name}</a>
+                        Editando <a href={"/view/" + _id}>{files[0].name}</a>
                     </span>
 
                     <RemoveSnippetButton
                         style={s.edit.removeButton}
-                        onClick={onRemove}
+                        onClick={() => onRemove(_id)}
                     />
                 </PageHeader>
 
@@ -47,7 +47,10 @@ class EditSnippet extends Component {
 
                     <Files
                         files={files}
-                        actions={toolbar(onCancel, onSave)}
+                        actions={toolbar(
+                            () => onCancel(_id),
+                            () => onSave({_id, description, files})
+                        )}
                     />
 
                 </Container>
@@ -79,10 +82,18 @@ s.edit = {
 
 const toolbar = (onCancel, onSave) =>
     <div>
-        <Button style={{marginRight: 10}} type="danger" onClick={onCancel}>
+        <Button
+            style={{marginRight: 10}}
+            type="danger"
+            onClick={onCancel}
+        >
             Cancelar Edição
         </Button>
-        <Button type="primary" onClick={onSave}>
+
+        <Button
+            type="primary"
+            onClick={onSave}
+        >
             Salvar alterações
         </Button>
     </div>
@@ -90,17 +101,34 @@ const toolbar = (onCancel, onSave) =>
 
 // ---
 
-const mapStateToProps = (state) => ({
-    id: state.snippet._id,
-    description: state.snippet.description,
-    files: state.files
-})
+const mapStateToProps = (state) => {
+    const {snippet} = state
+    return {
+        _id: snippet._id,
+        description: snippet.description,
+        files: state.files
+    }
+}
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onCancel: () => actions.gotoView(ownProps.id),
-    onRemove: () => actions.remove(ownProps.id),
-    onSave: actions.save
-})
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadSnippet: (snippetId) => {
+            dispatch(actions.api.load(snippetId))
+        },
+
+        onCancel: (snippetId) => {
+            dispatch(actions.nav.gotoView(snippetId))
+        },
+
+        onRemove: (snippetId) => {
+            dispatch(actions.api.remove(snippetId))
+        },
+
+        onSave: (snippet) => {
+            dispatch(actions.api.save(snippet))
+        }
+    }
+}
 
 export default connect(
     mapStateToProps,

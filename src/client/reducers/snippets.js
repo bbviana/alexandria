@@ -6,7 +6,7 @@ const initialState = {
     selectedLanguage: null,
     totalPages: null,
     totalResults: null
-};
+}
 
 const snippets = (state = initialState, action) => {
     const {payload} = action
@@ -15,9 +15,9 @@ const snippets = (state = initialState, action) => {
         case 'CHANGE_QUERY':
             return Object.assign({}, state, {
                 query: payload.query
-            });
+            })
 
-        case 'RECEIVE_SNIPPETS':
+        case 'SEARCH_SNIPPETS_SUCCESS':
             return Object.assign({}, state, {
                 currentPage: payload.currentPage,
                 languages: payload.languages,
@@ -25,11 +25,12 @@ const snippets = (state = initialState, action) => {
                 selectedLanguage: payload.selectedLanguage,
                 totalPages: payload.totalPages,
                 totalResults: payload.totalResults
-            });
+            })
+
         default:
             return state
     }
-};
+}
 
 
 export default snippets

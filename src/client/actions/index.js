@@ -7,3 +7,16 @@ export default {
     app,
     nav
 }
+
+
+/*
+ Flux Standard Action (FSA)
+
+ {
+    type: String,
+    payload: Object | Error,
+    error: Boolean,
+    meta: Object
+ }
+
+ */

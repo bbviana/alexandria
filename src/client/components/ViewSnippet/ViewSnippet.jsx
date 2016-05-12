@@ -160,8 +160,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        loadSnippet: (id) => {
-            dispatch(actions.api.load(id))
+        loadSnippet: (snippetId) => {
+            dispatch(actions.api.load(snippetId))
         },
 
         onRemove: (snippetId) => {
@@ -169,7 +169,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
 
         gotoEdit: (snippetId) => {
-            dispatch(actions.navigation.gotoEdit(snippetId))
+            dispatch(actions.nav.gotoEdit(snippetId))
         }
     }
 }
