@@ -96,7 +96,6 @@ const load = function (req, res) {
         })
 }
 
-// PAREI: verificar se usuario está logado
 const create = function (req, res) {
     if(!req.user){
         throw "usuário não está logado"

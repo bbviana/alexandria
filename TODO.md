@@ -15,7 +15,6 @@
 - proteger telas se user nao logado
 
 - no resultado da busca, usar MarkdownViewer
-- testar redux
 
 - tela de usuarios:
     - remoção
