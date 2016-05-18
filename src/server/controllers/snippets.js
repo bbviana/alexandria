@@ -1,8 +1,7 @@
 import User from '../models/User'
 import Snippet from '../models/Snippet'
 
-
-const search = function (req, res) {
+export const search = function (req, res) {
     const searchRegex = req.query.query && new RegExp(req.query.query, 'i')
     const page = parseInt(req.query.page) || 1
     const pageSize = 2
@@ -85,7 +84,40 @@ const search = function (req, res) {
         })
 }
 
-const load = function (req, res) {
+export const listByUser = function (req, res) {
+    const login = req.params.user
+
+    if (!login) throw new Error('login undefined')
+
+    User
+        .findOne({
+            login
+        })
+        .exec((err, user) => {
+            err && res.send(err)
+
+            console.log( user._id)
+
+            Snippet
+                .find({
+                    user: user._id
+                })
+                .populate('user')
+                .sort({created: -1})
+                .exec((err, snippets) => {
+                    err && res.send(err)
+
+                    snippets.forEach(snippet => snippet.files[0].truncate())
+
+                    res.json({
+                        results: snippets,
+                        user: user
+                    })
+                })
+        })
+}
+
+export const load = function (req, res) {
     Snippet
         .findById(req.params.id)
         .populate('user')
@@ -96,8 +128,8 @@ const load = function (req, res) {
         })
 }
 
-const create = function (req, res) {
-    if(!req.user){
+export const create = function (req, res) {
+    if (!req.user) {
         throw "usuário não está logado"
     }
 
@@ -115,7 +147,7 @@ const create = function (req, res) {
     })
 }
 
-const update = function (req, res) {
+export const update = function (req, res) {
     Snippet.findById(req.params.id, (err, snippet) => {
         err && res.send(err)
 
@@ -132,17 +164,10 @@ const update = function (req, res) {
 
 }
 
-const remove = function (req, res) {
+export const remove = function (req, res) {
     Snippet.remove({_id: req.params.id}, err => {
         err && res.send(err)
         res.end()
     })
 }
 
-export default {
-    create,
-    load,
-    update,
-    remove,
-    search
-}

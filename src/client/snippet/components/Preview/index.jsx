@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import Info from '../Info'
 
@@ -22,7 +22,7 @@ const Preview = ({ snippet }) => {
             <div>
                 <Info
                     created={created}
-                    file={firstFile && firstFile.name}
+                    fileName={firstFile && firstFile.name}
                     snippetId={_id}
                     updated={updated}
                     user={user}

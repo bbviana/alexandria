@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import { Icon } from '../../components'
+
 const EmptyResults = ({ query }) => {
     return (
         <div style={s.root}>

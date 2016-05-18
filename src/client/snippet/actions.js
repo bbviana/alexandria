@@ -22,15 +22,12 @@ export const save = (snippet) => ({
     meta: {
         method: 'PUT',
         url: `/api/snippets/${snippet._id}`,
-        success: () => nav.gotoView(snippet._id)
+        success: () => nav.gotoDetails(snippet._id)
     }
 })
 
 export const remove = (id) => ({
     type: t.REMOVE,
-    payload: {
-        id
-    },
     meta: {
         method: 'DELETE',
         url: `/api/snippets/${id}`,
@@ -40,11 +37,45 @@ export const remove = (id) => ({
 
 export const load = (id) => ({
     type: t.LOAD,
-    payload: {
-        id
-    },
     meta: {
         method: 'GET',
         url: `/api/snippets/${id}`
+    }
+})
+
+export const star = (id) => ({
+    type: t.STAR,
+    meta: {
+        method: 'POST',
+        url: `/api/star/add/${id}`
+    }
+})
+
+export const unstar = (id) => ({
+    type: t.UNSTAR,
+    meta: {
+        method: 'POST',
+        url: `/api/star/remove/${id}`
+    }
+})
+
+// files
+
+export const addFile = () => ({
+    type: t.ADD_FILE
+})
+
+export const changeFile  = (file, newValues) => ({
+    type: t.CHANGE_FILE,
+    payload: {
+        file,
+        newValues
+    }
+})
+
+export const removeFile = (file) => ({
+    type: t.REMOVE_FILE,
+    payload: {
+        file
     }
 })

@@ -1,28 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 
 import styles from '~/utils/styles'
-
+import { Hover } from '../../../decorators'
 import { CodeEditor } from '../../../components'
 
 class CodePreview extends Component {
-    state = {
-        hover: false
-    }
-
-    handleMouseOut = () => this.setState({hover: false})
-    handleMouseOver = () => this.setState({hover: true})
-
     render = () => {
         const { file, snippetId } = this.props
+        // from Hover
+        const { hover } = this.props
 
         return (
-            <div
-                style={styles(s.root, this.state)}
-                onMouseOut={this.handleMouseOut}
-                onMouseOver={this.handleMouseOver}
-            >
+            <div style={styles(s.root, { hover })}>
                 <a style={s.link} href={"/details/" + snippetId}>
-                    {this.state.hover &&
+                    {hover &&
                     <span style={s.linkMessage}>
                         Ver <strong>{file.name}</strong>
                     </span>}
@@ -78,4 +69,5 @@ const s = {
     }
 }
 
-export default CodePreview
+
+export default Hover(CodePreview)

@@ -48,8 +48,8 @@ const s = {
 }
 
 
-const mapStateToProps = (state) => ({
-    message: state.message
+const mapStateToProps = ({ message }) => ({
+    message
 })
 
 const mapDispatchToProps = (dispatch) => ({

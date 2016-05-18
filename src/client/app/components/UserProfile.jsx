@@ -39,8 +39,8 @@ class UserProfile extends Component {
                         Logado como <b>{user.login}</b>
                     </li>
                     <li className="divider"/>
-                    <li><a href="#">Meus snippets</a></li>
-                    <li><a href="#">Snippets favoritos</a></li>
+                    <li><a href={'/' + user.login}>Meus snippets</a></li>
+                    <li><a href={'/' + user.login + '/starred'}>Snippets favoritos</a></li>
                     <li className="divider"/>
                     <li><a href="/logout">Sair</a></li>
                 </ul>}

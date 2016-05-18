@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import Avatar from './Avatar'
 import Breadcrumb from './Breadcrumb'
@@ -20,6 +20,14 @@ const Info = ({ created, fileName, snippetId, updated, user }) => {
             </div>
         </div>
     )
+}
+
+Info.propTypes = {
+    created: PropTypes.string,
+    fileName: PropTypes.string,
+    snippetId: PropTypes.string,
+    updated: PropTypes.string,
+    user: PropTypes.object
 }
 
 const s = {

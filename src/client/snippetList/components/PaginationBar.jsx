@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import * as arrays from '~/utils/arrays'
+
 const PaginationBar = ({ currentPage, totalPages, onNavigation }) => {
     return (
         <nav style={s}>

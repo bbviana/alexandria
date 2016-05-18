@@ -13,7 +13,7 @@ import snippet from './snippet'
 const { CreatePage, EditPage, DetailsPage } = snippet.components
 
 import snippetList from './snippetList'
-const { SearchPage } = snippetList.components
+const { SearchPage, UserSnippetsPage, UserStarredPage } = snippetList.components
 
 
 const router = (
@@ -24,6 +24,8 @@ const router = (
             <Route path="details/:id" component={DetailsPage} />
             <Route path="edit/:id" component={EditPage} />
             <Route path="search" component={SearchPage} />
+            <Route path=":user" component={UserSnippetsPage} />
+            <Route path=":user/starred" component={UserStarredPage} />
         </Router>
     </Provider>
 )

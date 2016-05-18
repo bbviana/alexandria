@@ -8,15 +8,13 @@ import { Button } from '../../components'
 import app from '../../app'
 const { App, Container, PageInfo } = app.components
 
-import files from '../../files'
-const { FileListEditor } = files.components
-
 import Description from './Description'
+import FileListEditor from './FileListEditor'
 
 
 class CreatePage extends Component {
 
-    render = () => {
+    render() {
         const { description, files } = this.props
         const { change, save } = this.props
 
@@ -31,7 +29,7 @@ class CreatePage extends Component {
                     />
 
                     <FileListEditor files={files}>
-                        <SaveButton onClick={() => save({description, files})}/>
+                        <SaveButton onClick={() => save({description, files})} />
                     </FileListEditor>
                 </Container>
             </App>
@@ -47,17 +45,17 @@ const SaveButton = ({onClick}) => (
 )
 
 
-const mapStateToProps = (state) => ({
-    description: state.snippet.description,
-    files: state.files
+const mapStateToProps = ({ snippet }) => ({
+    description: snippet.description,
+    files: snippet.files
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    change: (newValues) => {
+    change(newValues) {
         dispatch(actions.change(newValues))
     },
 
-    save: (snippet) => {
+    save(snippet) {
         dispatch(actions.create(snippet))
     }
 })

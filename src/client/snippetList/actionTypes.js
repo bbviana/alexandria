@@ -1,5 +1,10 @@
 export const CHANGE_QUERY = 'snippetList/CHANGE_QUERY'
 
 export const SEARCH = 'snippetList/SEARCH'
-
 export const SEARCH_SUCCESS = 'snippetList/SEARCH_SUCCESS'
+
+export const LOAD_USER_SNIPPETS = 'snippetList/LOAD_USER_SNIPPETS'
+export const LOAD_USER_SNIPPETS_SUCCESS = 'snippetList/LOAD_USER_SNIPPETS_SUCCESS'
+
+export const LOAD_USER_STARRED_SNIPPETS = 'snippetList/LOAD_USER_STARRED_SNIPPETS'
+export const LOAD_USER_STARRED_SNIPPETS_SUCCESS = 'snippetList/LOAD_USER_STARRED_SNIPPETS_SUCCESS'

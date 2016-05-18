@@ -32,7 +32,7 @@ class App extends Component {
                 />
 
                 {message &&
-                <Message message={message}/>}
+                <Message message={message} />}
 
                 {this.props.children}
             </div>
@@ -49,15 +49,15 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = (dispatch) => ({
-    loadLoggedUser: (currentUser) => {
+    loadLoggedUser(currentUser){
         dispatch(loggedUser.actions.load(currentUser))
     },
 
-    gotoCreate: () => {
+    gotoCreate(){
         dispatch(nav.actions.gotoCreate())
     },
 
-    gotoSearch: (query) => {
+    gotoSearch(query){
         dispatch(nav.actions.gotoSearch(query))
     }
 })

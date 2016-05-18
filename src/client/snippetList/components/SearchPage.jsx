@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-
 import { connect } from 'react-redux'
 
 import * as actions  from '../actions'
@@ -15,11 +14,11 @@ import SearchBar from './SearchBar'
 
 class SearchPage extends Component {
 
-    componentDidMount = () => {
+    componentDidMount() {
         this.props.search()
     }
 
-    render = () => {
+    render() {
         const { query, totalResults } = this.props
         const { changeQuery, search } = this.props
 
@@ -76,7 +75,6 @@ const SearchResults = (props) => {
 }
 
 
-
 const mapStateToProps = (state) => {
     const { snippetList } = state
     return {
@@ -92,21 +90,22 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        changeQuery: (value) => {
+        changeQuery(value) {
             dispatch(actions.changeQuery(value))
         },
 
-        search: (args = {}) => {
-            const query = ownProps.location.query
+        search(args = {}) {
+            const { query, language, page } = ownProps.location.query
 
             dispatch(actions.search({
-                query: args.query || query.query,
-                language: args.language || query.language,
-                page: args.page || query.page
+                query: args.query || query,
+                language: args.language || language,
+                page: args.page || page
             }))
         }
     }
 }
+
 
 export default connect(
     mapStateToProps,

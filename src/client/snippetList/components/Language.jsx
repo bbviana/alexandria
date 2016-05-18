@@ -1,20 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 
+import languages from '~/utils/languages'
 import m from '~/utils/m'
 import * as strings from '~/utils/strings'
 import styles from '~/utils/styles'
 
+import { Hover } from '../../decorators'
 import { Icon } from '../../components'
 
 class Language extends Component {
-    state = {hover: false}
-
-    handleMouseOut = () => this.setState({hover: false})
-    handleMouseOver = () => this.setState({hover: true})
 
     render = () => {
         const { language, selected } = this.props
-        const { hover } = this.state
+        const { hover } = this.props // Hover
 
         let href = `/search?&query=.`
 
@@ -26,8 +24,6 @@ class Language extends Component {
             <a
                 style={styles(s.root, {hover, selected})}
                 href={href}
-                onMouseOver={this.handleMouseOver}
-                onMouseOut={this.handleMouseOut}
             >
                 <span style={m(s.bar, {width: language.percent + "%"})} />
 
@@ -82,4 +78,4 @@ const s = {
     }
 }
 
-export  default Language
+export  default Hover(Language)

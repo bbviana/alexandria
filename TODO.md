@@ -1,19 +1,10 @@
 # Parei
-- criar: ok
-- remover: ok
-- consultar: ok
-- login: ok
-- changes: ok
-- addFile: ok
-- removeFile: ok
-- editar: ok
-- buscar: testar melhor
+- controllers/star
 
 # Next
-- meus snippets
 - snippets favoritos
-- proteger telas se user nao logado
 
+- proteger telas se user nao logado
 - no resultado da busca, usar MarkdownViewer
 
 - tela de usuarios:
@@ -30,7 +21,8 @@
 - permanent link
 - se elemento nao existe => 404
 - criação: so habilitar quando tiver mais de  1 file (validação)
-- View -> MD -> Raw
+- Details -> MD -> Raw
+- sort by: your snippets, starred
 
 # Melhorias, nao imprescindíveis para release
 - aumentar lineHeight sem efeito "pular"

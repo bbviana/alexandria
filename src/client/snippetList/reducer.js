@@ -7,7 +7,8 @@ const initialState = {
     results: [],
     selectedLanguage: null,
     totalPages: null,
-    totalResults: null
+    totalResults: null,
+    user: {}
 }
 
 const snippetList = (state = initialState, action) => {
@@ -27,6 +28,12 @@ const snippetList = (state = initialState, action) => {
                 selectedLanguage: payload.selectedLanguage,
                 totalPages: payload.totalPages,
                 totalResults: payload.totalResults
+            })
+
+        case t.LOAD_USER_SNIPPETS_SUCCESS:
+            return Object.assign({}, state, {
+                results: payload.results,
+                user: payload.user
             })
 
         default:

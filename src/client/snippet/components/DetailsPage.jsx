@@ -7,22 +7,21 @@ import nav from '../../navigation'
 import app from '../../app'
 const { App, Container, PageInfo } = app.components
 
-import files from '../../files'
-const { FileDetails } = files.components
-
 import Description from './Description'
-import Info from './Info'
 import ButtonEdit from './ButtonEdit'
 import ButtonRemove from './ButtonRemove'
+import ButtonStar from './ButtonStar'
+import FileDetails from './FileDetails'
+import Info from './Info'
 
 class DetailsPage extends Component {
-    componentDidMount = () => {
+    componentDidMount() {
         this.props.load(this.props.params.id)
     }
 
-    render = () => {
+    render() {
         const { _id, created, description, files, updated, user } = this.props
-        const { edit, remove } = this.props
+        const { edit, remove, star } = this.props
 
         return (
             <App>
@@ -38,6 +37,7 @@ class DetailsPage extends Component {
                     <div style={s.actions}>
                         <ButtonEdit onClick={() => edit(_id)} />
                         <ButtonRemove onClick={() => remove(_id)} />
+                        <ButtonStar onClick={() => star(_id)} />
                     </div>
                 </PageInfo>
 
@@ -53,36 +53,40 @@ class DetailsPage extends Component {
     }
 }
 
+
 const s = {
     actions: {
         float: 'right'
     }
 }
 
-const mapStateToProps = (state) => {
-    const { snippet } = state
+const mapStateToProps = ({ snippet }) => {
     return {
         _id: snippet._id,
         created: snippet.created,
         description: snippet.description,
+        files: snippet.files,
         updated: snippet.updated,
-        user: snippet.user,
-        files: state.files
+        user: snippet.user
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        edit: (snippetId) => {
+        edit(snippetId) {
             dispatch(nav.actions.gotoEdit(snippetId))
         },
 
-        load: (snippetId) => {
+        load(snippetId) {
             dispatch(actions.load(snippetId))
         },
 
-        remove: (snippetId) => {
+        remove(snippetId) {
             dispatch(actions.remove(snippetId))
+        },
+
+        star(snippetId) {
+            dispatch(actions.star(snippetId))
         }
 
     }

@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 
-import files from './files'
 import loading from './loading'
 import loggedUser from './loggedUser'
 import message from './message'
@@ -23,14 +22,13 @@ import snippetList from './snippetList'
  *          _id: String,
  *          created: Date,
  *          description: String,
+ *          files: [{
+ *              name: String,
+ *              content: String,
+ *              type: String
+ *          }],
  *          user: Object
  *      },
- *
- *      files: [{
- *          name: String,
- *          content: String,
- *          type: String
- *      }],
  *
  *      snippetList: {
  *          currentPage: Number,
@@ -39,12 +37,12 @@ import snippetList from './snippetList'
  *          results: [Object],
  *          selectedLanguage: String,
  *          totalPages: Number,
- *          totalResults: Number
+ *          totalResults: Number,
+ *          user: Object
  *      }
  * }
  */
 const rootReducer = combineReducers({
-    files: files.reducer,
     loading: loading.reducer,
     loggedUser: loggedUser.reducer,
     message: message.reducer,

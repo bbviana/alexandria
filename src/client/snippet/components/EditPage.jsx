@@ -10,19 +10,17 @@ import { Button, Icon } from '../../components'
 import app from '../../app'
 const { App, Container, PageInfo } = app.components
 
-import files from '../../files'
-const { FileListEditor } = files.components
-
-import Description from './Description'
 import ButtonRemove from './ButtonRemove'
+import Description from './Description'
+import FileListEditor from './FileListEditor'
 
 
 class EditPage extends Component {
-    componentDidMount = () => {
+    componentDidMount() {
         this.props.load(this.props.params.id)
     }
 
-    render = () => {
+    render() {
         const { _id, description, files } = this.props
         const { cancel, change, remove, save } = this.props
 
@@ -90,34 +88,33 @@ const s = {
     }
 }
 
-const mapStateToProps = (state) => {
-    const { snippet } = state
+const mapStateToProps = ({ snippet }) => {
     return {
         _id: snippet._id,
         description: snippet.description,
-        files: state.files
+        files: snippet.files
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        cancel: (snippetId) => {
-            dispatch(nav.actions.gotoView(snippetId))
+        cancel(snippetId) {
+            dispatch(nav.actions.gotoDetails(snippetId))
         },
 
-        change: (newValues) => {
+        change(newValues) {
             dispatch(actions.change(newValues))
         },
 
-        load: (snippetId) => {
+        load(snippetId) {
             dispatch(actions.load(snippetId))
         },
 
-        remove: (snippetId) => {
+        remove(snippetId) {
             dispatch(actions.remove(snippetId))
         },
 
-        save: (snippet) => {
+        save(snippet){
             dispatch(actions.save(snippet))
         }
     }

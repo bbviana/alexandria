@@ -38,6 +38,7 @@ securityPassport(passport)
 
 // Routes
 app.use('/api/snippets', routes.snippets)
+app.use('/api/star', routes.stars)
 app.use('/api/users', routes.users)
 
 // Deve estar aqui no fim

@@ -24,3 +24,14 @@ export const search = (args) => {
     }
 }
 
+
+export const loadUserSnippets = (user) => {
+    return {
+        type: t.LOAD_USER_SNIPPETS,
+        meta: {
+            method: 'GET',
+            url: `/api/snippets/user/${user}`
+        }
+    }
+}
+

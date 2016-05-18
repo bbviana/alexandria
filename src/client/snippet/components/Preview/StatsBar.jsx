@@ -1,13 +1,22 @@
 import React, { Component, PropTypes } from 'react'
 
-import { Icon } from '../../../components'
+import * as I from '../../../app/components/icons'
 
 const StatsBar = ({ snippet }) => {
     return (
         <div style={s.root}>
             <a style={s.link} href={"/details/" + snippet._id}>
-                <Icon name="file-code-o" />
-                {snippet.files.length} arquivo{snippet.files.length > 1 && 's'}
+                <I.Code />
+                <span style={s.text}>
+                    {snippet.files.length} arquivo{snippet.files.length > 1 && 's'}
+                </span>
+            </a>
+
+            <a style={s.link} href={"/details/" + snippet._id}>
+                <I.Star />
+                <span style={s.text}>
+                    {snippet.files.length} star{snippet.files.length > 1 && 's'}
+                </span>
             </a>
         </div>
     )
@@ -20,8 +29,14 @@ const s = {
 
     link: {
         color: '#767676',
-        fontSize: 14,
-        fontWeight: 'bold'
+        fontSize: 12,
+        fontWeight: 'bold',
+        marginLeft: 12
+    },
+
+    text: {
+        marginLeft: 5,
+        verticalAlign: 'middle'
     }
 }
 
