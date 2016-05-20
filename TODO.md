@@ -1,4 +1,5 @@
 # Parei
+- star, unstar implementados: testar na tela
 - controllers/star
 
 # Next

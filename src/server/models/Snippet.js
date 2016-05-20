@@ -1,14 +1,16 @@
 import mongoose, { Schema } from 'mongoose'
+const { ObjectId } = Schema.Types
 import File from './File'
-import Star from './Star'
 
-const snippetSchema = new Schema({
+const schema = new Schema({
     created: {type: Date, 'default': Date.now},
     description: String,
     files: [File.schema],
-    stars: [Star.schema],
+    stars: [{type: ObjectId, ref: 'Star'}],
     updated: Date,
-    user: {type: Schema.Types.ObjectId, ref: 'User'}
+    user: {type: ObjectId, ref: 'User'}
 })
 
-export default mongoose.model('Snippet', snippetSchema)
+const model = mongoose.model('Snippet', schema)
+
+export default model

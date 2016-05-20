@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-jest
+#jest
+mocha --compilers js:babel-core/register $1
+#mocha $1

@@ -117,6 +117,39 @@ export const listByUser = function (req, res) {
         })
 }
 
+export const listStarredByUser = function (req, res) {
+    const login = req.params.user
+
+    if (!login) throw new Error('login undefined')
+
+    User
+        .findOne({
+            login
+        })
+        .exec((err, user) => {
+            err && res.send(err)
+
+            console.log(user._id)
+
+            Star
+                .find({
+                    user: user._id
+                })
+                .populate('user')
+                .sort({created: -1})
+                .exec((err, snippets) => {
+                    err && res.send(err)
+
+                    snippets.forEach(snippet => snippet.files[0].truncate())
+
+                    res.json({
+                        results: snippets,
+                        user: user
+                    })
+                })
+        })
+}
+
 export const load = function (req, res) {
     Snippet
         .findById(req.params.id)

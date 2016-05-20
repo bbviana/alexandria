@@ -4,70 +4,34 @@ import Star from '../models/Star'
 
 export const star = function (req, res) {
     const user = req.user
-    if(!user) throw new Error("usuário não está logado")
+    if (!user) throw new Error("usuário não está logado")
 
     const { snippetId } = req.params
 
-    Snippet
-        .findById(snippetId)
-        .exec((err, snippet) => {
-            err && res.send(err)
+    const star = new Star({
+        snippet: snippetId,
+        user: user._id
+    })
 
-            const star = new Star({
-                snippet: snippet._id,
-                user: user._id
-            })
-
-            star.save(err => {
-                err && res.send(err)
-                // PAREI
-                // verificar se ja adicionou
-                snippet.stars.push(star)
-
-                snippet.save(err => {
-                    err && res.send(err)
-                    res.json(snippet)
-                })
-            })
-        })
+    star.save((err, saved) => {
+        res.status(200)
+    })
 }
 
 export const unstar = function (req, res) {
     const user = req.user
-    if(!user) throw new Error("usuário não está logado")
+    if (!user) throw new Error("usuário não está logado")
 
     const { snippetId } = req.params
-}
 
-export const listStarredByUser = function (req, res) {
-    const login = req.params.user
-
-    if (!login) throw new Error('login undefined')
-
-    User
-        .findOne({
-            login
+    Star.find({
+            snippet: snippetId,
+            user: user._id
         })
-        .exec((err, user) => {
+        .exec((err, star) => {
             err && res.send(err)
 
-            console.log( user._id)
-
-            Star
-                .find({
-                    user: user._id
-                })
-                .populate('user')
-                .sort({created: -1})
-                .exec((err, snippets) => {
-                    err && res.send(err)
-
-                    snippets.forEach(snippet => snippet.files[0].truncate())
-
-                    res.json({
-                        results: snippets,
-                        user: user
-                    })
-                })
+            star.remove().then(() => res.status(200))
         })
 }
+

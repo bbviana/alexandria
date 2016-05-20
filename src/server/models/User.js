@@ -1,28 +1,19 @@
 import mongoose, { Schema } from 'mongoose'
-import bcrypt from 'bcrypt-nodejs'
+const { ObjectId } = Schema.Types
 
-const userSchema = new Schema({
+const schema = new Schema({
     name: String,
     login: {type: String, unique: true},
     email: {type: String, unique: true},
     avatarURL: String,
     admin: {type: Boolean, default: false},
-
+    stars: [{type: ObjectId, ref: 'Star'}],
     google: {
         id: String,
         token: String
     }
 })
 
-// FIXME [LocalStrategy: remover]
-// generating a hash
-userSchema.methods.generateHash = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
-}
+const model = mongoose.model('User', schema)
 
-// checking if password is valid
-userSchema.methods.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password)
-}
-
-export default mongoose.model('User', userSchema)
+export default model
