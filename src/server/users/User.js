@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+
 const { ObjectId } = Schema.Types
 
 const schema = new Schema({
@@ -14,6 +15,4 @@ const schema = new Schema({
     }
 })
 
-const model = mongoose.model('User', schema)
-
-export default model
+export default mongoose.model('User', schema)

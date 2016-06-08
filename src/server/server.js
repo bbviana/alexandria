@@ -1,22 +1,15 @@
-import settings from './settings'
-
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import flash from 'connect-flash'
-import mongoose from 'mongoose'
 import morgan from 'morgan'
 import passport from 'passport'
 import path from 'path'
 import session from 'express-session'
-
 import securityPassport from './security/passport'
 import securityRoutes from './security/routes'
-
+import db from './db'
 import routes from './routes'
-
-
-mongoose.connect(settings.db.url)
 
 const app = express()
 const port = process.env.PORT || 8000

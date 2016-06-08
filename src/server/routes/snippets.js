@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as controller from '../controllers/snippets'
+import * as controller from '../snippets/controller'
 
 export default new Router()
     .get('/search', controller.search)

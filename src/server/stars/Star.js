@@ -1,19 +1,16 @@
 import mongoose, { Schema } from 'mongoose'
-const { ObjectId } = Schema.Types
+import Snippet from '../snippets/Snippet'
+import User from '../users/User'
 
-import Snippet from './Snippet'
-import User from './User'
+const { ObjectId } = Schema.Types
 
 const schema = new Schema({
     snippet: {type: ObjectId, ref: 'Snippet'},
     user: {type: ObjectId, ref: 'User'}
 })
 
-const model = mongoose.model('Star', schema)
-
 schema.pre('save', function (next) {
-    model
-        .count({
+    this.count({
             snippet: this.snippet,
             user: this.user
         })
@@ -59,4 +56,4 @@ schema.post('remove', function (star, next) {
         })
 })
 
-export default model
+export default mongoose.model('Star', schema)

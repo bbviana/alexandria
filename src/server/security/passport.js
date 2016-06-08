@@ -1,9 +1,7 @@
 import { Strategy as LocalStrategy } from 'passport-local'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
-
 import { adminUsers, googleAuth } from '../settings'
-
-import User from '../models/User'
+import User from '../users/User'
 
 export default function (passport) {
 

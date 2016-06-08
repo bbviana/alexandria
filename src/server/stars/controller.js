@@ -1,6 +1,6 @@
-import User from '../models/User'
-import Snippet from '../models/Snippet'
-import Star from '../models/Star'
+import Star from './Star'
+import Snippet from '../snippets/Snippet'
+import User from '../users/User'
 
 export const star = function (req, res) {
     const user = req.user

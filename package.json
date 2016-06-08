@@ -12,6 +12,7 @@
   "author": "Bruno Viana",
   "dependencies": {
     "array.prototype.find": "~1.0.0",
+    "async": "^2.0.0-rc.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
     "connect-flash": "^0.1.1",
@@ -49,6 +50,7 @@
     "jest-cli": "~0.4.0",
     "minifyify": "^7.1.0",
     "mocha": "^2.4.5",
+    "mockgoose": "^6.0.3",
     "nodemon": "^1.8.1",
     "parallelshell": "^2.0.0",
     "watchify": "^3.6.0"

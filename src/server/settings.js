@@ -1,8 +1,18 @@
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+
 export default {
     adminUsers: ['bbviana'],
 
     db: {
-        url: 'mongodb://localhost/alexandria'
+        development: {
+            url: 'mongodb://localhost/alexandria'
+        },
+        production: {
+            url: 'mongodb://localhost/alexandria'
+        },
+        test: {
+            url: 'mongodb://localhost/alexandria-test'
+        }
     },
 
     googleAuth: {
@@ -12,3 +22,4 @@ export default {
         hostedDomain: 'touchtec.com.br'
     }
 }
+

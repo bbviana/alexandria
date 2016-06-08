@@ -1,5 +1,5 @@
 
-const getLoggedUser = function (req, res) {
+export const getLoggedUser = function (req, res) {
     const user = req.user || {}
     res.json({
         name: user.name,
@@ -8,8 +8,4 @@ const getLoggedUser = function (req, res) {
         avatarURL: user.avatarURL,
         admin: user.admin
     })
-}
-
-export default {
-    getLoggedUser
 }

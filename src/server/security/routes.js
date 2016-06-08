@@ -1,5 +1,4 @@
 import passport from 'passport'
-
 import settings from '../settings'
 
 // middleware to make sure a user is logged in

@@ -22,7 +22,7 @@ const starID = ObjectId('573f9add369b57455636d029')
 
 describe('sandbox', () => {
     it('snippet', done => {
-        new Snippet({_id: snippetID}).save(done)
+        new Snippet({_id: snippetID, description: 'aaa'}).save(done)
     })
 
     it('user', done => {
@@ -45,7 +45,7 @@ describe('sandbox', () => {
             .catch(done)
     })
 
-    it.only('star remove', done => {
+    it('star remove', done => {
         const star = new Star({
             _id: starID,
             snippet: snippetID,
