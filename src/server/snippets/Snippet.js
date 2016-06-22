@@ -44,7 +44,7 @@ schema.statics.totalByLanguages = function (description, language, callback) {
                     'files.type': language
                 }
             },
-            {$unwind: "$files"},
+            {$unwind: '$files'},
             {
                 $group: {
                     _id: '$files.type',

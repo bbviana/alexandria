@@ -20,9 +20,7 @@ import Request from '~/utils/Request'
  * dispatch({
  *      type: 'LOAD_USER',
  *      payload,
- *      meta: {
- *          pending: true
- *      }
+ *      meta: { pending: true }
  * })
  *
  * ---
@@ -31,7 +29,8 @@ import Request from '~/utils/Request'
  *
  * dispatch({
  *      type: 'LOAD_USER_SUCCESS',
- *      payload
+ *      payload,
+ *      meta: { pending: false }
  * })
  *
  * ---
@@ -41,7 +40,8 @@ import Request from '~/utils/Request'
  * dispatch({
  *      type: 'LOAD_USER_FAILURE',
  *      payload: new Error(msg),
- *      error: true
+ *      error: true,
+ *      meta: { pending: false }
  * })
  *
  */
@@ -95,8 +95,6 @@ export default function request({ dispatch }) {
                             pending: false
                         }
                     })
-
-                    console.error(error)
                 }
             )
     }

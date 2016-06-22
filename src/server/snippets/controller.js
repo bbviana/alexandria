@@ -2,6 +2,7 @@ import async from 'async'
 import Snippet from './Snippet'
 import User from '../users/User'
 
+
 export const search = function (req, res) {
     const { query } = req
     const description = query.query && new RegExp(query.query, 'i')
@@ -115,7 +116,7 @@ export const create = function (req, res) {
         throw "usuário não está logado"
     }
 
-    const newData = req.body;
+    const newData = req.body
 
     const snippet = new Snippet({
         description: newData.description,
